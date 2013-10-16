@@ -1,0 +1,10 @@
+{
+	"lang": {
+		"default": "fr-FR",
+		"available": [ "fr-FR", "en-US" ]
+	}
+	"style": {
+		"default": "default",
+		"available": [ "default", "wot" ]
+	}
+}

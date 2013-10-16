@@ -1,0 +1,30 @@
+{
+	"wot": {
+		"name": "World of Tanks"
+		"url": "http://www.worldoftanks.com/"
+	},
+	"wows": {
+		"name": "World of Warships",
+		"url": "http://www.worldofwarships.com/"
+	},
+	"wowp": {
+		"name": "World of Warplanes",
+		"url": "http://www.worldofwarplanes.com/"
+	},
+	"nf2": {
+		"name": "Navy Field 2",
+		"url": "http://navyfield2.nexoneu.com/"
+	},
+	"wt": {
+		"name": "War Thunder",
+		"url": "http://www.warthunder.com"
+	},
+	"bf3": {
+		"name": "Battlefield 3",
+		"url": "http://www.battlefield.com"
+	},
+	"bf4": {
+		"name": "Battlefield 4",
+		"url": "http://www.battlefield.com"
+	}
+}
