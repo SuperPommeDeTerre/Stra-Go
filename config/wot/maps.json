@@ -1,0 +1,313 @@
+{
+    "Abbey": {
+        "file": "Abbey.jpg",
+        "size": {
+            "x": 1000,
+            "y": 1000
+        },
+        "modes": {
+            "standard": {
+                "team1": [
+                    {
+                        "x": 50,
+                        "y": 50
+                    }
+                ],
+                "team2": [
+                    {
+                        "x": 950,
+                        "y": 950
+                    }
+                ]
+            }
+        }
+    },
+    "Airfield": {
+        "file": "Airfield.jpg",
+        "size": {
+            "x": 1000,
+            "y": 1000
+        },
+        "modes": [ "standard" ]
+    },
+    "ArcticRegion": {
+        "file": "Arctic%20Region.jpg",
+        "size": {
+            "x": 1000,
+            "y": 1000
+        },
+        "modes": [ "standard" ]
+    },
+    "Cliff": {
+        "file": "Cliff.jpg",
+        "size": {
+            "x": 1000,
+            "y": 1000
+        },
+        "modes": [ "standard" ]
+    },
+    "DragonRidge": {
+        "file": "Dragon%20Ridge.jpg",
+        "size": {
+            "x": 1000,
+            "y": 1000
+        },
+        "modes": [ "standard" ]
+    },
+    "ElHalluf": {
+        "file": "El%20Halluf.jpg",
+        "size": {
+            "x": 1000,
+            "y": 1000
+        },
+        "modes": [ "standard", "encounter" ]
+    },
+    "Ensk": {
+        "file": "Ensk.jpg",
+        "size": {
+            "x": 600,
+            "y": 600
+        },
+        "modes": [ "standard", "encounter" ]
+    },
+    "Erlenberg": {
+        "file": "Abbey.jpg",
+        "size": {
+            "x": 1000,
+            "y": 1000
+        },
+        "modes": [ "standard", "assault" ]
+    },
+    "FishermanBay": {
+        "file": "Fisherman's%20Bay.jpg",
+        "size": {
+            "x": 1000,
+            "y": 1000
+        },
+        "modes": [ "standard" ]
+    },
+    "Fjord": {
+        "file": "Fjord.jpg",
+        "size": {
+            "x": 1000,
+            "y": 1000
+        },
+        "modes": [ "standard" ]
+    },
+    "Highway": {
+        "file": "Highway.jpg",
+        "size": {
+            "x": 1000,
+            "y": 1000
+        },
+        "modes": [ "standard" ]
+    },
+    "Himmelsdorf": {
+        "file": "Himmelsdorf.jpg",
+        "size": {
+            "x": 700,
+            "y": 700
+        },
+        "modes": [ "standard", "encounter" ]
+    },
+    "Karelia": {
+        "file": "Karelia.jpg",
+        "size": {
+            "x": 1000,
+            "y": 1000
+        },
+        "modes": [ "standard", "assault" ]
+    },
+    "Komarin": {
+        "file": "Komarin.jpg",
+        "size": {
+            "x": 800,
+            "y": 800
+        },
+        "modes": [ "standard" ]
+    },
+    "Lakeville": {
+        "file": "Lakeville.jpg",
+        "size": {
+            "x": 800,
+            "y": 800
+        },
+        "modes": [ "standard", "encounter" ]
+    },
+    "LiveOaks": {
+        "file": "Live%20Oaks.jpg",
+        "size": {
+            "x": 1000,
+            "y": 1000
+        },
+        "modes": [ "standard" ]
+    },
+    "Malinovka": {
+        "file": "Malinovka.jpg",
+        "size": {
+            "x": 1000,
+            "y": 1000
+        },
+        "modes": [ "standard", "encounter" ]
+    },
+    "Mines": {
+        "file": "Mines.jpg",
+        "size": {
+            "x": 800,
+            "y": 800
+        },
+        "modes": [ "standard", "encounter" ]
+    },
+    "MountainPass": {
+        "file": "Mountain%20Pass.jpg",
+        "size": {
+            "x": 1000,
+            "y": 1000
+        },
+        "modes": [ "standard", "encounter" ]
+    },
+    "Murovanka": {
+        "file": "Murovanka.jpg",
+        "size": {
+            "x": 800,
+            "y": 800
+        },
+        "modes": [ "standard", "encounter" ]
+    },
+    "PearlRiver": {
+        "file": "Pearl%20River.jpg",
+        "size": {
+            "x": 1000,
+            "y": 1000
+        },
+        "modes": [ "standard" ]
+    },
+    "Port": {
+        "file": "Port.jpg",
+        "size": {
+            "x": 830,
+            "y": 830
+        },
+        "modes": [ "standard" ]
+    },
+    "Prokhorovka": {
+        "file": "Prokhorovka.jpg",
+        "size": {
+            "x": 1000,
+            "y": 1000
+        },
+        "modes": [ "standard", "encounter" ]
+    },
+    "Province": {
+        "file": "Province.jpg",
+        "size": {
+            "x": 600,
+            "y": 600
+        },
+        "modes": [ "standard" ]
+    },
+    "Redshire": {
+        "file": "Redshire.jpg",
+        "size": {
+            "x": 1000,
+            "y": 1000
+        },
+        "modes": [ "standard", "encounter" ]
+    },
+    "Ruinberg": {
+        "file": "Ruinberg.jpg",
+        "size": {
+            "x": 800,
+            "y": 800
+        },
+        "modes": [ "standard", "encounter" ]
+    },
+    "SacredValley": {
+        "file": "Sacred%20Valley.jpg",
+        "size": {
+            "x": 1000,
+            "y": 1000
+        },
+        "modes": [ "standard", "encounter" ]
+    },
+    "SandRiver": {
+        "file": "Sand%20River.jpg",
+        "size": {
+            "x": 1000,
+            "y": 1000
+        },
+        "modes": [ "standard", "encounter", "assault" ]
+    },
+    "SereneCoast": {
+        "file": "Serene%20Coast.jpg",
+        "size": {
+            "x": 1000,
+            "y": 1000
+        },
+        "modes": [ "standard" ]
+    },
+    "Severogosk": {
+        "file": "Severogosk.jpg",
+        "size": {
+            "x": 1000,
+            "y": 1000
+        },
+        "modes": [ "standard" ]
+    },
+    "SiegfriedLine": {
+        "file": "Siegfried%20Line.jpg",
+        "size": {
+            "x": 1000,
+            "y": 1000
+        },
+        "modes": [ "standard", "encounter", "assault" ]
+    },
+    "SouthCoast": {
+        "file": "South%20Coast.jpg",
+        "size": {
+            "x": 1000,
+            "y": 1000
+        },
+        "modes": [ "standard" ]
+    },
+    "Steppes": {
+        "file": "Steppes.jpg",
+        "size": {
+            "x": 1000,
+            "y": 1000
+        },
+        "modes": [ "standard", "encounter" ]
+    },
+    "Swamp": {
+        "file": "Swamp.jpg",
+        "size": {
+            "x": 1000,
+            "y": 1000
+        },
+        "modes": [ "standard" ]
+    },
+    "Tundra": {
+        "file": "Tundra.jpg",
+        "size": {
+            "x": 800,
+            "y": 800
+        },
+        "modes": [ "standard" ]
+    },
+    "Westfield": {
+        "file": "Westfield.jpg",
+        "size": {
+            "x": 1000,
+            "y": 1000
+        },
+        "modes": [ "standard" ]
+    },
+    "Widepark": {
+        "file": "Widepark.jpg",
+        "size": {
+            "x": 600,
+            "y": 600
+        },
+        "modes": [ "standard" ]
+    }
+}

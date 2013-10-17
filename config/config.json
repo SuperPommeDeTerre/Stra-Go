@@ -1,10 +1,16 @@
 {
-	"lang": {
-		"default": "fr-FR",
-		"available": [ "fr-FR", "en-US" ]
-	}
-	"style": {
-		"default": "default",
-		"available": [ "default", "wot" ]
-	}
+    "lang": {
+        "default": "fr-FR",
+        "available": [ "fr-FR", "en-US" ]
+    },
+    "style": {
+        "default": "default",
+        "available": [ "default", "wot" ]
+    },
+    "games": {
+        "wot": {
+            "name": "World of Tanks",
+            "url": "http://www.worldoftanks.com/"
+        }
+    }
 }

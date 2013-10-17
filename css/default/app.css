@@ -1,0 +1,43 @@
+@font-face {
+    font-family:'Cuprum';
+    src: local('Cuprum'), url('./fonts/Cuprum.ttf') format('truetype');
+}
+@font-face {
+    font-family:'Gunplay';
+    src:local('Gunplay'), url('./fonts/gunplay.ttf') format('truetype');
+}
+*{
+    font-family:Cuprum,Sans-Serif;
+}
+body{
+    padding:0;
+    margin:0;
+    font-size:16px;
+}
+header{
+    background:#CCC;
+}
+footer{
+    margin:0.5em 0 0 0;
+    border-top:1px solid #999;
+    text-align:center;
+    font-size:0.8em;
+    color:#999;
+}
+#menu > ul > li > div {
+    /*display:none;*/
+}
+#menu > ul > li > ul {
+    display:none;
+}
+fieldset{
+    border:1px dotted #CCC;
+}
+fieldset legend{
+    font-size:0.9em;
+}
+label{
+    font-size:0.9em;
+}
+details > summary { transition: color 1s; color: black; }
+details[open] > summary { color: red; }

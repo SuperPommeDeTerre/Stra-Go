@@ -1,0 +1,55 @@
+{
+    "menu": {
+        "games": "Jeux",
+        "maps": "Cartes",
+        "modes": "Modes"
+    },
+    "games": {
+        "wot": {
+            "modes": {
+                "standard": "Bataille standard",
+                "encounter": "Bataille impromptue",
+                "assault": "Assaut"
+            },
+            "maps": {
+                "Abbey": "Abbaye",
+                "Airfield": "Aérodrome",
+                "ArcticRegion": "Artique",
+                "Cliff": "Falaise",
+                "DragonRidge": "Crête du dragon",
+                "ElHalluf": "El Halluf",
+                "Ensk": "Ensk",
+                "Erlenberg": "Erlenberg",
+                "FishermanBay": "Baie du pêcheur",
+                "Fjord": "Fjord",
+                "Highway": "Autoroute",
+                "Himmelsdorf": "Himmelsdorf",
+                "Karelia": "Karelia",
+                "Komarin": "Komarin",
+                "Lakeville": "Lakeville",
+                "LiveOaks": "Live Oaks",
+                "Malinovka": "Malinovka",
+                "Mines": "Mines",
+                "MountainPass": "Col de montagne",
+                "Murovanka": "Murovanka",
+                "PearlRiver": "Rivère de perles",
+                "Port": "Port",
+                "Prokhorovka": "Prokhorovka",
+                "Province": "Province",
+                "Redshire": "Redshire",
+                "Ruinberg": "Ruinberg",
+                "SacredValley": "Vallée sacrée",
+                "SandRiver": "Rivère de sable",
+                "SereneCoast": "Côte serène",
+                "Severogosk": "Severogosk",
+                "Siegfried Line": "Ligne Siegfried",
+                "SouthCoast": "Côte sud",
+                "Steppes": "Steppes",
+                "Swamp": "Marécage",
+                "Tundra": "Tundra",
+                "Westfield": "Westfield",
+                "Widepark": "Grand parc"
+            }
+        }
+    }
+}
