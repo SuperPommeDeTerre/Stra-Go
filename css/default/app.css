@@ -24,10 +24,30 @@ footer{
     font-size:0.8em;
     color:#999;
 }
-#menu > ul > li > div {
-    /*display:none;*/
+#menu > ul{
+    display:block;
+    height:3em;
 }
-#menu > ul > li > ul {
+#menu > ul > li{
+    list-style:none;
+    float:left;
+    padding:.5em;
+}
+#menu > ul > li > div{
+    display:none;
+    position:absolute;
+    top:5.5em;
+    left:0;
+    right:0;
+    width:100%;
+    background:#999;
+    z-index:1000;
+    padding:1em;
+}
+#menu > ul > li:hover > div{
+    display:block;
+}
+#menu > ul > li > ul{
     display:none;
 }
 fieldset{

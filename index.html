@@ -14,57 +14,49 @@
         <nav id="menu">
             <ul>
                 <li id="menuMap"><a href="./games" title="S&eacute;lectionner une carte"><span>Carte</span></a><div>
-                        <details>
-                            <summary><label for="selGame">Jeu&nbsp;:</label></summary>
-                            <p><select id="selGame" name="selGame"><option value="" selected="selected"></option></select></p>
-                        </details>
-                        <details>
-                            <summary><label for="selMap">Carte&nbsp;:</label></summary>
-                            <p><select id="selMap" name="selMap"><option value="" selected="selected"></option></select></p>
-                        </details>
-                        <details>
-                            <summary><label for="selMode">Mode&nbsp;:</label></summary>
-                            <p><select id="selMode" name="selMode"><option value="" selected="selected"></option></select></p>
-                        </details>
-                        <details>
-                            <legend>Options</legend>
-                            <p><label><input type="checkbox" name="chkGrid" checked="checked"> Grille</label></p>
-                            <p><label><input type="checkbox" name="chkDirections" checked="checked"> Boussole</label></p>
-                            <p><label><input type="checkbox" name="chkBases" checked="checked"> Bases</label></p>
-                        </details>
+                        <section class="flex flex-h">
+                            <aside class="flex-start">
+                                <details>
+                                    <summary>Carte</summary>
+                                    <p><label for="selGame">Jeu&nbsp;:</label><select id="selGame" name="selGame"><option value="" selected="selected"></option></select></p>
+                                    <p><label for="selMap">Carte&nbsp;:</label><select id="selMap" name="selMap"><option value="" selected="selected"></option></select></p>
+                                    <p><label for="selMode">Mode&nbsp;:</label><select id="selMode" name="selMode"><option value="" selected="selected"></option></select></p>
+                                </details>
+                            </aside>
+                            <aside class="flex-end">
+                                <details>
+                                    <summary>Options</summary>
+                                    <p><label><input type="checkbox" name="chkGrid" checked="checked"> Grille</label></p>
+                                    <p><label><input type="checkbox" name="chkDirections" checked="checked"> Boussole</label></p>
+                                    <p><label><input type="checkbox" name="chkBases" checked="checked"> Bases</label></p>
+                                </details>
+                            </aside>
+                        </section>
                     </div></li>
                 <li id="menuEdit"><a href="./maps" title="&Eacute;diter la carte"><span>Edition</span></a><div>
+                        <section class="flex flex-h">
+                            <aside class="flex-start">
+                                <details>
+                                    <summary>&Eacute;l&eacute;ments</summary>
+                                </details>
+                            </aside>
+                            <aside class="flex-fluid">
+                                <details>
+                                    <summary>Lignes</summary>
+                                </details>
+                            </aside>
+                            <aside class="flex-end">
+                                <details>
+                                    <summary>Textes</summary>
+                                </details>
+                            </aside>
+                        </section>
                     </div></li>
             </ul>
         </nav>
     </header>
     <main>
-        <section class="flex flex-h">
-            <aside class="flex-fluid">
-                <div id="mapContainer">
-                </div>
-                <!--<p><img src="./res/wot/maps/Abbey/bare%20map.jpg" alt="Abbaye"></p>-->
-                <p><input type="submit" id="btnSave" value="Sauvegarder">
-                    <input type="submit" id="btnExport" value="Exporter"></p>
-            </aside>
-            <aside class="flex-end">
-                <fieldset>
-                    <legend>Options</legend>
-                    <p><label><input type="checkbox" name="chkGrid" checked="checked"> Grille</label></p>
-                    <p><label><input type="checkbox" name="chkDirections" checked="checked"> Boussole</label></p>
-                    <p><label><input type="checkbox" name="chkBases" checked="checked"> Bases</label></p>
-                </fieldset>
-                <fieldset>
-                    <legend>Elements</legend>
-                </fieldset>
-                <fieldset>
-                    <legend>D&eacute;ploiement</legend>
-                </fieldset>
-                <fieldset>
-                    <legend>Autres</legend>
-                </fieldset>
-            </aside>
-        </section>
+        <div id="mapContainer"></div>
     </main>
     <footer>
         <p>Strat'n'Go v0.1</p>

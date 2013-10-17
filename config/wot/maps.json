@@ -1,6 +1,6 @@
 {
     "Abbey": {
-        "file": "Abbey.jpg",
+        "file": "Abbey.png",
         "size": {
             "x": 1000,
             "y": 1000
@@ -23,7 +23,7 @@
         }
     },
     "Airfield": {
-        "file": "Airfield.jpg",
+        "file": "Airfield.png",
         "size": {
             "x": 1000,
             "y": 1000
@@ -31,7 +31,15 @@
         "modes": [ "standard" ]
     },
     "ArcticRegion": {
-        "file": "Arctic%20Region.jpg",
+        "file": "Arctic%20Region.png",
+        "size": {
+            "x": 1000,
+            "y": 1000
+        },
+        "modes": [ "standard" ]
+    },
+    "AsiaGreatWall": {
+        "file": "Asia%20Great%20Wall.png",
         "size": {
             "x": 1000,
             "y": 1000
@@ -39,7 +47,7 @@
         "modes": [ "standard" ]
     },
     "Cliff": {
-        "file": "Cliff.jpg",
+        "file": "Cliff.png",
         "size": {
             "x": 1000,
             "y": 1000
@@ -47,7 +55,7 @@
         "modes": [ "standard" ]
     },
     "DragonRidge": {
-        "file": "Dragon%20Ridge.jpg",
+        "file": "Dragon%20Ridge.png",
         "size": {
             "x": 1000,
             "y": 1000
@@ -55,7 +63,7 @@
         "modes": [ "standard" ]
     },
     "ElHalluf": {
-        "file": "El%20Halluf.jpg",
+        "file": "El%20Halluf.png",
         "size": {
             "x": 1000,
             "y": 1000
@@ -63,7 +71,7 @@
         "modes": [ "standard", "encounter" ]
     },
     "Ensk": {
-        "file": "Ensk.jpg",
+        "file": "Ensk.png",
         "size": {
             "x": 600,
             "y": 600
@@ -71,7 +79,7 @@
         "modes": [ "standard", "encounter" ]
     },
     "Erlenberg": {
-        "file": "Abbey.jpg",
+        "file": "Abbey.png",
         "size": {
             "x": 1000,
             "y": 1000
@@ -79,7 +87,7 @@
         "modes": [ "standard", "assault" ]
     },
     "FishermanBay": {
-        "file": "Fisherman's%20Bay.jpg",
+        "file": "Fisherman's%20Bay.png",
         "size": {
             "x": 1000,
             "y": 1000
@@ -87,7 +95,7 @@
         "modes": [ "standard" ]
     },
     "Fjord": {
-        "file": "Fjord.jpg",
+        "file": "Fjord.png",
         "size": {
             "x": 1000,
             "y": 1000
@@ -95,7 +103,7 @@
         "modes": [ "standard" ]
     },
     "Highway": {
-        "file": "Highway.jpg",
+        "file": "Highway.png",
         "size": {
             "x": 1000,
             "y": 1000
@@ -103,7 +111,7 @@
         "modes": [ "standard" ]
     },
     "Himmelsdorf": {
-        "file": "Himmelsdorf.jpg",
+        "file": "Himmelsdorf.png",
         "size": {
             "x": 700,
             "y": 700
@@ -111,7 +119,7 @@
         "modes": [ "standard", "encounter" ]
     },
     "Karelia": {
-        "file": "Karelia.jpg",
+        "file": "Karelia.png",
         "size": {
             "x": 1000,
             "y": 1000
@@ -119,7 +127,7 @@
         "modes": [ "standard", "assault" ]
     },
     "Komarin": {
-        "file": "Komarin.jpg",
+        "file": "Komarin.png",
         "size": {
             "x": 800,
             "y": 800
@@ -127,7 +135,7 @@
         "modes": [ "standard" ]
     },
     "Lakeville": {
-        "file": "Lakeville.jpg",
+        "file": "Lakeville.png",
         "size": {
             "x": 800,
             "y": 800
@@ -135,7 +143,7 @@
         "modes": [ "standard", "encounter" ]
     },
     "LiveOaks": {
-        "file": "Live%20Oaks.jpg",
+        "file": "Live%20Oaks.png",
         "size": {
             "x": 1000,
             "y": 1000
@@ -143,7 +151,7 @@
         "modes": [ "standard" ]
     },
     "Malinovka": {
-        "file": "Malinovka.jpg",
+        "file": "Malinovka.png",
         "size": {
             "x": 1000,
             "y": 1000
@@ -151,7 +159,7 @@
         "modes": [ "standard", "encounter" ]
     },
     "Mines": {
-        "file": "Mines.jpg",
+        "file": "Mines.png",
         "size": {
             "x": 800,
             "y": 800
@@ -159,7 +167,7 @@
         "modes": [ "standard", "encounter" ]
     },
     "MountainPass": {
-        "file": "Mountain%20Pass.jpg",
+        "file": "Mountain%20Pass.png",
         "size": {
             "x": 1000,
             "y": 1000
@@ -167,7 +175,15 @@
         "modes": [ "standard", "encounter" ]
     },
     "Murovanka": {
-        "file": "Murovanka.jpg",
+        "file": "Murovanka.png",
+        "size": {
+            "x": 800,
+            "y": 800
+        },
+        "modes": [ "standard", "encounter" ]
+    },
+    "Northwest": {
+        "file": "Northwest.png",
         "size": {
             "x": 800,
             "y": 800
@@ -175,7 +191,7 @@
         "modes": [ "standard", "encounter" ]
     },
     "PearlRiver": {
-        "file": "Pearl%20River.jpg",
+        "file": "Pearl%20River.png",
         "size": {
             "x": 1000,
             "y": 1000
@@ -183,7 +199,7 @@
         "modes": [ "standard" ]
     },
     "Port": {
-        "file": "Port.jpg",
+        "file": "Port.png",
         "size": {
             "x": 830,
             "y": 830
@@ -191,7 +207,7 @@
         "modes": [ "standard" ]
     },
     "Prokhorovka": {
-        "file": "Prokhorovka.jpg",
+        "file": "Prokhorovka.png",
         "size": {
             "x": 1000,
             "y": 1000
@@ -199,7 +215,7 @@
         "modes": [ "standard", "encounter" ]
     },
     "Province": {
-        "file": "Province.jpg",
+        "file": "Province.png",
         "size": {
             "x": 600,
             "y": 600
@@ -207,7 +223,7 @@
         "modes": [ "standard" ]
     },
     "Redshire": {
-        "file": "Redshire.jpg",
+        "file": "Redshire.png",
         "size": {
             "x": 1000,
             "y": 1000
@@ -215,7 +231,7 @@
         "modes": [ "standard", "encounter" ]
     },
     "Ruinberg": {
-        "file": "Ruinberg.jpg",
+        "file": "Ruinberg.png",
         "size": {
             "x": 800,
             "y": 800
@@ -223,7 +239,7 @@
         "modes": [ "standard", "encounter" ]
     },
     "SacredValley": {
-        "file": "Sacred%20Valley.jpg",
+        "file": "Sacred%20Valley.png",
         "size": {
             "x": 1000,
             "y": 1000
@@ -231,7 +247,7 @@
         "modes": [ "standard", "encounter" ]
     },
     "SandRiver": {
-        "file": "Sand%20River.jpg",
+        "file": "Sand%20River.png",
         "size": {
             "x": 1000,
             "y": 1000
@@ -239,7 +255,7 @@
         "modes": [ "standard", "encounter", "assault" ]
     },
     "SereneCoast": {
-        "file": "Serene%20Coast.jpg",
+        "file": "Serene%20Coast.png",
         "size": {
             "x": 1000,
             "y": 1000
@@ -247,7 +263,7 @@
         "modes": [ "standard" ]
     },
     "Severogosk": {
-        "file": "Severogosk.jpg",
+        "file": "Severogosk.png",
         "size": {
             "x": 1000,
             "y": 1000
@@ -255,7 +271,7 @@
         "modes": [ "standard" ]
     },
     "SiegfriedLine": {
-        "file": "Siegfried%20Line.jpg",
+        "file": "Siegfried%20Line.png",
         "size": {
             "x": 1000,
             "y": 1000
@@ -263,7 +279,7 @@
         "modes": [ "standard", "encounter", "assault" ]
     },
     "SouthCoast": {
-        "file": "South%20Coast.jpg",
+        "file": "South%20Coast.png",
         "size": {
             "x": 1000,
             "y": 1000
@@ -271,7 +287,7 @@
         "modes": [ "standard" ]
     },
     "Steppes": {
-        "file": "Steppes.jpg",
+        "file": "Steppes.png",
         "size": {
             "x": 1000,
             "y": 1000
@@ -279,7 +295,7 @@
         "modes": [ "standard", "encounter" ]
     },
     "Swamp": {
-        "file": "Swamp.jpg",
+        "file": "Swamp.png",
         "size": {
             "x": 1000,
             "y": 1000
@@ -287,7 +303,7 @@
         "modes": [ "standard" ]
     },
     "Tundra": {
-        "file": "Tundra.jpg",
+        "file": "Tundra.png",
         "size": {
             "x": 800,
             "y": 800
@@ -295,7 +311,7 @@
         "modes": [ "standard" ]
     },
     "Westfield": {
-        "file": "Westfield.jpg",
+        "file": "Westfield.png",
         "size": {
             "x": 1000,
             "y": 1000
@@ -303,7 +319,7 @@
         "modes": [ "standard" ]
     },
     "Widepark": {
-        "file": "Widepark.jpg",
+        "file": "Widepark.png",
         "size": {
             "x": 600,
             "y": 600
