@@ -15,7 +15,20 @@ body{
     font-size:16px;
 }
 header{
-    background:#CCC;
+    background:url('./images/header-bg.png') repeat-x left top;
+}
+header h1{
+    float:left;
+    width:6em;
+    font-size:1.5em;
+    color:#FFF;
+}
+header h1 span.version{
+    font-size:.5em;
+    font-weight:normal;
+    position:absolute;
+    top:2em;
+    left:0;
 }
 footer{
     margin:0.5em 0 0 0;
@@ -24,9 +37,16 @@ footer{
     font-size:0.8em;
     color:#999;
 }
+#menu * {
+    color:#FFF;
+    text-decoration:none;
+}
+#menu select, #menu option{
+    color:#000;
+}
 #menu > ul{
     display:block;
-    height:3em;
+    height:2.5em;
 }
 #menu > ul > li{
     list-style:none;
@@ -36,13 +56,13 @@ footer{
 #menu > ul > li > div{
     display:none;
     position:absolute;
-    top:5.5em;
+    top:2.5em;
     left:0;
     right:0;
     width:100%;
-    background:#999;
     z-index:1000;
     padding:1em;
+    background:url('./images/header-bg.png') repeat-x left -2.5em;
 }
 #menu > ul > li:hover > div{
     display:block;
@@ -59,5 +79,52 @@ fieldset legend{
 label{
     font-size:0.9em;
 }
-details > summary { transition: color 1s; color: black; }
-details[open] > summary { color: red; }
+details > summary{transition:color 1s;color:black;}
+details[open] > summary{color:red;}
+main{
+    text-align:center;
+    padding:1em;
+}
+#mapDesc{
+    margin:0;
+    padding:0;
+    color:#CCC;
+    display:block;
+    position:absolute;
+    top:0;
+    right:0;
+    font-size:.8em;
+}
+#mapContainer{
+    margin:auto;
+}
+#mapContainer text{
+    text-align:center;
+}
+#mapContainer .team0{
+    stroke: #FFF;
+}
+#mapContainer .team1{
+    stroke: #0F0;
+}
+#mapContainer .team2{
+    stroke: #F00;
+}
+#mapContainer text.team0{
+    fill:#FFF;
+}
+#mapContainer text.team1{
+    fill:#0F0;
+}
+#mapContainer text.team2{
+    fill:#F00;
+}
+#gridOverlay text{
+    fill:#000;
+}
+#basesOverlay circle{
+    fill: transparent;
+}
+#basesOverlay polygon{
+    fill: transparent;
+}

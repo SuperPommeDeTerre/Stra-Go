@@ -1,11 +1,11 @@
 {
     "lang": {
         "default": "fr-FR",
-        "available": [ "fr-FR", "en-US" ]
+        "available": [ "fr-FR", ]
     },
     "style": {
         "default": "default",
-        "available": [ "default", "wot" ]
+        "available": [ "default" ]
     },
     "games": {
         "wot": {

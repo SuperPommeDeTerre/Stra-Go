@@ -4,63 +4,79 @@
     <title>Strat n'Go</title>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="./css/default/style.css" media="all" title="Default">
-    <link rel="alternate stylesheet" type="text/css" href="./css/wot/style.css" media="all" title="World of Tanks">
     <script type="text/javascript" src="./js/lib/require.js" data-main="js/app"></script>
 </head>
 <body>
 <form name="frmStrat" id="frmStrat" method="POST" action="/save">
     <header>
-        <h1>Strat n'Go</h1>
+        <h1>Strat n'Go<span class="version">v0.1</span></h1>
         <nav id="menu">
             <ul>
-                <li id="menuMap"><a href="./games" title="S&eacute;lectionner une carte"><span>Carte</span></a><div>
+                <li id="menuMap"><a href="./map" title="S&eacute;lectionner une carte"><span>Carte</span></a><div>
                         <section class="flex flex-h">
                             <aside class="flex-start">
-                                <details>
-                                    <summary>Carte</summary>
-                                    <p><label for="selGame">Jeu&nbsp;:</label><select id="selGame" name="selGame"><option value="" selected="selected"></option></select></p>
-                                    <p><label for="selMap">Carte&nbsp;:</label><select id="selMap" name="selMap"><option value="" selected="selected"></option></select></p>
-                                    <p><label for="selMode">Mode&nbsp;:</label><select id="selMode" name="selMode"><option value="" selected="selected"></option></select></p>
-                                </details>
+                                <fieldset>
+                                    <legend>Carte</legend>
+                                    <p><label for="selGame">Jeu&nbsp;:</label> <select id="selGame" name="selGame"></select></p>
+                                    <p><label for="selMap">Carte&nbsp;:</label> <select id="selMap" name="selMap"></select></p>
+                                    <p><label for="selMode">Mode&nbsp;:</label> <select id="selMode" name="selMode"></select></p>
+                                </fieldset>
                             </aside>
                             <aside class="flex-end">
-                                <details>
-                                    <summary>Options</summary>
-                                    <p><label><input type="checkbox" name="chkGrid" checked="checked"> Grille</label></p>
-                                    <p><label><input type="checkbox" name="chkDirections" checked="checked"> Boussole</label></p>
-                                    <p><label><input type="checkbox" name="chkBases" checked="checked"> Bases</label></p>
-                                </details>
+                                <fieldset>
+                                    <legend>Options</legend>
+                                    <p><label><input type="checkbox" name="chkGrid" id="chkGrid" checked="checked"> Grille</label></p>
+                                    <p><label><input type="checkbox" name="chkDirections" id="chkDirections"> Rose des vents</label></p>
+                                    <p><label><input type="checkbox" name="chkBases" id="chkBases" checked="checked"> Bases</label></p>
+                                </fieldset>
                             </aside>
                         </section>
                     </div></li>
-                <li id="menuEdit"><a href="./maps" title="&Eacute;diter la carte"><span>Edition</span></a><div>
+                <li id="menuEdit"><a href="./edit" title="&Eacute;diter la carte"><span>Edition</span></a><div>
                         <section class="flex flex-h">
                             <aside class="flex-start">
-                                <details>
-                                    <summary>&Eacute;l&eacute;ments</summary>
-                                </details>
+                                <fieldset>
+                                    <legend>&Eacute;l&eacute;ments</legend>
+                                </fieldset>
                             </aside>
                             <aside class="flex-fluid">
-                                <details>
-                                    <summary>Lignes</summary>
-                                </details>
+                                <fieldset>
+                                    <legend>Lignes</legend>
+                                </fieldset>
                             </aside>
                             <aside class="flex-end">
-                                <details>
-                                    <summary>Textes</summary>
-                                </details>
+                                <fieldset>
+                                    <legend>Textes</legend>
+                                </fieldset>
+                            </aside>
+                        </section>
+                    </div></li>
+                <li id="menuShare"><a href="./edit" title="Partager des strat&eacute;gies"><span>Partager</span></a><div>
+                        <section class="flex flex-h">
+                            <aside class="flex-start">
+                                <fieldset>
+                                    <legend>&Eacute;l&eacute;ments</legend>
+                                </fieldset>
+                            </aside>
+                            <aside class="flex-fluid">
+                                <fieldset>
+                                    <legend>Lignes</legend>
+                                </fieldset>
+                            </aside>
+                            <aside class="flex-end">
+                                <fieldset>
+                                    <legend>Textes</legend>
+                                </fieldset>
                             </aside>
                         </section>
                     </div></li>
             </ul>
         </nav>
+        <p id="mapDesc"><span class="mapName"></span> <span class="mapMetrics"></span> <span class="mapSquareLength"></span></p>
     </header>
     <main>
         <div id="mapContainer"></div>
     </main>
-    <footer>
-        <p>Strat'n'Go v0.1</p>
-    </footer>
 </form>
 </body>
 </html>
