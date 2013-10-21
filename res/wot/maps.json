@@ -71,10 +71,10 @@
         "modes": {
             "standard": {
                 "team1": [
-                    { "type": "base", "x": 240, "y": 70 }
+                    { "type": "base", "x": 840, "y": 170 }
                 ],
                 "team2": [
-                    { "type": "base", "x": 210, "y": 940 }
+                    { "type": "base", "x": 170, "y": 840 }
                 ]
             },
             "encounter": {

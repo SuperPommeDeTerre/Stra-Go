@@ -6,6 +6,16 @@ var gGames = null,
     gI18n = null,
     gDECAL_GRID = 20;
 
+//Constants
+var gDECAL_GRID = 20,
+    gCHAR_CODE_A = "A".charCodeAt(0),
+    gCHAR_CODE_0 = "0".charCodeAt(0),
+    gWIND_ROSE_SIZE = 100,
+    gDROP_ZONE_BORDER = 40,
+    gNB_COLS = 10,
+    gNB_ROWS = 10,
+    gIMPORT_TIMEOUT = 100;
+
 define(["jquery", "jquery-ui"], function($) {
     $(function() {
         /*
@@ -37,7 +47,7 @@ define(["jquery", "jquery-ui"], function($) {
                     e.preventDefault();
                     var myGameToken = $(this).val();
                     gCurrentConf.game = myGameToken;
-                    $.getJSON("./config/" + myGameToken + "/maps.json", {}, function(data) {
+                    $.getJSON("./res/" + myGameToken + "/maps.json", {}, function(data) {
                         gMaps = data;
                         var myMapToken = null,
                             myMapObj = null,
@@ -48,7 +58,7 @@ define(["jquery", "jquery-ui"], function($) {
                         }
                         $("#selMap").html(myMaps).change();
                     }).fail(function() {
-                        console.log("Error while getting ./config/" + myGameToken + "/maps.json");
+                        console.log("Error while getting ./res/" + myGameToken + "/maps.json");
                     });
                 }).change();
                 $("#selMap").change(function(e) {
@@ -96,9 +106,9 @@ define(["jquery", "jquery-ui"], function($) {
                         if ($("#gridOverlay").length === 0) {
                             myCanvas = myCanvas.svg().svg("get"); 
                             var g = myCanvas.group(null, "gridOverlay", {});
-                            for (i=0; i<gMaps[gCurrentConf.map].size.x; i+=gMaps[gCurrentConf.map].size.x/10) {
-                                myCanvas.text(g, i + gDECAL_GRID + gMaps[gCurrentConf.map].size.x/20, 16, String.fromCharCode(65 + j));
-                                myCanvas.text(g, 8, i + gDECAL_GRID + gMaps[gCurrentConf.map].size.x/20, String.fromCharCode(48 + j));
+                            for (i=0; i<gMaps[gCurrentConf.map].size.x; i+=gMaps[gCurrentConf.map].size.x/gNB_COLS) {
+                                myCanvas.text(g, i + gDECAL_GRID + gMaps[gCurrentConf.map].size.x/(gNB_COLS * 2), 16, String.fromCharCode(gCHAR_CODE_A + j));
+                                myCanvas.text(g, 8, i + gDECAL_GRID + gMaps[gCurrentConf.map].size.x/(gNB_ROWS * 2), String.fromCharCode(gCHAR_CODE_0 + j));
                                 j++;
                                 // Don't draw the first lines as they are in the border
                                 if (i === 0) {
@@ -121,7 +131,7 @@ define(["jquery", "jquery-ui"], function($) {
                         if ($("#windRoseOverlay").length === 0) {
                             var myCanvas = $("#mapContainer").svg().svg("get"),
                                 g = myCanvas.group(null, "windRoseOverlay", {});
-                                myCanvas.image(g, gMaps[gCurrentConf.map].size.x - 100, 15, 100, 100, "./res/images/windrose.png", {});
+                                myCanvas.image(g, gMaps[gCurrentConf.map].size.x - gWIND_ROSE_SIZE, 15, gWIND_ROSE_SIZE, gWIND_ROSE_SIZE, "./res/images/windrose.png", {});
                         } else {
                             $("#windRoseOverlay").show();
                         }
@@ -144,10 +154,10 @@ define(["jquery", "jquery-ui"], function($) {
                                         myCanvas.circle(g, myMapMode[myMapTeam][i].x + gDECAL_GRID, myMapMode[myMapTeam][i].y + gDECAL_GRID, 50, { "class": myMapTeam });
                                     } else if (myMapMode[myMapTeam][i].type === "drop") {
                                         // It's the drop points, they are square
-                                        myCanvas.polygon(g, [[myMapMode[myMapTeam][i].x - 40, myMapMode[myMapTeam][i].y],
-                                                             [myMapMode[myMapTeam][i].x, myMapMode[myMapTeam][i].y - 40],
-                                                             [myMapMode[myMapTeam][i].x + 40, myMapMode[myMapTeam][i].y],
-                                                             [myMapMode[myMapTeam][i].x, myMapMode[myMapTeam][i].y + 40]], { "class": myMapTeam });
+                                        myCanvas.polygon(g, [[myMapMode[myMapTeam][i].x - gDROP_ZONE_BORDER, myMapMode[myMapTeam][i].y],
+                                                             [myMapMode[myMapTeam][i].x, myMapMode[myMapTeam][i].y - gDROP_ZONE_BORDER],
+                                                             [myMapMode[myMapTeam][i].x + gDROP_ZONE_BORDER, myMapMode[myMapTeam][i].y],
+                                                             [myMapMode[myMapTeam][i].x, myMapMode[myMapTeam][i].y + gDROP_ZONE_BORDER]], { "class": myMapTeam });
                                         myCanvas.text(g, myMapMode[myMapTeam][i].x, myMapMode[myMapTeam][i].y + 5, (countDrops++ + 1) + "", { "class": myMapTeam });
                                     }
                                 }
@@ -169,8 +179,8 @@ define(["jquery", "jquery-ui"], function($) {
                         window.setTimeout(function() {
                             $("#selMode").val(myConf.mode).change();
                             gCurrentConf = myConf;
-                        }, 100);
-                    }, 100);
+                        }, gIMPORT_TIMEOUT);
+                    }, gIMPORT_TIMEOUT);
                 });
                 updateComponents();
             }).fail(function() {
