@@ -1,7 +1,7 @@
 {
     "lang": {
         "default": "fr-FR",
-        "available": [ "fr-FR", ]
+        "available": [ "fr-FR" ]
     },
     "style": {
         "default": "default",

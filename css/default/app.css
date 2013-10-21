@@ -41,7 +41,7 @@ footer{
     color:#FFF;
     text-decoration:none;
 }
-#menu select, #menu option{
+#menu select, #menu option, #menu textarea, #menu ui-widget{
     color:#000;
 }
 #menu > ul{

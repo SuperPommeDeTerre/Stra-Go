@@ -78,6 +78,7 @@ define(["jquery", "jquery-ui"], function($) {
                     $("#mapDesc .mapName").text(gI18n.games[myGameToken].maps[myMapToken]);
                     $("#mapDesc .mapMetrics").text(myMapObj.size.x + "m x " + myMapObj.size.y + "m");
                     $("#mapDesc .mapSquareLength").text("(" + (myMapObj.size.x / 10) + "m)");
+                    $("#txtImportExport").val(JSON.stringify(gCurrentConf));
                 });
                 $("#selMode").change(function(e) {
                     e.stopImmediatePropagation();
@@ -85,6 +86,7 @@ define(["jquery", "jquery-ui"], function($) {
                     gCurrentConf.mode = $(this).val();
                     $("#basesOverlay").remove();
                     $("#chkBases").change();
+                    $("#txtImportExport").val(JSON.stringify(gCurrentConf));
                 });
                 $("#chkGrid").change(function(e) {
                     var myCanvas = $("#mapContainer"),
@@ -156,6 +158,19 @@ define(["jquery", "jquery-ui"], function($) {
                     } else {
                         $("#basesOverlay").hide();
                     }
+                });
+                $("#btnImport").click(function(e) {
+                    e.stopImmediatePropagation();
+                    e.preventDefault();
+                    var myConf = $.parseJSON($("#txtImportExport").val());
+                    $("#selGame").val(myConf.game).change();
+                    window.setTimeout(function() {
+                        $("#selMap").val(myConf.map).change();
+                        window.setTimeout(function() {
+                            $("#selMode").val(myConf.mode).change();
+                            gCurrentConf = myConf;
+                        }, 100);
+                    }, 100);
                 });
                 updateComponents();
             }).fail(function() {

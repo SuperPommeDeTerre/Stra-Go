@@ -4,6 +4,8 @@
     <title>Strat n'Go</title>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="./css/default/style.css" media="all" title="Default">
+    <link href="./css/default/favicon.ico" rel="shortcut icon">
+    <link href="./css/default/favicon.png" type="image/x-icon" rel="icon">
     <script type="text/javascript" src="./js/lib/require.js" data-main="js/app"></script>
 </head>
 <body>
@@ -55,17 +57,9 @@
                         <section class="flex flex-h">
                             <aside class="flex-start">
                                 <fieldset>
-                                    <legend>&Eacute;l&eacute;ments</legend>
-                                </fieldset>
-                            </aside>
-                            <aside class="flex-fluid">
-                                <fieldset>
-                                    <legend>Lignes</legend>
-                                </fieldset>
-                            </aside>
-                            <aside class="flex-end">
-                                <fieldset>
-                                    <legend>Textes</legend>
+                                    <legend>Import/Export</legend>
+                                    <p><textarea id="txtImportExport"></textarea></p>
+                                    <p><button id="btnImport" type="submit">Importer</button></p>
                                 </fieldset>
                             </aside>
                         </section>
