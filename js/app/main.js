@@ -9,7 +9,7 @@ var gGames = null,
 //Constants
 var gDECAL_GRID = 20,
     gCHAR_CODE_A = "A".charCodeAt(0),
-    gCHAR_CODE_0 = "0".charCodeAt(0),
+    gCHAR_CODE_1 = "1".charCodeAt(0),
     gWIND_ROSE_SIZE = 100,
     gDROP_ZONE_BORDER = 40,
     gNB_COLS = 10,
@@ -107,8 +107,16 @@ define(["jquery", "jquery-ui"], function($) {
                             myCanvas = myCanvas.svg().svg("get"); 
                             var g = myCanvas.group(null, "gridOverlay", {});
                             for (i=0; i<gMaps[gCurrentConf.map].size.x; i+=gMaps[gCurrentConf.map].size.x/gNB_COLS) {
-                                myCanvas.text(g, i + gDECAL_GRID + gMaps[gCurrentConf.map].size.x/(gNB_COLS * 2), 16, String.fromCharCode(gCHAR_CODE_0 + j));
-                                myCanvas.text(g, 8, i + gDECAL_GRID + gMaps[gCurrentConf.map].size.x/(gNB_ROWS * 2), String.fromCharCode(gCHAR_CODE_A + j));
+                                if (j < gNB_COLS - 1) {
+                                    myCanvas.text(g, i + gDECAL_GRID + gMaps[gCurrentConf.map].size.x/(gNB_COLS * 2), 16, String.fromCharCode(gCHAR_CODE_1 + j));
+                                } else {
+                                    myCanvas.text(g, i + gDECAL_GRID + gMaps[gCurrentConf.map].size.x/(gNB_COLS * 2), 16, "0");
+                                }
+                                if (j < 8) {
+                                    myCanvas.text(g, 8, i + gDECAL_GRID + gMaps[gCurrentConf.map].size.x/(gNB_ROWS * 2), String.fromCharCode(gCHAR_CODE_A + j));
+                                } else {
+                                    myCanvas.text(g, 8, i + gDECAL_GRID + gMaps[gCurrentConf.map].size.x/(gNB_ROWS * 2), String.fromCharCode(gCHAR_CODE_A + j + 1));
+                                }
                                 j++;
                                 // Don't draw the first lines as they are in the border
                                 if (i === 0) {
