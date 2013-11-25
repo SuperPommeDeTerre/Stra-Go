@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="fr">
 <head>
-    <title>Strat n'Go</title>
+    <title>Strat'n'Go</title>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="./css/default/style.css" media="all" title="Default">
     <link href="./css/default/favicon.ico" rel="shortcut icon">
@@ -11,30 +11,43 @@
 <body>
 <form name="frmStrat" id="frmStrat" method="POST" action="/save">
     <header>
-        <h1>Strat n'Go<span class="version">v0.1</span></h1>
+        <h1>Strat'n'Go<span class="version">v0.1</span></h1>
         <nav id="menu">
             <ul>
-                <li id="menuMap"><a href="./map" title="S&eacute;lectionner une carte"><span>Carte</span></a><div>
+                <li id="menuMap"><a href="./map" title="S&eacute;lectionner une carte" data-i18n-key="menu.map"><span>Carte</span></a><div>
                         <section class="flex flex-h">
                             <aside class="flex-start">
                                 <fieldset>
-                                    <legend>Carte</legend>
-                                    <p><label for="selGame">Jeu&nbsp;:</label> <select id="selGame" name="selGame"></select></p>
-                                    <p><label for="selMap">Carte&nbsp;:</label> <select id="selMap" name="selMap"></select></p>
-                                    <p><label for="selMode">Mode&nbsp;:</label> <select id="selMode" name="selMode"></select></p>
+                                    <legend data-i18n-key="edit.options.map">Carte</legend>
+                                    <p><label for="selGame" data-i18n-key="menu.games">Jeu&nbsp;:</label> <select id="selGame" name="selGame"></select></p>
+                                    <p><label for="selMap" data-i18n-key="menu.maps">Carte&nbsp;:</label> <select id="selMap" name="selMap"></select></p>
+                                    <p><label for="selMode" data-i18n-key="menu.modes">Mode&nbsp;:</label> <select id="selMode" name="selMode"></select></p>
                                 </fieldset>
                             </aside>
                             <aside class="flex-end">
                                 <fieldset>
-                                    <legend>Options</legend>
-                                    <p><label><input type="checkbox" name="chkGrid" id="chkGrid" checked="checked"> Grille</label></p>
-                                    <p><label><input type="checkbox" name="chkDirections" id="chkDirections"> Rose des vents</label></p>
-                                    <p><label><input type="checkbox" name="chkBases" id="chkBases" checked="checked"> Bases</label></p>
+                                    <legend data-i18n-key="edit.options.label">Options</legend>
+                                    <section class="flex flex-h">
+                                        <aside class="flex-start">
+                                            <p><label data-i18n-key="edit.options.grid"><input type="checkbox" name="chkGrid" id="chkGrid" checked="checked"> Grille</label></p>
+                                            <p><label data-i18n-key="edit.options.windrose"><input type="checkbox" name="chkDirections" id="chkDirections"> Rose des vents</label></p>
+                                            <p><label data-i18n-key="edit.options.bases"><input type="checkbox" name="chkBases" id="chkBases" checked="checked"> Bases</label></p>
+                                        </aside>
+                                        <aside class="flex-fluid">
+                                            <p><label data-i18n-key="edit.options.elements"><input type="checkbox" name="chkElements" id="chkElements" checked="checked"> &Eacute;l&eacute;ments</label></p>
+                                            <p><label data-i18n-key="edit.options.lines"><input type="checkbox" name="chkLines" id="chkLines" checked="checked"> Lignes</label></p>
+                                            <p><label data-i18n-key="edit.options.texts"><input type="checkbox" name="chkTexts" id="chkTexts" checked="checked"> Textes</label></p>
+                                        </aside>
+                                        <aside class="flex-end">
+                                            <p><label data-i18n-key="edit.options.zones"><input type="checkbox" name="chkZones" id="chkZones" checked="checked"> Zones</label></p>
+                                            <p><label data-i18n-key="edit.options.shapes"><input type="checkbox" name="chkShapes" id="chkShapes" checked="checked"> Formes</label></p>
+                                        </aside>
+                                    </section>
                                 </fieldset>
                             </aside>
                         </section>
                     </div></li>
-                <li id="menuEdit"><a href="./edit" title="&Eacute;diter la carte"><span>Edition</span></a><div>
+                <li id="menuEdit"><a href="./edit" title="&Eacute;diter la carte" data-i18n-key="menu.edit"><span>Edition</span></a><div>
                         <section class="flex flex-h">
                             <aside class="flex-start">
                                 <fieldset>
@@ -44,6 +57,16 @@
                             <aside class="flex-fluid">
                                 <fieldset>
                                     <legend>Lignes</legend>
+                                </fieldset>
+                            </aside>
+                            <aside class="flex-fluid">
+                                <fieldset>
+                                    <legend>Zones</legend>
+                                </fieldset>
+                            </aside>
+                            <aside class="flex-fluid">
+                                <fieldset>
+                                    <legend>Formes</legend>
                                 </fieldset>
                             </aside>
                             <aside class="flex-end">

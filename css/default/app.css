@@ -1,6 +1,6 @@
 @font-face {
     font-family:'Cuprum';
-    src: local('Cuprum'), url('./fonts/Cuprum.ttf') format('truetype');
+    src:local('Cuprum'), url('./fonts/Cuprum.ttf') format('truetype');
 }
 @font-face {
     font-family:'Gunplay';
@@ -92,7 +92,7 @@ main{
     display:block;
     position:absolute;
     top:0;
-    right:0;
+    right:5px;
     font-size:.8em;
 }
 #mapContainer{
@@ -102,13 +102,13 @@ main{
     text-align:center;
 }
 #mapContainer .team0{
-    stroke: #FFF;
+    stroke:#FFF;
 }
 #mapContainer .team1{
-    stroke: #0F0;
+    stroke:#0F0;
 }
 #mapContainer .team2{
-    stroke: #F00;
+    stroke:#F00;
 }
 #mapContainer text.team0{
     fill:#FFF;
@@ -123,8 +123,17 @@ main{
     fill:#000;
 }
 #basesOverlay circle{
-    fill: transparent;
+    fill-opacity:.5;
 }
 #basesOverlay polygon{
-    fill: transparent;
+    fill-opacity:.2;
+}
+#basesOverlay circle.team0, #basesOverlay polygon.team0{
+    fill:#FFF;
+}
+#basesOverlay circle.team1, #basesOverlay polygon.team1{
+    fill:#0F0;
+}
+#basesOverlay circle.team2, #basesOverlay polygon.team2{
+    fill:#F00;
 }

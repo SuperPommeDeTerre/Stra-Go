@@ -47,8 +47,8 @@ define(["jquery", "jquery-ui"], function($) {
                     e.preventDefault();
                     var myGameToken = $(this).val();
                     gCurrentConf.game = myGameToken;
-                    $.getJSON("./res/" + myGameToken + "/maps.json", {}, function(data) {
-                        gMaps = data;
+                    $.getJSON("./res/" + myGameToken + "/game.json", {}, function(data) {
+                        gMaps = data.maps;
                         var myMapToken = null,
                             myMapObj = null,
                             myMaps = "";
@@ -58,7 +58,7 @@ define(["jquery", "jquery-ui"], function($) {
                         }
                         $("#selMap").html(myMaps).change();
                     }).fail(function() {
-                        console.log("Error while getting ./res/" + myGameToken + "/maps.json");
+                        console.log("Error while getting ./res/" + myGameToken + "/game.json");
                     });
                 }).change();
                 $("#selMap").change(function(e) {
@@ -87,7 +87,7 @@ define(["jquery", "jquery-ui"], function($) {
                     $("#chkDirections").change();
                     $("#mapDesc .mapName").text(gI18n.games[myGameToken].maps[myMapToken]);
                     $("#mapDesc .mapMetrics").text(myMapObj.size.x + "m x " + myMapObj.size.y + "m");
-                    $("#mapDesc .mapSquareLength").text("(" + (myMapObj.size.x / 10) + "m)");
+                    $("#mapDesc .mapSquareLength").text("(1px = 1m)");
                     $("#txtImportExport").val(JSON.stringify(gCurrentConf));
                 });
                 $("#selMode").change(function(e) {
@@ -107,8 +107,8 @@ define(["jquery", "jquery-ui"], function($) {
                             myCanvas = myCanvas.svg().svg("get"); 
                             var g = myCanvas.group(null, "gridOverlay", {});
                             for (i=0; i<gMaps[gCurrentConf.map].size.x; i+=gMaps[gCurrentConf.map].size.x/gNB_COLS) {
-                                myCanvas.text(g, i + gDECAL_GRID + gMaps[gCurrentConf.map].size.x/(gNB_COLS * 2), 16, String.fromCharCode(gCHAR_CODE_A + j));
-                                myCanvas.text(g, 8, i + gDECAL_GRID + gMaps[gCurrentConf.map].size.x/(gNB_ROWS * 2), String.fromCharCode(gCHAR_CODE_0 + j));
+                                myCanvas.text(g, i + gDECAL_GRID + gMaps[gCurrentConf.map].size.x/(gNB_COLS * 2), 16, String.fromCharCode(gCHAR_CODE_0 + j));
+                                myCanvas.text(g, 8, i + gDECAL_GRID + gMaps[gCurrentConf.map].size.x/(gNB_ROWS * 2), String.fromCharCode(gCHAR_CODE_A + j));
                                 j++;
                                 // Don't draw the first lines as they are in the border
                                 if (i === 0) {

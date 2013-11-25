@@ -1,8 +1,19 @@
 {
     "menu": {
-        "games": "Jeux",
-        "maps": "Cartes",
-        "modes": "Modes"
+        "map": {
+            "label": "Carte",
+            "title": "Sélectionner une carte"
+        },
+        "edit": "Edition"
+    },
+    "edit": {
+        "map": "Carte",
+        "options": {
+            "map": "Carte",
+            "grid": "Grille",
+            "windrose": "Rose des vents",
+            "bases": "Bases"
+        }
     },
     "games": {
         "wot": {
@@ -10,6 +21,13 @@
                 "standard": "Bataille standard",
                 "encounter": "Bataille impromptue",
                 "assault": "Assaut"
+            },
+            "elements": {
+                "HT": "Tank lourd",
+                "MT": "Tank medium",
+                "LT": "Tank léger",
+                "TD": "Chasseur de chars",
+                "SPG": "Artillerie mobile"
             },
             "maps": {
                 "Abbey": "Abbaye",
