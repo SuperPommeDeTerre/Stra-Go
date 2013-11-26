@@ -16,6 +16,10 @@ body{
 }
 header{
     background:url('./images/header-bg.png') repeat-x left top;
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
 }
 header h1{
     float:left;
@@ -83,7 +87,7 @@ details > summary{transition:color 1s;color:black;}
 details[open] > summary{color:red;}
 main{
     text-align:center;
-    padding:1em;
+    padding:3em 1em 1em 1em;
 }
 #mapDesc{
     margin:0;

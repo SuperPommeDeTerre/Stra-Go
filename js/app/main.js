@@ -1,12 +1,11 @@
-// Globale variables to store configuration
+// Global variables to store configuration
 var gGames = null,
     gModes = null,
     gMaps = null,
     gCurrentConf = {},
-    gI18n = null,
-    gDECAL_GRID = 20;
+    gI18n = null;
 
-//Constants
+// Constants
 var gDECAL_GRID = 20,
     gCHAR_CODE_A = "A".charCodeAt(0),
     gCHAR_CODE_1 = "1".charCodeAt(0),
@@ -16,6 +15,9 @@ var gDECAL_GRID = 20,
     gNB_ROWS = 10,
     gIMPORT_TIMEOUT = 100;
 
+/**
+ * Main function
+ */
 define(["jquery", "jquery-ui"], function($) {
     $(function() {
         /*
@@ -162,11 +164,11 @@ define(["jquery", "jquery-ui"], function($) {
                                         myCanvas.circle(g, myMapMode[myMapTeam][i].x + gDECAL_GRID, myMapMode[myMapTeam][i].y + gDECAL_GRID, 50, { "class": myMapTeam });
                                     } else if (myMapMode[myMapTeam][i].type === "drop") {
                                         // It's the drop points, they are square
-                                        myCanvas.polygon(g, [[myMapMode[myMapTeam][i].x - gDROP_ZONE_BORDER, myMapMode[myMapTeam][i].y],
-                                                             [myMapMode[myMapTeam][i].x, myMapMode[myMapTeam][i].y - gDROP_ZONE_BORDER],
-                                                             [myMapMode[myMapTeam][i].x + gDROP_ZONE_BORDER, myMapMode[myMapTeam][i].y],
-                                                             [myMapMode[myMapTeam][i].x, myMapMode[myMapTeam][i].y + gDROP_ZONE_BORDER]], { "class": myMapTeam });
-                                        myCanvas.text(g, myMapMode[myMapTeam][i].x, myMapMode[myMapTeam][i].y + 5, (countDrops++ + 1) + "", { "class": myMapTeam });
+                                        myCanvas.polygon(g, [[myMapMode[myMapTeam][i].x - gDROP_ZONE_BORDER + gDECAL_GRID, myMapMode[myMapTeam][i].y + gDECAL_GRID],
+                                                             [myMapMode[myMapTeam][i].x + gDECAL_GRID, myMapMode[myMapTeam][i].y - gDROP_ZONE_BORDER + gDECAL_GRID],
+                                                             [myMapMode[myMapTeam][i].x + gDROP_ZONE_BORDER + gDECAL_GRID, myMapMode[myMapTeam][i].y + gDECAL_GRID],
+                                                             [myMapMode[myMapTeam][i].x + gDECAL_GRID, myMapMode[myMapTeam][i].y + gDROP_ZONE_BORDER + gDECAL_GRID]], { "class": myMapTeam });
+                                        myCanvas.text(g, myMapMode[myMapTeam][i].x + gDECAL_GRID, myMapMode[myMapTeam][i].y + 5 + gDECAL_GRID, (countDrops++ + 1) + "", { "class": myMapTeam });
                                     }
                                 }
                             }

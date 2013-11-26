@@ -121,7 +121,16 @@
         "DragonRidge": {
             "file": "Dragon%20Ridge.png",
             "size": { "x": 1000, "y": 1000 },
-            "modes": [ "standard" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 550, "y": 150 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 600, "y": 900 }
+                    ]
+                }
+            }
         },
         "ElHalluf": {
             "file": "El%20Halluf.png",
@@ -140,10 +149,10 @@
                         { "type": "base", "x": 200, "y": 200 }
                     ],
                     "team1": [
-                        { "type": "drop", "x": 200, "y": 940 }
+                        { "type": "drop", "x": 180, "y": 920 }
                     ],
                     "team2": [
-                        { "type": "drop", "x": 940, "y": 200 }
+                        { "type": "drop", "x": 920, "y": 180 }
                     ]
                 }
             }
@@ -151,32 +160,118 @@
         "Ensk": {
             "file": "Ensk.png",
             "size": { "x": 600, "y": 600 },
-            "modes": [ "standard", "encounter" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 310, "y": 60 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 310, "y": 540 }
+                    ]
+                },
+                "encounter": {
+                    "team0": [
+                        { "type": "base", "x": 220, "y": 300 }
+                    ],
+                    "team1": [
+                        { "type": "drop", "x": 520, "y": 50 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 550, "y": 550 }
+                    ]
+                }
+            }
         },
         "Erlenberg": {
-            "file": "Abbey.png",
+            "file": "Erlenberg.png",
             "size": { "x": 1000, "y": 1000 },
-            "modes": [ "standard", "assault" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 350, "y": 500 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 660, "y": 500 }
+                    ]
+                },
+                "assault": {
+                    "team1": [
+                        { "type": "drop", "x": 420, "y": 80 },
+                        { "type": "base", "x": 575, "y": 65 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 540, "y": 880 },
+                        { "type": "drop", "x": 410, "y": 880 }
+                    ]
+                }
+            }
         },
         "FishermanBay": {
             "file": "FishermanBay.png",
             "size": { "x": 1000, "y": 1000 },
-            "modes": [ "standard" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 400, "y": 100 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 480, "y": 880 }
+                    ]
+                }
+            }
         },
         "Fjord": {
             "file": "Fjord.png",
             "size": { "x": 1000, "y": 1000 },
-            "modes": [ "standard" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 880, "y": 560 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 110, "y": 390 }
+                    ]
+                }
+            }
         },
         "Highway": {
             "file": "Highway.png",
             "size": { "x": 1000, "y": 1000 },
-            "modes": [ "standard" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 700, "y": 130 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 150, "y": 840 }
+                    ]
+                }
+            }
         },
         "Himmelsdorf": {
             "file": "Himmelsdorf.png",
             "size": { "x": 700, "y": 700 },
-            "modes": [ "standard", "encounter" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 295, "y": 650 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 360, "y": 70 }
+                    ]
+                },
+                "encounter": {
+                    "team0": [
+                        { "type": "base", "x": 100, "y": 350 }
+                    ],
+                    "team1": [
+                        { "type": "drop", "x": 650, "y": 50 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 650, "y": 660 }
+                    ]
+                }
+            }
         },
         "Karelia": {
             "file": "Karelia.png",
@@ -195,46 +290,165 @@
                         { "type": "base", "x": 200, "y": 300 }
                     ],
                     "team2": [
-                        { "type": "drop", "x": 750, "y": 830 }
+                        { "type": "drop", "x": 730, "y": 810 }
                     ]
                 }
             }
         },
         "Komarin": {
             "file": "Komarin.png",
-            "size": { "x": 800, "y": 800
-            },
-            "modes": [ "standard" ]
+            "size": { "x": 800, "y": 800 },
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 50, "y": 560 },
+                        { "type": "drop", "x": 430, "y": 760 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 750, "y": 250 },
+                        { "type": "drop", "x": 280, "y": 42 }
+                    ]
+                }
+            }
         },
         "Lakeville": {
             "file": "Lakeville.png",
             "size": { "x": 800, "y": 800 },
-            "modes": [ "standard", "encounter" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 230, "y": 85 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 230, "y": 720 }
+                    ]
+                },
+                "encounter": {
+                    "team0": [
+                        { "type": "base", "x": 695, "y": 395 }
+                    ],
+                    "team1": [
+                        { "type": "drop", "x": 210, "y": 75 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 210, "y": 710 }
+                    ]
+                }
+            }
         },
         "LiveOaks": {
             "file": "Live%20Oaks.png",
             "size": { "x": 1000, "y": 1000 },
-            "modes": [ "standard" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 140, "y": 830 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 820, "y": 120 }
+                    ]
+                }
+            }
         },
         "Malinovka": {
             "file": "Malinovka.png",
             "size": { "x": 1000, "y": 1000 },
-            "modes": [ "standard", "encounter" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 560, "y": 890 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 140, "y": 390 }
+                    ]
+                },
+                "encounter": {
+                    "team0": [
+                        { "type": "base", "x": 450, "y": 580 }
+                    ],
+                    "team1": [
+                        { "type": "drop", "x": 900, "y": 500 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 550, "y": 80 }
+                    ]
+                },
+                "assault": {
+                    "team1": [
+                        { "type": "base", "x": 760, "y": 190 },
+                        { "type": "drop", "x": 870, "y": 90 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 120, "y": 710 },
+                        { "type": "drop", "x": 220, "y": 810 },
+                        { "type": "drop", "x": 360, "y": 920 }
+                    ]
+                }
+            }
         },
         "Mines": {
             "file": "Mines.png",
             "size": { "x": 800, "y": 800 },
-            "modes": [ "standard", "encounter" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 570, "y": 710 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 180, "y": 80 }
+                    ]
+                },
+                "encounter": {
+                    "team0": [
+                        { "type": "base", "x": 650, "y": 290 }
+                    ],
+                    "team1": [
+                        { "type": "drop", "x": 570, "y": 720 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 180, "y": 90 }
+                    ]
+                }
+            }
         },
         "MountainPass": {
             "file": "Mountain%20Pass.png",
             "size": { "x": 1000, "y": 1000 },
-            "modes": [ "standard", "encounter" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 125, "y": 120 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 850, "y": 900 }
+                    ]
+                }
+            }
         },
         "Murovanka": {
             "file": "Murovanka.png",
             "size": { "x": 800, "y": 800 },
-            "modes": [ "standard", "encounter" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 600, "y": 110 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 205, "y": 700 }
+                    ]
+                },
+                "encounter": {
+                    "team0": [
+                        { "type": "base", "x": 70, "y": 340 }
+                    ],
+                    "team1": [
+                        { "type": "drop", "x": 570, "y": 90 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 530, "y": 660 }
+                    ]
+                }
+            }
         },
         "Northwest": {
             "file": "NorthWest.png",
@@ -254,7 +468,7 @@
         "Prokhorovka": {
             "file": "Prokhorovka.png",
             "size": { "x": 1000, "y": 1000 },
-            "modes": [ "standard", "encounter" ]
+            "modes": [ "standard", "encounter", "assault" ]
         },
         "Province": {
             "file": "Province.png",
