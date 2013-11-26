@@ -453,77 +453,318 @@
         "Northwest": {
             "file": "NorthWest.png",
             "size": { "x": 800, "y": 800 },
-            "modes": [ "standard", "encounter" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 125, "y": 720 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 720, "y": 120 }
+                    ]
+                }
+            }
         },
         "PearlRiver": {
             "file": "Pearl%20River.png",
             "size": { "x": 1000, "y": 1000 },
-            "modes": [ "standard" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 450, "y": 300 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 890, "y": 590 }
+                    ]
+                }
+            }
         },
         "Port": {
             "file": "Port.png",
             "size": { "x": 830, "y": 830 },
-            "modes": [ "standard" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 205, "y": 720 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 720, "y": 120 }
+                    ]
+                }
+            }
         },
         "Prokhorovka": {
             "file": "Prokhorovka.png",
             "size": { "x": 1000, "y": 1000 },
-            "modes": [ "standard", "encounter", "assault" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 370, "y": 50 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 550, "y": 950 }
+                    ]
+                },
+                "encounter": {
+                    "team0": [
+                        { "type": "base", "x": 670, "y": 485 }
+                    ],
+                    "team1": [
+                        { "type": "drop", "x": 510, "y": 910 },
+                        { "type": "drop", "x": 260, "y": 930 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 460, "y": 100 },
+                        { "type": "drop", "x": 275, "y": 80 }
+                    ]
+                }
+            }
         },
         "Province": {
             "file": "Province.png",
             "size": { "x": 600, "y": 600 },
-            "modes": [ "standard" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 300, "y": 90 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 300, "y": 510 }
+                    ]
+                }
+            }
         },
         "Redshire": {
             "file": "Redshire.png",
             "size": { "x": 1000, "y": 1000 },
-            "modes": [ "standard", "encounter" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 290, "y": 130 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 865, "y": 770 }
+                    ]
+                },
+                "encounter": {
+                    "team0": [
+                        { "type": "base", "x": 775, "y": 710 }
+                    ],
+                    "team1": [
+                        { "type": "drop", "x": 80, "y": 700 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 595, "y": 170 }
+                    ]
+                }
+            }
         },
         "Ruinberg": {
             "file": "Ruinberg.png",
             "size": { "x": 800, "y": 800 },
-            "modes": [ "standard", "encounter" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 340, "y": 85 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 320, "y": 690 }
+                    ]
+                },
+                "encounter": {
+                    "team0": [
+                        { "type": "base", "x": 60, "y": 440 }
+                    ],
+                    "team1": [
+                        { "type": "drop", "x": 460, "y": 70 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 670, "y": 730 }
+                    ]
+                }
+            }
         },
         "SacredValley": {
             "file": "Sacred%20Valley.png",
             "size": { "x": 1000, "y": 1000 },
-            "modes": [ "standard", "encounter" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 770, "y": 250 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 230, "y": 800 }
+                    ]
+                },
+                "encounter": {
+                    "team0": [
+                        { "type": "base", "x": 520, "y": 760 }
+                    ],
+                    "team1": [
+                        { "type": "drop", "x": 195, "y": 390 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 750, "y": 340 }
+                    ]
+                }
+            }
         },
         "SandRiver": {
             "file": "Sand%20River.png",
             "size": { "x": 1000, "y": 1000 },
-            "modes": [ "standard", "encounter", "assault" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 875, "y": 685 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 90, "y": 365 }
+                    ]
+                },
+                "encounter": {
+                    "team0": [
+                        { "type": "base", "x": 410, "y": 820 }
+                    ],
+                    "team1": [
+                        { "type": "drop", "x": 905, "y": 350 },
+                        { "type": "drop", "x": 955, "y": 560 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 340, "y": 250 },
+                        { "type": "drop", "x": 60, "y": 250 }
+                    ]
+                },
+                "assault": {
+                    "team1": [
+                        { "type": "base", "x": 600, "y": 205 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 70, "y": 800 }
+                    ]
+                }
+            }
         },
         "SereneCoast": {
             "file": "Serene%20Coast.png",
             "size": { "x": 1000, "y": 1000 },
-            "modes": [ "standard" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 705, "y": 170 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 370, "y": 805 }
+                    ]
+                }
+            }
         },
         "Severogosk": {
             "file": "Severogosk.png",
             "size": { "x": 1000, "y": 1000 },
-            "modes": [ "standard" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 320, "y": 810 },
+                        { "type": "drop", "x": 805, "y": 805 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 710, "y": 145 },
+                        { "type": "drop", "x": 230, "y": 175 }
+                    ]
+                }
+            }
         },
         "SiegfriedLine": {
             "file": "Siegfried%20Line.png",
             "size": { "x": 1000, "y": 1000 },
-            "modes": [ "standard", "encounter", "assault" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 780, "y": 70 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 755, "y": 945 }
+                    ]
+                },
+                "encounter": {
+                    "team0": [
+                        { "type": "base", "x": 820, "y": 480 }
+                    ],
+                    "team1": [
+                        { "type": "drop", "x": 340, "y": 890 },
+                        { "type": "drop", "x": 675, "y": 925 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 350, "y": 115 },
+                        { "type": "drop", "x": 605, "y": 95 }
+                    ]
+                },
+                "assault": {
+                    "team1": [
+                        { "type": "base", "x": 820, "y": 470 },
+                        { "type": "drop", "x": 940, "y": 290 },
+                        { "type": "drop", "x": 800, "y": 605 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 290, "y": 190 },
+                        { "type": "drop", "x": 290, "y": 810 }
+                    ]
+                }
+            }
         },
         "SouthCoast": {
             "file": "South%20Coast.png",
             "size": { "x": 1000, "y": 1000 },
-            "modes": [ "standard" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 620, "y": 150 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 605, "y": 905 }
+                    ]
+                }
+            }
         },
         "Steppes": {
             "file": "Steppes.png",
             "size": { "x": 1000, "y": 1000 },
-            "modes": [ "standard", "encounter" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 410, "y": 130 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 725, "y": 840 }
+                    ]
+                },
+                "encounter": {
+                    "team0": [
+                        { "type": "base", "x": 885, "y": 260 }
+                    ],
+                    "team1": [
+                        { "type": "drop", "x": 350, "y": 875 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 65, "y": 310 }
+                    ]
+                }
+            }
         },
         "Swamp": {
             "file": "Swamp.png",
             "size": { "x": 1000, "y": 1000 },
-            "modes": [ "standard" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 90, "y": 930 },
+                        { "type": "drop", "x": 185, "y": 585 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 880, "y": 75 },
+                        { "type": "drop", "x": 835, "y": 425 }
+                    ]
+                }
+            }
         },
         "Tundra": {
             "file": "Tundra.png",
@@ -533,12 +774,38 @@
         "Westfield": {
             "file": "Westfield.png",
             "size": { "x": 1000, "y": 1000 },
-            "modes": [ "standard" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 200, "y": 845 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 830, "y": 200 }
+                    ]
+                },
+                "assault": {
+                    "team1": [
+                        { "type": "base", "x": 880, "y": 880 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 220, "y": 220 }
+                    ]
+                }
+            }
         },
         "Widepark": {
             "file": "Widepark.png",
             "size": { "x": 600, "y": 600 },
-            "modes": [ "standard" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 360, "y": 70 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 230, "y": 490 }
+                    ]
+                }
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ var gDECAL_GRID = 20,
     gCHAR_CODE_A = "A".charCodeAt(0),
     gCHAR_CODE_1 = "1".charCodeAt(0),
     gWIND_ROSE_SIZE = 100,
-    gDROP_ZONE_BORDER = 40,
+    gDROP_ZONE_BORDER = 30,
     gNB_COLS = 10,
     gNB_ROWS = 10,
     gIMPORT_TIMEOUT = 100;
@@ -58,7 +58,15 @@ define(["jquery", "jquery-ui"], function($) {
                             myMapObj = gMaps[myMapToken];
                             myMaps += "<option value=\"" + myMapToken + "\">" + gI18n.games[myGameToken].maps[myMapToken] + "</option>";
                         }
-                        $("#selMap").html(myMaps).change();
+                        $("#selMap").html(myMaps);
+                        $("#selMap").html($("option", $("#selMap")).sort(function(a, b) { 
+                            return $(a).text().localeCompare($(b).text());
+                        }));
+                        for (myMapToken in gMaps) {
+                            $("#selMap").val(myMapToken);
+                            break;
+                        }
+                        $("#selMap").change();
                     }).fail(function() {
                         console.log("Error while getting ./res/" + myGameToken + "/game.json");
                     });
@@ -83,6 +91,14 @@ define(["jquery", "jquery-ui"], function($) {
                         myMapModes += "<option value=\"" + myMode + "\">" + gI18n.games[myGameToken].modes[myMode] + "</option>";
                     }
                     $("#selMode").html(myMapModes).change();
+                    $("#selMode").html($("option", $("#selMode")).sort(function(a, b) { 
+                        return $(a).text().localeCompare($(b).text());
+                    }));
+                    for (myMode in myMapObj.modes) {
+                        $("#selMode").val(myMode);
+                        break;
+                    }
+                    $("#selMode").change();
                     $("#gridOverlay").remove();
                     $("#chkGrid").change();
                     $("#windRoseOverlay").remove();
@@ -161,7 +177,7 @@ define(["jquery", "jquery-ui"], function($) {
                                 for (var i in myMapMode[myMapTeam]) {
                                     if (myMapMode[myMapTeam][i].type === "base") {
                                         // It's the main bases, they are round
-                                        myCanvas.circle(g, myMapMode[myMapTeam][i].x + gDECAL_GRID, myMapMode[myMapTeam][i].y + gDECAL_GRID, 50, { "class": myMapTeam });
+                                        myCanvas.circle(g, myMapMode[myMapTeam][i].x + gDECAL_GRID, myMapMode[myMapTeam][i].y + gDECAL_GRID, 40, { "class": myMapTeam });
                                     } else if (myMapMode[myMapTeam][i].type === "drop") {
                                         // It's the drop points, they are square
                                         myCanvas.polygon(g, [[myMapMode[myMapTeam][i].x - gDROP_ZONE_BORDER + gDECAL_GRID, myMapMode[myMapTeam][i].y + gDECAL_GRID],
