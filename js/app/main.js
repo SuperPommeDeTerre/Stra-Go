@@ -5,7 +5,10 @@ var gGames = null,
     gElements = null,
     gCurrentConf = {},
     gI18n = null,
-    myDraggedElement = null;
+    myDraggedElement = null,
+    myDraggedElementWidth = 0,
+    myDraggedElementHeight = 0,
+    gCountElems = 0;
 
 // Constants
 var gDECAL_GRID = 20,
@@ -22,11 +25,21 @@ function clickMovable(e) {
     e.preventDefault();
     if (e.which === 1) {
         if (myDraggedElement === null) {
-            myDraggedElement = $(this).add("#" + $(this).attr("rel"));
+            var myRelatedElement = $("#" + $(this).attr("rel"));
+            myDraggedElement = $(this).add(myRelatedElement);
             myDraggedElement.addClass("moving");
+            if (myDraggedElement.is("image")) {
+                myDraggedElementWidth = myDraggedElement.attr("width");
+                myDraggedElementHeight = myDraggedElement.attr("height");
+            } else if (myRelatedElement.is("image")) {
+                myDraggedElementWidth = myRelatedElement.attr("width");
+                myDraggedElementHeight = myRelatedElement.attr("height");
+            }
         } else {
             myDraggedElement.removeClass("moving");
             myDraggedElement = null;
+            myDraggedElementWidth = 0;
+            myDraggedElementHeight = 0;
         }
     }
 };
@@ -66,10 +79,10 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                             myCanvas = myCanvasContainer.svg().svg("get"),
                             g1 = myCanvasContainer.find("#elementsOverlay").svg(),
                             g2 = myCanvasContainer.find("#textsOverlay").svg(),
-                            myElemId = "element_" + elementType + "_" + elementTeam,
+                            myElemId = "element_" + elementType + "_" + elementTeam + "_" + gCountElems++,
                             myElemTextId = myElemId + "_text",
                             myImage = myCanvas.image(g1, e.pageX - myCanvasContainer[0].offsetLeft - (myElem.size.x / 2), e.pageY - myCanvasContainer[0].offsetTop - (myElem.size.y / 2), myElem.size.x, myElem.size.y, "./res/" + gCurrentConf.game + "/elements/" + myElem.file, { "id": myElemId, "rel": myElemTextId }),
-                            myText = myCanvas.text(g2, e.pageX - myCanvasContainer[0].offsetLeft + (myElem.size.x / 2), e.pageY - myCanvasContainer[0].offsetTop, "", { "id": myElemTextId, "rel": myElemId });
+                            myText = myCanvas.text(g2, e.pageX - myCanvasContainer[0].offsetLeft + (myElem.size.x / 2), e.pageY - myCanvasContainer[0].offsetTop + 7, "KV-1S", { "id": myElemTextId, "rel": myElemId });
                         $(myImage).addClass("movable").addClass("hasMenuElement").on("click", clickMovable);
                         $(myText).addClass("movable").addClass("hasMenuElement").on("click", clickMovable);
                     }
@@ -82,11 +95,11 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 myDraggedElement.each(function(i, el) {
                     var elem = $(el);
                     if (elem.is("image")) {
-                        elem.attr("x", e.pageX - myCanvasContainer[0].offsetLeft - (elem.attr("width") / 2));
-                        elem.attr("y", e.pageY - myCanvasContainer[0].offsetTop - (elem.attr("height") / 2));
+                        elem.attr("x", e.pageX - myCanvasContainer[0].offsetLeft - (myDraggedElementWidth / 2));
+                        elem.attr("y", e.pageY - myCanvasContainer[0].offsetTop - (myDraggedElementHeight / 2));
                     } else if (elem.is("text")) {
-                        elem.attr("x", e.pageX - myCanvasContainer[0].offsetLeft);
-                        elem.attr("y", e.pageY - myCanvasContainer[0].offsetTop);
+                        elem.attr("x", e.pageX - myCanvasContainer[0].offsetLeft + (myDraggedElementWidth / 2));
+                        elem.attr("y", e.pageY - myCanvasContainer[0].offsetTop + 7);
                     }
                 });
             }
@@ -98,53 +111,18 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             $.getJSON("./i18n/" + data.lang.default + "/i18n.json", {}, function(data) {
                 gI18n = data;
                 // Add contexts menus
-                /*
-                myCanvasContainer.contextmenu({
-                    "delegate": ".movable",
-                    "menu": [
-                        {
-                            "title": gI18n.contextmenu.element.copy,
-                            "cmd": "copy",
-                            "uiIcon": "ui-icon-copy",
-                            "action": function(e, ui) {
-                                return false;
-                            }
-                        },
-                        {
-                            "title": gI18n.contextmenu.element.delete,
-                            "cmd": "delete",
-                            "uiIcon": "ui-icon-trash",
-                            "action": function(e, ui) {
-                                return false;
-                            }
-                        },
-                        {
-                            "title": gI18n.contextmenu.element.text.title,
-                            "uiIcon": "ui-icon-comment",
-                            "children": [
-                                {
-                                    "title": gI18n.contextmenu.element.text.modify
-                                },
-                                {
-                                    "title": gI18n.contextmenu.element.text.delete
-                                },
-                                {
-                                    "title": gI18n.contextmenu.element.text.position.top
-                                },
-                                {
-                                    "title": gI18n.contextmenu.element.text.position.bottom
-                                },
-                                {
-                                    "title": gI18n.contextmenu.element.text.position.left
-                                },
-                                {
-                                    "title": gI18n.contextmenu.element.text.position.right
-                                }
-                            ]
-                        }
-                    ],
-                    "select": function(e, ui) {
-                        console.debug("ui.cmd = " + ui.cmd);
+                /* Buggy...
+                myCanvasContainer.children("svg").contextMenu({
+                    "selector": ".movable",
+                    "callback": function(key, options) {
+                        window.console && console.log(m);
+                    },
+                    "items": {
+                        "copy": {"name": gI18n.contextmenu.element.copy, "icon": "copy"},
+                        "paste": {"name": "Paste", "icon": "paste"},
+                        "delete": {"name": gI18n.contextmenu.element.delete, "icon": "delete"},
+                        "sep1": "---------",
+                        "quit": {"name": "Quit", "icon": "quit"}
                     }
                 });
                 */
@@ -171,6 +149,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                             myElements0 = "";
                             myElements1 = "";
                             myElements2 = "";
+                        // Populate the maps
                         for (myMapToken in gMaps) {
                             myMapObj = gMaps[myMapToken];
                             myMaps += "<option value=\"" + myMapToken + "\">" + gI18n.games[myGameToken].maps[myMapToken] + "</option>";
@@ -184,7 +163,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                             break;
                         }
                         $("#selMap").change();
-                        // Build the html for the elements
+                        // Populate the elements
                         for (myElementToken in gElements) {
                             if (gElements[myElementToken].team0) {
                                 myElements0 += "<li><a href=\"edit/add/element/" + myElementToken + "/0\" class=\"element " + myElementToken + "0\" title=\"" + gI18n.games[myGameToken].elements[myElementToken] + "\"><span>" + gI18n.games[myGameToken].elements[myElementToken] + "</span></a></li>";
@@ -236,7 +215,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                         $("#selMode").val(myMode);
                         break;
                     }
-                    // Remove groups
+                    // Remove groups and trigger events
                     $("#selMode").change();
                     $("#gridOverlay").remove();
                     $("#chkGrid").change();
