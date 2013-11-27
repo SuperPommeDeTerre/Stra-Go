@@ -4,7 +4,8 @@ var gGames = null,
     gMaps = null,
     gElements = null,
     gCurrentConf = {},
-    gI18n = null;
+    gI18n = null,
+    myDraggedElement = null;
 
 // Constants
 var gDECAL_GRID = 20,
@@ -15,6 +16,20 @@ var gDECAL_GRID = 20,
     gNB_COLS = 10,
     gNB_ROWS = 10,
     gIMPORT_TIMEOUT = 100;
+
+function clickMovable(e) {
+    e.stopImmediatePropagation();
+    e.preventDefault();
+    if (e.which === 1) {
+        if (myDraggedElement === null) {
+            myDraggedElement = $(this).add("#" + $(this).attr("rel"));
+            myDraggedElement.addClass("moving");
+        } else {
+            myDraggedElement.removeClass("moving");
+            myDraggedElement = null;
+        }
+    }
+};
 
 /**
  * Main function
@@ -32,14 +47,13 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             e.preventDefault();
         });
         // Load global configuration
-		var myDraggedElement = null;
         var myCanvasContainer = $("#mapContainer");
         myCanvasContainer.on("click", function(e) {
             e.stopImmediatePropagation();
             e.preventDefault();
-			if (myDraggedElement !== null) {
-				return;
-			}
+            if (myDraggedElement !== null) {
+                return;
+            }
             var selectedItem = $("#menuEdit .selected");
             if (selectedItem.length > 0) {
                 if (selectedItem.is("a")) {
@@ -48,33 +62,34 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     if (myItemProps[2] === "element") {
                         var elementType = myItemProps[3],
                             elementTeam = myItemProps[4],
-                            myElem = gElements[elementType]["team" + elementTeam];
-                        var myCanvas = myCanvasContainer.svg().svg("get"),
-                            g = myCanvasContainer.find("#elementsOverlay").svg(),
-                            myImage = myCanvas.image(g, e.pageX - myCanvasContainer[0].offsetLeft - (myElem.size.x / 2), e.pageY - myCanvasContainer[0].offsetTop - (myElem.size.y / 2), myElem.size.x, myElem.size.y, "./res/" + gCurrentConf.game + "/elements/" + myElem.file, {});
-                        $(myImage).on("click", function(e) {
-							e.stopImmediatePropagation();
-							e.preventDefault();
-							if (e.which === 1) {
-								if (myDraggedElement === null) {
-									myDraggedElement = $(this);
-									myDraggedElement.addClass("moving");
-								} else {
-									myDraggedElement.removeClass("moving");
-									myDraggedElement = null;
-								}
-							}
-                        });
+                            myElem = gElements[elementType]["team" + elementTeam],
+                            myCanvas = myCanvasContainer.svg().svg("get"),
+                            g1 = myCanvasContainer.find("#elementsOverlay").svg(),
+                            g2 = myCanvasContainer.find("#textsOverlay").svg(),
+                            myElemId = "element_" + elementType + "_" + elementTeam,
+                            myElemTextId = myElemId + "_text",
+                            myImage = myCanvas.image(g1, e.pageX - myCanvasContainer[0].offsetLeft - (myElem.size.x / 2), e.pageY - myCanvasContainer[0].offsetTop - (myElem.size.y / 2), myElem.size.x, myElem.size.y, "./res/" + gCurrentConf.game + "/elements/" + myElem.file, { "id": myElemId, "rel": myElemTextId }),
+                            myText = myCanvas.text(g2, e.pageX - myCanvasContainer[0].offsetLeft + (myElem.size.x / 2), e.pageY - myCanvasContainer[0].offsetTop, "", { "id": myElemTextId, "rel": myElemId });
+                        $(myImage).addClass("movable").addClass("hasMenuElement").on("click", clickMovable);
+                        $(myText).addClass("movable").addClass("hasMenuElement").on("click", clickMovable);
                     }
                 }
             }
         })
-		// Handle movement of items
-		.on("mousemove", function(e) {
-			if (myDraggedElement !== null) {
-				myDraggedElement.attr("x", e.pageX - myCanvasContainer[0].offsetLeft - (myDraggedElement.attr("width") / 2));
-				myDraggedElement.attr("y", e.pageY - myCanvasContainer[0].offsetTop - (myDraggedElement.attr("height") / 2));
-			}
+        // Handle movement of items
+        .on("mousemove", function(e) {
+            if (myDraggedElement !== null) {
+                myDraggedElement.each(function(i, el) {
+                    var elem = $(el);
+                    if (elem.is("image")) {
+                        elem.attr("x", e.pageX - myCanvasContainer[0].offsetLeft - (elem.attr("width") / 2));
+                        elem.attr("y", e.pageY - myCanvasContainer[0].offsetTop - (elem.attr("height") / 2));
+                    } else if (elem.is("text")) {
+                        elem.attr("x", e.pageX - myCanvasContainer[0].offsetLeft);
+                        elem.attr("y", e.pageY - myCanvasContainer[0].offsetTop);
+                    }
+                });
+            }
         });
         $.getJSON("./config/config.json", {}, function(data) {
             gGames = data.games;
@@ -82,6 +97,57 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             // Get i18n strings
             $.getJSON("./i18n/" + data.lang.default + "/i18n.json", {}, function(data) {
                 gI18n = data;
+                // Add contexts menus
+                /*
+                myCanvasContainer.contextmenu({
+                    "delegate": ".movable",
+                    "menu": [
+                        {
+                            "title": gI18n.contextmenu.element.copy,
+                            "cmd": "copy",
+                            "uiIcon": "ui-icon-copy",
+                            "action": function(e, ui) {
+                                return false;
+                            }
+                        },
+                        {
+                            "title": gI18n.contextmenu.element.delete,
+                            "cmd": "delete",
+                            "uiIcon": "ui-icon-trash",
+                            "action": function(e, ui) {
+                                return false;
+                            }
+                        },
+                        {
+                            "title": gI18n.contextmenu.element.text.title,
+                            "uiIcon": "ui-icon-comment",
+                            "children": [
+                                {
+                                    "title": gI18n.contextmenu.element.text.modify
+                                },
+                                {
+                                    "title": gI18n.contextmenu.element.text.delete
+                                },
+                                {
+                                    "title": gI18n.contextmenu.element.text.position.top
+                                },
+                                {
+                                    "title": gI18n.contextmenu.element.text.position.bottom
+                                },
+                                {
+                                    "title": gI18n.contextmenu.element.text.position.left
+                                },
+                                {
+                                    "title": gI18n.contextmenu.element.text.position.right
+                                }
+                            ]
+                        }
+                    ],
+                    "select": function(e, ui) {
+                        console.debug("ui.cmd = " + ui.cmd);
+                    }
+                });
+                */
                 // Add the games to the corresponding menu
                 var myGames = "",
                     myGameToken = null;
@@ -170,9 +236,12 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                         $("#selMode").val(myMode);
                         break;
                     }
+                    // Remove groups
                     $("#selMode").change();
                     $("#gridOverlay").remove();
                     $("#chkGrid").change();
+                    $("#scaleOverlay").remove();
+                    $("#chkScale").change();
                     $("#windRoseOverlay").remove();
                     $("#elementsOverlay").remove();
                     $("#linesOverlay").remove();
@@ -224,10 +293,10 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                                 if (i === 0) {
                                     continue;
                                 }
-                                myCanvas.line(g, i + gDECAL_GRID, gDECAL_GRID, i + gDECAL_GRID, gMaps[gCurrentConf.map].size.y + gDECAL_GRID, {"stroke": "#FFF", "stroke-width": 0.5, "stroke-dasharray": "1,1"});
-                                myCanvas.line(g, i + gDECAL_GRID, 0, i + gDECAL_GRID, gDECAL_GRID, {"stroke": "#000", "stroke-width": 0.5, "stroke-dasharray": "1,1"});
-                                myCanvas.line(g, gDECAL_GRID, i + gDECAL_GRID, gMaps[gCurrentConf.map].size.y + gDECAL_GRID, i + gDECAL_GRID, {"stroke": "#FFF", "stroke-width": 0.5, "stroke-dasharray": "1,1"});
-                                myCanvas.line(g, 0, i + gDECAL_GRID, gDECAL_GRID, i + gDECAL_GRID, {"stroke": "#000", "stroke-width": 0.5, "stroke-dasharray": "1,1"});
+                                myCanvas.line(g, i + gDECAL_GRID, gDECAL_GRID, i + gDECAL_GRID, gMaps[gCurrentConf.map].size.y + gDECAL_GRID, {"class": "outer"});
+                                myCanvas.line(g, i + gDECAL_GRID, 0, i + gDECAL_GRID, gDECAL_GRID, {"class": "inner"});
+                                myCanvas.line(g, gDECAL_GRID, i + gDECAL_GRID, gMaps[gCurrentConf.map].size.y + gDECAL_GRID, i + gDECAL_GRID, {"class": "outer"});
+                                myCanvas.line(g, 0, i + gDECAL_GRID, gDECAL_GRID, i + gDECAL_GRID, {"class": "inner"});
                             }
                         } else {
                             $("#gridOverlay").show();
@@ -268,25 +337,48 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                                                              [myMapMode[myMapTeam][i].x + gDECAL_GRID, myMapMode[myMapTeam][i].y - gDROP_ZONE_BORDER + gDECAL_GRID],
                                                              [myMapMode[myMapTeam][i].x + gDROP_ZONE_BORDER + gDECAL_GRID, myMapMode[myMapTeam][i].y + gDECAL_GRID],
                                                              [myMapMode[myMapTeam][i].x + gDECAL_GRID, myMapMode[myMapTeam][i].y + gDROP_ZONE_BORDER + gDECAL_GRID]], { "class": myMapTeam });
-                                        myCanvas.text(g, myMapMode[myMapTeam][i].x + gDECAL_GRID, myMapMode[myMapTeam][i].y + 5 + gDECAL_GRID, (countDrops++ + 1) + "", { "class": myMapTeam });
+                                        myCanvas.text(g, myMapMode[myMapTeam][i].x + gDECAL_GRID - 2, myMapMode[myMapTeam][i].y + 5 + gDECAL_GRID, (countDrops++ + 1) + "", { "class": myMapTeam });
                                     }
                                 }
                             }
-                            $("#basesOverlay").find("circle").draggable()
-                            .bind('mousedown', function(event, ui){
-                                // bring target to front
-                                $(event.target.parentElement).append(event.target);
-                            })
-                            .bind('drag', function(event, ui){
-                                // update coordinates manually, since top/left style props don't work on SVG
-                                event.target.setAttribute('x', ui.position.left);
-                                event.target.setAttribute('y', ui.position.top);
-                            });
                         } else {
                             $("#basesOverlay").show();
                         }
                     } else {
                         $("#basesOverlay").hide();
+                    }
+                });
+                $("#chkElements").click(function(e) {
+                    if ($(this).is(":checked")) {
+                        $("#elementsOverlay").show();
+                    } else {
+                        $("#elementsOverlay").hide();
+                    }
+                });
+                $("#chkTexts").click(function(e) {
+                    if ($(this).is(":checked")) {
+                        $("#textsOverlay").show();
+                    } else {
+                        $("#textsOverlay").hide();
+                    }
+                });
+                $("#chkScale").change(function(e) {
+                    if ($(this).is(":checked")) {
+                        if ($("#scaleOverlay").length === 0) {
+                            var myCanvas = myCanvasContainer.svg().svg("get"),
+                                g = myCanvas.group(null, "scaleOverlay", {}),
+                                myMap = gMaps[gCurrentConf.map];
+                            // Add the lines
+                            myCanvas.line(g, myMap.size.x + gDECAL_GRID - 120, myMap.size.y + gDECAL_GRID - 20, myMap.size.x + gDECAL_GRID - 20, myMap.size.y + gDECAL_GRID - 20, {});
+                            myCanvas.line(g, myMap.size.x + gDECAL_GRID - 120, myMap.size.y + gDECAL_GRID - 20, myMap.size.x + gDECAL_GRID - 120, myMap.size.y + gDECAL_GRID - 25, {});
+                            myCanvas.line(g, myMap.size.x + gDECAL_GRID - 20, myMap.size.y + gDECAL_GRID - 20, myMap.size.x + gDECAL_GRID - 20, myMap.size.y + gDECAL_GRID - 25, {});
+                            // Add the text
+                            myCanvas.text(g, myMap.size.x + gDECAL_GRID - 85, myMap.size.y + gDECAL_GRID - 25, "100m", {});
+                        } else {
+                            $("#scaleOverlay").show();
+                        }
+                    } else {
+                        $("#scaleOverlay").hide();
                     }
                 });
                 $("#btnImport").click(function(e) {

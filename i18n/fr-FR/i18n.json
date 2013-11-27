@@ -6,6 +6,23 @@
         },
         "edit": "Edition"
     },
+    "contextmenu": {
+        "element": {
+            "copy": "Copier",
+            "delete": "Supprimer",
+            "text": {
+                "title": "Texte",
+                "modify": "Modifier",
+                "copy": "Copier",
+                "position": {
+                    "top": "En haut",
+                    "bottom": "En bas",
+                    "left": "A gauche",
+                    "right": "A droite"
+                }
+            }
+        }
+    },
     "edit": {
         "map": "Carte",
         "options": {

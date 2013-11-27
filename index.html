@@ -14,7 +14,7 @@
         <h1>Strat'n'Go<span class="version">v0.1</span></h1>
         <nav id="menu">
             <ul>
-                <li id="menuMap"><a href="./map" title="S&eacute;lectionner une carte" data-i18n-key="menu.map"><span>Carte</span></a><div>
+                <li id="menuMap"><a href="map" title="S&eacute;lectionner une carte" data-i18n-key="menu.map"><span>Carte</span></a><div>
                         <section class="flex flex-h">
                             <aside class="flex-start">
                                 <fieldset>
@@ -41,6 +41,7 @@
                                         <aside class="flex-end">
                                             <p><label data-i18n-key="edit.options.zones"><input type="checkbox" name="chkZones" id="chkZones" checked="checked"> Zones</label></p>
                                             <p><label data-i18n-key="edit.options.shapes"><input type="checkbox" name="chkShapes" id="chkShapes" checked="checked"> Formes</label></p>
+                                            <p><label data-i18n-key="edit.options.scale"><input type="checkbox" name="chkScale" id="chkScale"> &Eacute;chelle</label></p>
                                         </aside>
                                     </section>
                                 </fieldset>
@@ -75,8 +76,15 @@
                                 </fieldset>
                             </aside>
                         </section>
+                            <section class="operations">
+                                <fieldset>
+                                    <legend>Op&eacute;rations</legend>
+                                    <a href="edit/delete" class="operation delete" title="Effacer des &eacute;l&eacute;ments">Effacer</a>
+                                    <a href="edit/select" class="operation select" title="S&eacute;lectionner des &eacute;l&eacute;ments">S&eacute;lectionner</a>
+                                </fieldset>
+                            </section>
                     </div></li>
-                <li id="menuShare"><a href="./share" title="Partager des strat&eacute;gies"><span>Partager</span></a><div>
+                <li id="menuShare"><a href="share" title="Partager des strat&eacute;gies"><span>Partager</span></a><div>
                         <section class="flex flex-h">
                             <aside class="flex-start">
                                 <fieldset>

@@ -6,9 +6,7 @@
     font-family:'Gunplay';
     src:local('Gunplay'), url('./fonts/gunplay.ttf') format('truetype');
 }
-*{
-    font-family:Cuprum,Sans-Serif;
-}
+*{font-family:Cuprum,Sans-Serif}
 body{
     padding:0;
     margin:0;
@@ -45,9 +43,7 @@ footer{
     color:#FFF;
     text-decoration:none;
 }
-#menu select, #menu option, #menu textarea, #menu ui-widget{
-    color:#000;
-}
+#menu select, #menu option, #menu textarea, #menu ui-widget{color:#000}
 #menu > ul{
     display:block;
     height:2.5em;
@@ -68,23 +64,16 @@ footer{
     padding:1em;
     background:url('./images/header-bg.png') repeat-x left -2.5em;
 }
-#menu > ul > li:hover > div{
-    display:block;
-}
-#menu > ul > li > ul{
-    display:none;
-}
-fieldset{
-    border:1px dotted #CCC;
-}
-fieldset legend{
-    font-size:0.9em;
-}
-label{
-    font-size:0.9em;
-}
-details > summary{transition:color 1s;color:black;}
-details[open] > summary{color:red;}
+#menu > ul > li:hover > div{display:block}
+#menu > ul > li > ul{display:none}
+#menu .operation{padding:0 0 0 20px}
+#menu .operation.delete{background:url('./icons/delete.png') no-repeat left top}
+#menu .operation.select{background:url('./icons/layout.png') no-repeat left top}
+fieldset{border:1px dotted #CCC}
+fieldset legend{font-size:0.9em}
+label{font-size:0.9em}
+details > summary{transition:color 1s;color:black}
+details[open] > summary{color:red}
 main{
     text-align:center;
     padding:3em 1em 1em 1em;
@@ -99,48 +88,25 @@ main{
     right:5px;
     font-size:.8em;
 }
-#mapContainer{
-    margin:auto;
-}
-#mapContainer text{
-    text-align:center;
-}
-#mapContainer .team0{
-    stroke:#FFF;
-}
-#mapContainer .team1{
-    stroke:#0F0;
-}
-#mapContainer .team2{
-    stroke:#F00;
-}
-#mapContainer text.team0{
-    fill:#FFF;
-}
-#mapContainer text.team1{
-    fill:#0F0;
-}
-#mapContainer text.team2{
-    fill:#F00;
-}
-#gridOverlay text{
-    fill:#000;
-}
-#basesOverlay circle{
-    fill-opacity:.5;
-}
-#basesOverlay polygon{
-    fill-opacity:.2;
-}
-#basesOverlay circle.team0, #basesOverlay polygon.team0{
-    fill:#FFF;
-}
-#basesOverlay circle.team1, #basesOverlay polygon.team1{
-    fill:#0F0;
-}
-#basesOverlay circle.team2, #basesOverlay polygon.team2{
-    fill:#F00;
-}
+#mapContainer{margin:auto}
+#mapContainer text{text-align:center}
+#mapContainer .team0{stroke:#FFF}
+#mapContainer .team1{stroke:#0F0}
+#mapContainer .team2{stroke:#F00}
+#mapContainer text.team0{fill:#FFF}
+#mapContainer text.team1{fill:#0F0}
+#mapContainer text.team2{fill:#F00}
+#gridOverlay text{fill:#000}
+#gridOverlay line.outer{stroke:#FFF;stroke-width:0.5;stroke-dasharray:1,1}
+#gridOverlay line.inner{stroke:#000;stroke-width:0.5;stroke-dasharray:1,1}
+#basesOverlay circle{fill-opacity:.5}
+#basesOverlay polygon{fill-opacity:.2}
+#basesOverlay circle.team0, #basesOverlay polygon.team0{fill:#FFF}
+#basesOverlay circle.team1, #basesOverlay polygon.team1{fill:#0F0}
+#basesOverlay circle.team2, #basesOverlay polygon.team2{fill:#F00}
+#textsOverlay text{fill:#FFF}
+#scaleOverlay line{stroke:#FFF;stroke-width:0.5}
+#scaleOverlay text{fill:#FFF}
 .elements{list-style:none;padding:0;margin:0}
 .element{list-style:none;padding:0;margin:0;display:block;width:35px;height:35px}
 .element.selected{border:1px solid #FFF}
