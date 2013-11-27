@@ -141,3 +141,23 @@ main{
 #basesOverlay circle.team2, #basesOverlay polygon.team2{
     fill:#F00;
 }
+.elements{list-style:none;padding:0;margin:0}
+.element{list-style:none;padding:0;margin:0;display:block;width:35px;height:35px}
+.element.selected{border:1px solid #FFF}
+.element span{display:none}
+.element.HT0{background:url('../../res/wot/elements/HT0.png') no-repeat left top}
+.element.HT1{background:url('../../res/wot/elements/HT1.png') no-repeat left top}
+.element.HT2{background:url('../../res/wot/elements/HT2.png') no-repeat left top}
+.element.MT0{background:url('../../res/wot/elements/MT0.png') no-repeat left top}
+.element.MT1{background:url('../../res/wot/elements/MT1.png') no-repeat left top}
+.element.MT2{background:url('../../res/wot/elements/MT2.png') no-repeat left top}
+.element.LT0{background:url('../../res/wot/elements/LT0.png') no-repeat left top}
+.element.LT1{background:url('../../res/wot/elements/LT1.png') no-repeat left top}
+.element.LT2{background:url('../../res/wot/elements/LT2.png') no-repeat left top}
+.element.TD0{background:url('../../res/wot/elements/TD0.png') no-repeat left top}
+.element.TD1{background:url('../../res/wot/elements/TD1.png') no-repeat left top}
+.element.TD2{background:url('../../res/wot/elements/TD2.png') no-repeat left top}
+.element.SPG0{background:url('../../res/wot/elements/SPG0.png') no-repeat left top}
+.element.SPG1{background:url('../../res/wot/elements/SPG1.png') no-repeat left top}
+.element.SPG2{background:url('../../res/wot/elements/SPG2.png') no-repeat left top}
+.moving{opacity:.5}

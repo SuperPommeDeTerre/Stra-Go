@@ -23,11 +23,11 @@
                 "assault": "Assaut"
             },
             "elements": {
-                "HT": "Tank lourd",
-                "MT": "Tank medium",
-                "LT": "Tank léger",
+                "HT": "Char lourd",
+                "MT": "Char moyen",
+                "LT": "Char léger",
                 "TD": "Chasseur de chars",
-                "SPG": "Artillerie mobile"
+                "SPG": "Canon automoteur"
             },
             "maps": {
                 "Abbey": "Abbaye",
