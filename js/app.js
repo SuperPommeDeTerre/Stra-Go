@@ -6,6 +6,7 @@ require.config({
     "shim": {
         "jquery-ui": ["jquery"],
         "jquery-svg": ["jquery"],
+        "colorpicker": ["jquery"],
         "jquery-ui-contextmenu": ["jquery-ui"],
         "jquery-svgdom": ["jquery-svg"],
         "jquery-svgfilter": ["jquery-svg"],
@@ -15,5 +16,5 @@ require.config({
     }
 });
 
-require(["jquery-svg", "jquery-svgdom", "jquery-svggraph", "jquery-svgplot", "jquery-svgfilter", "jquery.contextmenu", "app/main"]);
+require(["jquery-svg", "colorpicker", "jquery-svgdom", "jquery-svggraph", "jquery-svgplot", "jquery-svgfilter", "jquery.contextmenu", "app/main"]);
 // Load the main app module to start the app

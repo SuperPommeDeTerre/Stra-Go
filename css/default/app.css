@@ -43,7 +43,7 @@ footer{
     color:#FFF;
     text-decoration:none;
 }
-#menu select, #menu option, #menu textarea, #menu ui-widget{color:#000}
+#menu select, #menu input, #menu option, #menu textarea, #menu ui-widget{color:#000}
 #menu > ul{
     display:block;
     height:2.5em;

@@ -113,7 +113,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             // TODO: Handle text modify
             var myText = $("#" + myContextMenuElement.attr("rel"));
             myText = $("#" + myText.attr("rel"));
-            $("body>form").append("<div id=\"textEdit\"><form><input type=\"text\" value=\"" + myText.text().replace(/\"/g, "&quot;") + "\" /></form></div>");
+            $("body>form").append("<div id=\"textEdit\" title=\"Modifier le texte\"><form><input type=\"text\" value=\"" + myText.text().replace(/\"/g, "&quot;") + "\" /></form></div>");
             $("#textEdit").dialog({
                 "resizable": false,
                 "modal": true,
@@ -132,6 +132,10 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             e.stopImmediatePropagation();
             e.preventDefault();
             if (myDraggedElement !== null) {
+                myDraggedElement.removeClass("moving");
+                myDraggedElement = null;
+                myDraggedElementWidth = 0;
+                myDraggedElementHeight = 0;
                 return;
             }
             var selectedItem = $("#menuEdit .selected");
@@ -153,7 +157,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                         $(myImage).addClass("movable").addClass("hasMenuElement");
                         $(myText).addClass("movable").addClass("hasMenuElement");
                         $(myImage).add($(myText)).on("mouseenter", function(e) {
-                            if (!$(this).hasClass("moving")) {
+                            if (!$(this).hasClass("moving") && myDraggedElement === null) {
                                 myContextMenuElement.css("top", ($(myImage).attr("y") * 1 + myCanvasContainer[0].offsetTop + 25) + "px")
                                     .css("left", ($(myImage).attr("x") * 1 + myCanvasContainer[0].offsetLeft + 30) + "px")
                                     .attr("rel", $(myImage).attr("id"))
@@ -167,15 +171,6 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                         }).on("mouseleave", function(e) {
                             if (!preventClosingContextMenu) {
                                 myContextMenuElement.hide();
-                            }
-                        }).on("click", function(e) {
-                            e.stopImmediatePropagation();
-                            e.preventDefault();
-                            if ($(this).hasClass("moving")) {
-                                myDraggedElement.removeClass("moving");
-                                myDraggedElement = null;
-                                myDraggedElementWidth = 0;
-                                myDraggedElementHeight = 0;
                             }
                         });
                     }
@@ -197,6 +192,17 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 });
             }
         });
+        $('#colorSelectorLine').ColorPicker({
+            onSubmit: function(hsb, hex, rgb, el) {
+                $(el).val(hex);
+                $(el).ColorPickerHide();
+            },
+            onBeforeShow: function () {
+                $(this).ColorPickerSetColor(this.value);
+            }
+        }).bind('keyup', function(){
+            $(this).ColorPickerSetColor(this.value);
+        });;
         // Load global configuration
         $.getJSON("./config/config.json", {}, function(data) {
             gGames = data.games;
