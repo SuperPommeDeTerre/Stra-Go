@@ -8,7 +8,7 @@ var gGames = null,
     myDraggedElement = null,
     myDraggedElementWidth = 0,
     myDraggedElementHeight = 0,
-    gCountElems = 0;
+    gCountElems = {};
 
 // Constants
 var gDECAL_GRID = 20,
@@ -59,8 +59,75 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
         $("#menu a").click(function(e) {
             e.preventDefault();
         });
-        // Load global configuration
-        var myCanvasContainer = $("#mapContainer");
+        $(document).on("submit", "form", function(e) {
+            e.stopImmediatePropagation();
+            e.preventDefault();
+        });
+        var myCanvasContainer = $("#mapContainer"),
+            myContextMenuElement = $("#contextMenuElement"),
+            preventClosingContextMenu = false,
+            timeoutIdContextMenuElement = 0;
+        // Manage context menus
+        myContextMenuElement.on("mouseenter", function(e) {
+            preventClosingContextMenu = true;
+            window.clearTimeout(timeoutIdContextMenuElement);
+        }).on("mouseleave", function(e) {
+            preventClosingContextMenu = false;
+            myContextMenuElement.hide();
+        });
+        myContextMenuElement.find(".move").on("click", function(e) {
+            e.stopImmediatePropagation();
+            e.preventDefault();
+            if (myDraggedElement === null) {
+                myDraggedElement = $("#" + myContextMenuElement.attr("rel"));
+                myDraggedElementWidth = myDraggedElement.attr("width");
+                myDraggedElementHeight = myDraggedElement.attr("height");
+                myDraggedElement = myDraggedElement.add($("#" + myDraggedElement.attr("rel")));
+                myDraggedElement.addClass("moving");
+            }
+            myContextMenuElement.hide();
+        });
+        myContextMenuElement.find(".delete").on("click", function(e) {
+            e.stopImmediatePropagation();
+            e.preventDefault();
+            $("#dialog-confirm").dialog({
+                "resizable": false,
+                "modal": true,
+                "buttons": {
+                    "Oui": function() {
+                        var myTmpElement = $("#" + myContextMenuElement.attr("rel"));
+                        myTmpElement = myTmpElement.add($("#" + myTmpElement.attr("rel")));
+                        myTmpElement.remove();
+                        myContextMenuElement.hide();
+                        $(this).dialog("close");
+                    },
+                    "Non": function() {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+        });
+        myContextMenuElement.find(".modifytext").on("click", function(e) {
+            e.stopImmediatePropagation();
+            e.preventDefault();
+            // TODO: Handle text modify
+            var myText = $("#" + myContextMenuElement.attr("rel"));
+            myText = $("#" + myText.attr("rel"));
+            $("body>form").append("<div id=\"textEdit\"><form><input type=\"text\" value=\"" + myText.text().replace(/\"/g, "&quot;") + "\" /></form></div>");
+            $("#textEdit").dialog({
+                "resizable": false,
+                "modal": true,
+                "buttons": {
+                    "Ok": function() {
+                        myText.text($(this).find("input").val());
+                        $(this).dialog("close");
+                    },
+                    "Annuler": function() {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+        });
         myCanvasContainer.on("click", function(e) {
             e.stopImmediatePropagation();
             e.preventDefault();
@@ -79,12 +146,38 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                             myCanvas = myCanvasContainer.svg().svg("get"),
                             g1 = myCanvasContainer.find("#elementsOverlay").svg(),
                             g2 = myCanvasContainer.find("#textsOverlay").svg(),
-                            myElemId = "element_" + elementType + "_" + elementTeam + "_" + gCountElems++,
+                            myElemId = "element_" + elementType + "_" + elementTeam + "_" + gCountElems[elementType]++,
                             myElemTextId = myElemId + "_text",
                             myImage = myCanvas.image(g1, e.pageX - myCanvasContainer[0].offsetLeft - (myElem.size.x / 2), e.pageY - myCanvasContainer[0].offsetTop - (myElem.size.y / 2), myElem.size.x, myElem.size.y, "./res/" + gCurrentConf.game + "/elements/" + myElem.file, { "id": myElemId, "rel": myElemTextId }),
-                            myText = myCanvas.text(g2, e.pageX - myCanvasContainer[0].offsetLeft + (myElem.size.x / 2), e.pageY - myCanvasContainer[0].offsetTop + 7, "KV-1S", { "id": myElemTextId, "rel": myElemId });
-                        $(myImage).addClass("movable").addClass("hasMenuElement").on("click", clickMovable);
-                        $(myText).addClass("movable").addClass("hasMenuElement").on("click", clickMovable);
+                            myText = myCanvas.text(g2, e.pageX - myCanvasContainer[0].offsetLeft + (myElem.size.x / 2), e.pageY - myCanvasContainer[0].offsetTop + 7, selectedItem.text() + " " + gCountElems[elementType], { "id": myElemTextId, "rel": myElemId });
+                        $(myImage).addClass("movable").addClass("hasMenuElement");
+                        $(myText).addClass("movable").addClass("hasMenuElement");
+                        $(myImage).add($(myText)).on("mouseenter", function(e) {
+                            if (!$(this).hasClass("moving")) {
+                                myContextMenuElement.css("top", ($(myImage).attr("y") * 1 + myCanvasContainer[0].offsetTop + 25) + "px")
+                                    .css("left", ($(myImage).attr("x") * 1 + myCanvasContainer[0].offsetLeft + 30) + "px")
+                                    .attr("rel", $(myImage).attr("id"))
+                                    .show();
+                                // Keep menu open for 200ms
+                                preventClosingContextMenu = true;
+                                timeoutIdContextMenuElement = window.setTimeout(function() {
+                                    preventClosingContextMenu = false;
+                                }, 200);
+                            }
+                        }).on("mouseleave", function(e) {
+                            if (!preventClosingContextMenu) {
+                                myContextMenuElement.hide();
+                            }
+                        }).on("click", function(e) {
+                            e.stopImmediatePropagation();
+                            e.preventDefault();
+                            if ($(this).hasClass("moving")) {
+                                myDraggedElement.removeClass("moving");
+                                myDraggedElement = null;
+                                myDraggedElementWidth = 0;
+                                myDraggedElementHeight = 0;
+                            }
+                        });
                     }
                 }
             }
@@ -104,6 +197,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 });
             }
         });
+        // Load global configuration
         $.getJSON("./config/config.json", {}, function(data) {
             gGames = data.games;
 
@@ -165,6 +259,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                         $("#selMap").change();
                         // Populate the elements
                         for (myElementToken in gElements) {
+                            gCountElems[myElementToken] = 0;
                             if (gElements[myElementToken].team0) {
                                 myElements0 += "<li><a href=\"edit/add/element/" + myElementToken + "/0\" class=\"element " + myElementToken + "0\" title=\"" + gI18n.games[myGameToken].elements[myElementToken] + "\"><span>" + gI18n.games[myGameToken].elements[myElementToken] + "</span></a></li>";
                             }

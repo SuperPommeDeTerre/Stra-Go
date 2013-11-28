@@ -76,13 +76,6 @@
                                 </fieldset>
                             </aside>
                         </section>
-                            <section class="operations">
-                                <fieldset>
-                                    <legend>Op&eacute;rations</legend>
-                                    <a href="edit/delete" class="operation delete" title="Effacer des &eacute;l&eacute;ments">Effacer</a>
-                                    <a href="edit/select" class="operation select" title="S&eacute;lectionner des &eacute;l&eacute;ments">S&eacute;lectionner</a>
-                                </fieldset>
-                            </section>
                     </div></li>
                 <li id="menuShare"><a href="share" title="Partager des strat&eacute;gies"><span>Partager</span></a><div>
                         <section class="flex flex-h">
@@ -102,6 +95,16 @@
     <main>
         <div id="mapContainer"></div>
     </main>
+    <div id="contextMenuElement">
+        <ul>
+            <li><a href="/edit/move/element" class="move" title="D&eacute;placer l'&eacute;l&eacute;ment"><span>D&eacute;placer</span></a></li>
+            <li><a href="/edit/modifytext/element" class="modifytext" title="Modifier le texte de l'&eacute;l&eacute;ment"><span>Modifier le texte</span></a></li>
+            <li><a href="/edit/delete/element" class="delete" title="Supprimer l'&eacute;l&eacute;ment"><span>Supprimer</span></a></li>
+        </ul>
+    </div>
+    <div id="dialog-confirm" title="&Ecirc;tes vous s&ucirc;r de vouloir effacer cet &eacute;l&eacute;ment&nbsp;?">
+        <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Vous allez supprimer un &eacute;l&eacute;ment.<br />&Ecirc;tes-vous s&ucirc;r&nbsp;?</p>
+    </div>
 </form>
 </body>
 </html>
