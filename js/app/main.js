@@ -282,7 +282,9 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                         $("#menuEdit").find(".element").click(function(e) {
                             e.stopImmediatePropagation();
                             e.preventDefault();
-                            $("#menuEdit").find(".selected").removeClass("selected")
+                            if (!$(this).hasClass("selected")) {
+                                $("#menuEdit").find(".selected").removeClass("selected")
+                            }
                             $(this).toggleClass("selected");
                         });
                     }).fail(function() {
