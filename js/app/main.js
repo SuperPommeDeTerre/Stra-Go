@@ -8,7 +8,8 @@ var gGames = null,
     myDraggedElement = null,
     myDraggedElementWidth = 0,
     myDraggedElementHeight = 0,
-    gCountElems = {};
+    gCountElems = {},
+    gIsImporting = false;
 
 // Constants
 var gDECAL_GRID = 20,
@@ -19,30 +20,6 @@ var gDECAL_GRID = 20,
     gNB_COLS = 10,
     gNB_ROWS = 10,
     gIMPORT_TIMEOUT = 100;
-
-function clickMovable(e) {
-    e.stopImmediatePropagation();
-    e.preventDefault();
-    if (e.which === 1) {
-        if (myDraggedElement === null) {
-            var myRelatedElement = $("#" + $(this).attr("rel"));
-            myDraggedElement = $(this).add(myRelatedElement);
-            myDraggedElement.addClass("moving");
-            if (myDraggedElement.is("image")) {
-                myDraggedElementWidth = myDraggedElement.attr("width");
-                myDraggedElementHeight = myDraggedElement.attr("height");
-            } else if (myRelatedElement.is("image")) {
-                myDraggedElementWidth = myRelatedElement.attr("width");
-                myDraggedElementHeight = myRelatedElement.attr("height");
-            }
-        } else {
-            myDraggedElement.removeClass("moving");
-            myDraggedElement = null;
-            myDraggedElementWidth = 0;
-            myDraggedElementHeight = 0;
-        }
-    }
-};
 
 /**
  * Main function
@@ -58,6 +35,58 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
         // Handle HTML5 drag&drop
         $.event.props.push("dataTransfer");
         */
+        var myCanvasContainer = $("#mapContainer"),
+            myContextMenuElement = $("#contextMenuElement"),
+            preventClosingContextMenu = false,
+            timeoutIdContextMenuElement = 0;
+
+        function addElement(pConfElement) {
+            var myElem = gElements[pConfElement.type]["team" + pConfElement.team],
+                myCanvas = myCanvasContainer.svg().svg("get"),
+                g1 = myCanvasContainer.find("#elementsOverlay").svg(),
+                g2 = myCanvasContainer.find("#textsOverlay").svg(),
+                myElemId = "element_" + pConfElement.type + "_" + pConfElement.team + "_" + gCountElems[pConfElement.type]++,
+                myElemTextId = myElemId + "_text",
+                myImage = myCanvas.image(g1, pConfElement.position.x, pConfElement.position.y, myElem.size.x, myElem.size.y, "./res/" + gCurrentConf.game + "/elements/" + myElem.file, { "id": myElemId, "rel": myElemTextId }),
+                myText = myCanvas.text(g2, pConfElement.text.position.x, pConfElement.text.position.y, pConfElement.text.value, { "id": myElemTextId, "rel": myElemId });
+            // Update serialization
+            if (!gIsImporting) {
+                gCurrentConf.elements.push(pConfElement);
+            }
+            $(myImage).addClass("movable").addClass("hasMenuElement");
+            $(myText).addClass("movable").addClass("hasMenuElement").addClass(pConfElement.text.position.rel);
+            $(myImage).add($(myText)).on("mouseenter", function(e) {
+                if (!$(this).hasClass("moving") && myDraggedElement === null) {
+                    myContextMenuElement.css("top", ($(myImage).attr("y") * 1 + myCanvasContainer[0].offsetTop + 15) + "px")
+                        .css("left", (($(myImage).attr("x") * 1) + myCanvasContainer[0].offsetLeft + 20) + "px")
+                        .attr("rel", $(myImage).attr("id"));
+                    // Udpate context menu with element state
+                    var myTextTmp = $(myText),
+                        myLinksTextPosition = myContextMenuElement.find(".textPosition").removeClass("selected");
+                    // TODO: Fix weird bug: myLinksTextPosition.find(".textPosition.top") is not working...
+                    if (myTextTmp.hasClass("top")) {
+                        $(myLinksTextPosition[0]).addClass("selected");
+                    } else if (myTextTmp.hasClass("right")) {
+                        $(myLinksTextPosition[1]).addClass("selected");
+                    } else if (myTextTmp.hasClass("bottom")) {
+                        $(myLinksTextPosition[2]).addClass("selected");
+                    } else {
+                        $(myLinksTextPosition[3]).addClass("selected");
+                    }
+                    myContextMenuElement.show();
+                    // Keep menu open for 200ms
+                    preventClosingContextMenu = true;
+                    timeoutIdContextMenuElement = window.setTimeout(function() {
+                        preventClosingContextMenu = false;
+                    }, 200);
+                }
+            }).on("mouseleave", function(e) {
+                if (!preventClosingContextMenu) {
+                    myContextMenuElement.hide();
+                }
+            });
+        };
+
         $("#menu a").click(function(e) {
             e.preventDefault();
         });
@@ -68,10 +97,6 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             e.stopImmediatePropagation();
             e.preventDefault();
         });
-        var myCanvasContainer = $("#mapContainer"),
-            myContextMenuElement = $("#contextMenuElement"),
-            preventClosingContextMenu = false,
-            timeoutIdContextMenuElement = 0;
         // Manage context menus
         myContextMenuElement.on("mouseenter", function(e) {
             preventClosingContextMenu = true;
@@ -195,59 +220,21 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                             var elementType = myItemProps[3],
                                 elementTeam = myItemProps[4],
                                 myElem = gElements[elementType]["team" + elementTeam],
-                                myCanvas = myCanvasContainer.svg().svg("get"),
-                                g1 = myCanvasContainer.find("#elementsOverlay").svg(),
-                                g2 = myCanvasContainer.find("#textsOverlay").svg(),
-                                myElemId = "element_" + elementType + "_" + elementTeam + "_" + gCountElems[elementType]++,
-                                myElemTextId = myElemId + "_text",
-                                myImage = myCanvas.image(g1, e.pageX - myCanvasContainer[0].offsetLeft - (myElem.size.x / 2), e.pageY - myCanvasContainer[0].offsetTop - (myElem.size.y / 2), myElem.size.x, myElem.size.y, "./res/" + gCurrentConf.game + "/elements/" + myElem.file, { "id": myElemId, "rel": myElemTextId }),
-                                myText = myCanvas.text(g2, e.pageX - myCanvasContainer[0].offsetLeft + (myElem.size.x / 2), e.pageY - myCanvasContainer[0].offsetTop + 7, selectedItem.text() + " " + gCountElems[elementType], { "id": myElemTextId, "rel": myElemId }),
                                 myConfElement = {};
                             // Update serialization
                             myConfElement["type"] = elementType;
                             myConfElement["team"] = elementTeam;
                             myConfElement["position"] = {};
-                            myConfElement.position["x"] = $(myImage).attr("x") * 1;
-                            myConfElement.position["y"] = $(myImage).attr("y") * 1;
+                            myConfElement.position["x"] = e.pageX - myCanvasContainer[0].offsetLeft - (myElem.size.x / 2);
+                            myConfElement.position["y"] = e.pageY - myCanvasContainer[0].offsetTop - (myElem.size.y / 2);
                             myConfElement["text"] = {};
-                            myConfElement.text["value"] = $(myText).text();
+                            myConfElement.text["value"] = selectedItem.text() + " " + gCountElems[elementType];
                             myConfElement.text["position"] = {};
                             myConfElement.text.position["rel"] = "right";
-                            myConfElement.text.position["x"] = $(myText).attr("x") * 1;
-                            myConfElement.text.position["y"] = $(myText).attr("y") * 1;
+                            myConfElement.text.position["x"] = e.pageX - myCanvasContainer[0].offsetLeft + (myElem.size.x / 2);
+                            myConfElement.text.position["y"] = e.pageY - myCanvasContainer[0].offsetTop + 7;
+                            addElement(myConfElement);
                             gCurrentConf.elements.push(myConfElement);
-                            $(myImage).addClass("movable").addClass("hasMenuElement");
-                            $(myText).addClass("movable").addClass("hasMenuElement").addClass("right");
-                            $(myImage).add($(myText)).on("mouseenter", function(e) {
-                                if (!$(this).hasClass("moving") && myDraggedElement === null) {
-                                    myContextMenuElement.css("top", ($(myImage).attr("y") * 1 + myCanvasContainer[0].offsetTop + 15) + "px")
-                                        .css("left", (($(myImage).attr("x") * 1) + myCanvasContainer[0].offsetLeft + 20) + "px")
-                                        .attr("rel", $(myImage).attr("id"));
-                                    // Udpate context menu with element state
-                                    var myTextTmp = $(myText),
-                                        myLinksTextPosition = myContextMenuElement.find(".textPosition").removeClass("selected");
-                                    // TODO: Fix weird bug: myLinksTextPosition.find(".textPosition.top") is not working...
-                                    if (myTextTmp.hasClass("top")) {
-                                        $(myLinksTextPosition[0]).addClass("selected");
-                                    } else if (myTextTmp.hasClass("right")) {
-                                        $(myLinksTextPosition[1]).addClass("selected");
-                                    } else if (myTextTmp.hasClass("bottom")) {
-                                        $(myLinksTextPosition[2]).addClass("selected");
-                                    } else {
-                                        $(myLinksTextPosition[3]).addClass("selected");
-                                    }
-                                    myContextMenuElement.show();
-                                    // Keep menu open for 200ms
-                                    preventClosingContextMenu = true;
-                                    timeoutIdContextMenuElement = window.setTimeout(function() {
-                                        preventClosingContextMenu = false;
-                                    }, 200);
-                                }
-                            }).on("mouseleave", function(e) {
-                                if (!preventClosingContextMenu) {
-                                    myContextMenuElement.hide();
-                                }
-                            });
                             break;
                         case "line":
                             break;
@@ -554,13 +541,18 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 $("#btnImport").click(function(e) {
                     e.stopImmediatePropagation();
                     e.preventDefault();
+                    gIsImporting = true;
                     var myConf = $.parseJSON(decodeURIComponent(escape(atob($("#txtImportExport").val()))));
                     $("#selGame").val(myConf.game).change();
                     window.setTimeout(function() {
                         $("#selMap").val(myConf.map).change();
                         window.setTimeout(function() {
                             $("#selMode").val(myConf.mode).change();
+                            for (var i = 0; i<myConf.elements.length; i++) {
+                                addElement(myConf.elements[i]);
+                            }
                             gCurrentConf = myConf;
+                            gIsImporting = false;
                         }, gIMPORT_TIMEOUT);
                     }, gIMPORT_TIMEOUT);
                 });
