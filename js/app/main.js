@@ -121,8 +121,8 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 myDraggedElementHeight = myDraggedElement.attr("height");
                 myDraggedElement = myDraggedElement.add($("#" + myDraggedElement.attr("rel")));
                 myDraggedElement.addClass("moving");
+                myContextMenuElement.hide();
             }
-            myContextMenuElement.hide();
         });
         myContextMenuElement.find(".delete").on("click", function(e) {
             e.stopImmediatePropagation();
@@ -257,7 +257,6 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                             myConfElement.text.position["x"] = e.pageX - myCanvasContainer[0].offsetLeft + (myElem.size.x / 2);
                             myConfElement.text.position["y"] = e.pageY - myCanvasContainer[0].offsetTop + 7;
                             addElement(myConfElement);
-                            gCurrentConf.elements.push(myConfElement);
                             break;
                         case "line":
                             break;
