@@ -111,8 +111,10 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             e.stopImmediatePropagation();
             e.preventDefault();
             // TODO: Handle text modify
-            var myText = $("#" + myContextMenuElement.attr("rel"));
-            myText = $("#" + myText.attr("rel"));
+            var myImage = $("#" + myContextMenuElement.attr("rel")),
+                myText = $("#" + myImage.attr("rel")),
+                myImagePosX = (myImage.attr("x") * 1),
+                myImageWidth = (myImage.attr("width") * 1);
             $("body>form").append("<div id=\"textEdit\" title=\"Modifier le texte\"><form><input type=\"text\" value=\"" + myText.text().replace(/\"/g, "&quot;") + "\" /></form></div>");
             $("#textEdit").dialog({
                 "resizable": false,
@@ -120,6 +122,14 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 "buttons": {
                     "Ok": function() {
                         myText.text($(this).find("input").val());
+                        myTextWidth = myText[0].getComputedTextLength();
+                        if (myText.hasClass("top")) {
+                            myText.attr("x", myImagePosX + (myImageWidth / 2) - (myTextWidth / 2));
+                        } else if (myText.hasClass("bottom")) {
+                            myText.attr("x", myImagePosX + (myImageWidth / 2) - (myTextWidth / 2));
+                        } else if (myText.hasClass("left")) {
+                            myText.attr("x", myImagePosX - myTextWidth);
+                        }
                         $(this).dialog("close");
                     },
                     "Annuler": function() {
@@ -127,6 +137,38 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     }
                 }
             });
+        });
+        myContextMenuElement.find(".textPosition").on("click", function(e) {
+            var myLink = $(this);
+            if (!myLink.hasClass("selected")) {
+                var myImage = $("#" + myContextMenuElement.attr("rel")),
+                    myText = $("#" + myImage.attr("rel")),
+                    myImagePosX = (myImage.attr("x") * 1),
+                    myImagePosY = (myImage.attr("y") * 1),
+                    myImageWidth = (myImage.attr("width") * 1),
+                    myImageHeight = (myImage.attr("height") * 1),
+                    myTextWidth = myText[0].getComputedTextLength();
+                myText.removeClass("top bottom left right");
+                if (myLink.hasClass("top")) {
+                    myText.attr("x", myImagePosX + (myImageWidth / 2) - (myTextWidth / 2));
+                    myText.attr("y", myImagePosY);
+                    myText.addClass("top");
+                } else if (myLink.hasClass("bottom")) {
+                    myText.attr("x", myImagePosX + (myImageWidth / 2) - (myTextWidth / 2));
+                    myText.attr("y", myImagePosY + myImageHeight + 10);
+                    myText.addClass("bottom");
+                } else if (myLink.hasClass("left")) {
+                    myText.attr("x", myImagePosX - myTextWidth);
+                    myText.attr("y", myImagePosY + (myImageHeight / 2) + 7);
+                    myText.addClass("left");
+                } else {
+                    myText.attr("x", myImagePosX + myImageWidth);
+                    myText.attr("y", myImagePosY + (myImageHeight / 2) + 7);
+                    myText.addClass("right");
+                }
+                myContextMenuElement.find(".textPosition").removeClass("selected");
+                myLink.addClass("selected");
+            }
         });
         myCanvasContainer.on("click", function(e) {
             e.stopImmediatePropagation();
@@ -143,36 +185,47 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 if (selectedItem.is("a")) {
                     var myItemProps = selectedItem.attr("href").split(/\//g),
                         i = 0;
-                    if (myItemProps[2] === "element") {
-                        var elementType = myItemProps[3],
-                            elementTeam = myItemProps[4],
-                            myElem = gElements[elementType]["team" + elementTeam],
-                            myCanvas = myCanvasContainer.svg().svg("get"),
-                            g1 = myCanvasContainer.find("#elementsOverlay").svg(),
-                            g2 = myCanvasContainer.find("#textsOverlay").svg(),
-                            myElemId = "element_" + elementType + "_" + elementTeam + "_" + gCountElems[elementType]++,
-                            myElemTextId = myElemId + "_text",
-                            myImage = myCanvas.image(g1, e.pageX - myCanvasContainer[0].offsetLeft - (myElem.size.x / 2), e.pageY - myCanvasContainer[0].offsetTop - (myElem.size.y / 2), myElem.size.x, myElem.size.y, "./res/" + gCurrentConf.game + "/elements/" + myElem.file, { "id": myElemId, "rel": myElemTextId }),
-                            myText = myCanvas.text(g2, e.pageX - myCanvasContainer[0].offsetLeft + (myElem.size.x / 2), e.pageY - myCanvasContainer[0].offsetTop + 7, selectedItem.text() + " " + gCountElems[elementType], { "id": myElemTextId, "rel": myElemId });
-                        $(myImage).addClass("movable").addClass("hasMenuElement");
-                        $(myText).addClass("movable").addClass("hasMenuElement");
-                        $(myImage).add($(myText)).on("mouseenter", function(e) {
-                            if (!$(this).hasClass("moving") && myDraggedElement === null) {
-                                myContextMenuElement.css("top", ($(myImage).attr("y") * 1 + myCanvasContainer[0].offsetTop + 25) + "px")
-                                    .css("left", ($(myImage).attr("x") * 1 + myCanvasContainer[0].offsetLeft + 30) + "px")
-                                    .attr("rel", $(myImage).attr("id"))
-                                    .show();
-                                // Keep menu open for 200ms
-                                preventClosingContextMenu = true;
-                                timeoutIdContextMenuElement = window.setTimeout(function() {
-                                    preventClosingContextMenu = false;
-                                }, 200);
-                            }
-                        }).on("mouseleave", function(e) {
-                            if (!preventClosingContextMenu) {
-                                myContextMenuElement.hide();
-                            }
-                        });
+                    switch (myItemProps[2]) {
+                        case "element":
+                            var elementType = myItemProps[3],
+                                elementTeam = myItemProps[4],
+                                myElem = gElements[elementType]["team" + elementTeam],
+                                myCanvas = myCanvasContainer.svg().svg("get"),
+                                g1 = myCanvasContainer.find("#elementsOverlay").svg(),
+                                g2 = myCanvasContainer.find("#textsOverlay").svg(),
+                                myElemId = "element_" + elementType + "_" + elementTeam + "_" + gCountElems[elementType]++,
+                                myElemTextId = myElemId + "_text",
+                                myImage = myCanvas.image(g1, e.pageX - myCanvasContainer[0].offsetLeft - (myElem.size.x / 2), e.pageY - myCanvasContainer[0].offsetTop - (myElem.size.y / 2), myElem.size.x, myElem.size.y, "./res/" + gCurrentConf.game + "/elements/" + myElem.file, { "id": myElemId, "rel": myElemTextId }),
+                                myText = myCanvas.text(g2, e.pageX - myCanvasContainer[0].offsetLeft + (myElem.size.x / 2), e.pageY - myCanvasContainer[0].offsetTop + 7, selectedItem.text() + " " + gCountElems[elementType], { "id": myElemTextId, "rel": myElemId });
+                            $(myImage).addClass("movable").addClass("hasMenuElement");
+                            $(myText).addClass("movable").addClass("hasMenuElement").addClass("right");
+                            $(myImage).add($(myText)).on("mouseenter", function(e) {
+                                if (!$(this).hasClass("moving") && myDraggedElement === null) {
+                                    myContextMenuElement.css("top", ($(myImage).attr("y") * 1 + myCanvasContainer[0].offsetTop + 15) + "px")
+                                        .css("left", (($(myImage).attr("x") * 1) + myCanvasContainer[0].offsetLeft + 20) + "px")
+                                        .attr("rel", $(myImage).attr("id"));
+                                    //myContextMenuElement.find("select.textPosition").val($(myText).hasClass("top") ? "top" : ($(myText).hasClass("top") ? "top" : ($(myText).hasClass("left") ? "left" : "right")));
+                                    myContextMenuElement.show();
+                                    // Keep menu open for 200ms
+                                    preventClosingContextMenu = true;
+                                    timeoutIdContextMenuElement = window.setTimeout(function() {
+                                        preventClosingContextMenu = false;
+                                    }, 200);
+                                }
+                            }).on("mouseleave", function(e) {
+                                if (!preventClosingContextMenu) {
+                                    myContextMenuElement.hide();
+                                }
+                            });
+                            break;
+                        case "line":
+                            break;
+                        case "zone":
+                            break;
+                        case "text":
+                            break;
+                        default:
+                            break;
                     }
                 }
             }
@@ -202,7 +255,9 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             }
         }).bind('keyup', function(){
             $(this).ColorPickerSetColor(this.value);
-        });;
+        });
+        // Append colorpicker overlay to edit panel in order to prevent hiding of panel
+        $(".colorpicker").detach().appendTo($("#menuEdit > div"));
         // Load global configuration
         $.getJSON("./config/config.json", {}, function(data) {
             gGames = data.games;

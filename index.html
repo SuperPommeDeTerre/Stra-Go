@@ -58,7 +58,13 @@
                             <aside class="flex-fluid">
                                 <fieldset id="lines">
                                     <legend>Lignes</legend>
-                                    <input id="colorSelectorLine" type="text" value="00FF00" />
+                                    <div class="lineSimple" />
+                                    <div class="lineArrow" />
+                                    <div class="lineDoubleArrow" />
+                                    <div class="lineStop" />
+                                    <div class="lineDoubleStop" />
+                                    <div class="lineStyle" />
+                                    <label>Couleur&nbsp;: <input id="colorSelectorLine" type="text" value="00FF00" /></label>
                                 </fieldset>
                             </aside>
                             <aside class="flex-fluid">
@@ -100,6 +106,10 @@
         <ul>
             <li><a href="/edit/move/element" class="move" title="D&eacute;placer l'&eacute;l&eacute;ment"><span>D&eacute;placer</span></a></li>
             <li><a href="/edit/modifytext/element" class="modifytext" title="Modifier le texte de l'&eacute;l&eacute;ment"><span>Modifier le texte</span></a></li>
+            <li><a href="/edit/positiontext/top" class="textPosition top" title="Placer le texte en haut de l'&eacute;l&eacute;ment"><span>Texte en haut</span></a></li>
+            <li><a href="/edit/positiontext/right" class="textPosition right selected" title="Placer le texte &agrave; droite de l'&eacute;l&eacute;ment"><span>Texte &agrave; droite</span></a></li>
+            <li><a href="/edit/positiontext/bottom" class="textPosition bottom" title="Placer le texte en bas de l'&eacute;l&eacute;ment"><span>Texte en bas</span></a></li>
+            <li><a href="/edit/positiontext/left" class="textPosition left" title="Placer le texte &agrave; gauche de l'&eacute;l&eacute;ment"><span>Texte &agrave; gauche</span></a></li>
             <li><a href="/edit/delete/element" class="delete" title="Supprimer l'&eacute;l&eacute;ment"><span>Supprimer</span></a></li>
         </ul>
     </div>

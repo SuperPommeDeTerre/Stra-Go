@@ -44,6 +44,7 @@ footer{
     text-decoration:none;
 }
 #menu select, #menu input, #menu option, #menu textarea, #menu ui-widget{color:#000}
+#menu .colorpicker input{color:#898989}
 #menu > ul{
     display:block;
     height:2.5em;
@@ -113,13 +114,24 @@ main{
 .element span{display:none}
 .moving{opacity:.5}
 input.overlay, textarea.overlay{border:1px dotted #FFF;background:transparent;}
-#contextMenuElement{position:absolute;display:none;border:1px solid #CCC;background:#666;opacity:.5}
+#contextMenuElement{position:absolute;display:none;border:1px solid #CCC;background:#666;opacity:.5;padding:2px;height:22px}
 #contextMenuElement:hover{opacity:1}
-#contextMenuElement ul{list-style:none;margin:0;padding:0;height:18px}
+#contextMenuElement *{font-size:.9em}
+#contextMenuElement label{color:#FFF;margin:-9px 0 0 0;padding:0}
+#contextMenuElement select{margin:-2px 0 0 0}
+#contextMenuElement ul{list-style:none;margin:0;padding:0}
 #contextMenuElement li{display:inline-block;margin:0;padding:0}
 #contextMenuElement a{display:block;width:16px;height:16px}
 #contextMenuElement a span{display:none}
 #contextMenuElement a.move{background:url('./icons/arrow_nsew.png') no-repeat left top}
 #contextMenuElement a.delete{background:url('./icons/cross.png') no-repeat left top}
 #contextMenuElement a.modifytext{background:url('./icons/text_signature.png') no-repeat left top}
+#contextMenuElement a.textPosition.top{background:url('./icons/text_padding_bottom.png') no-repeat left top}
+#contextMenuElement a.textPosition.top.selected{background:url('./icons/text_padding_bottom_faded.png') no-repeat left top}
+#contextMenuElement a.textPosition.right{background:url('./icons/text_padding_left.png') no-repeat left top}
+#contextMenuElement a.textPosition.right.selected{background:url('./icons/text_padding_left_faded.png') no-repeat left top}
+#contextMenuElement a.textPosition.bottom{background:url('./icons/text_padding_top.png') no-repeat left top}
+#contextMenuElement a.textPosition.bottom.selected{background:url('./icons/text_padding_top_faded.png') no-repeat left top}
+#contextMenuElement a.textPosition.left{background:url('./icons/text_padding_right.png') no-repeat left top}
+#contextMenuElement a.textPosition.left.selected{background:url('./icons/text_padding_right_faded.png') no-repeat left top}
 #dialog-confirm,#textEdit{display:none}
