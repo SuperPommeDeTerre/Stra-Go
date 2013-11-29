@@ -9,6 +9,7 @@ var gGames = null,
     myDraggedElementWidth = 0,
     myDraggedElementHeight = 0,
     gCountElems = {},
+    gCurrentElement = null,
     gIsImporting = false;
 
 // Constants
@@ -53,26 +54,32 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             if (!gIsImporting) {
                 gCurrentConf.elements.push(pConfElement);
             }
-            $(myImage).addClass("movable").addClass("hasMenuElement");
-            $(myText).addClass("movable").addClass("hasMenuElement").addClass(pConfElement.text.position.rel);
-            $(myImage).add($(myText)).on("mouseenter", function(e) {
+            myImage = $(myImage);
+            myText = $(myText);
+            myImage.addClass("movable").addClass("hasMenuElement");
+            myText.addClass("movable").addClass("hasMenuElement").addClass(pConfElement.text.position.rel);
+            myImage.add(myText).on("mouseenter", function(e) {
                 if (!$(this).hasClass("moving") && myDraggedElement === null) {
-                    myContextMenuElement.css("top", ($(myImage).attr("y") * 1 + myCanvasContainer[0].offsetTop + 15) + "px")
-                        .css("left", (($(myImage).attr("x") * 1) + myCanvasContainer[0].offsetLeft + 20) + "px")
-                        .attr("rel", $(myImage).attr("id"));
+                    myContextMenuElement.css("top", ((myImage.attr("y") * 1) + myCanvasContainer[0].offsetTop + 15) + "px")
+                        .css("left", ((myImage.attr("x") * 1) + myCanvasContainer[0].offsetLeft + 20) + "px")
+                        .attr("rel", myImage.attr("id"));
                     // Udpate context menu with element state
-                    var myTextTmp = $(myText),
-                        myLinksTextPosition = myContextMenuElement.find(".textPosition").removeClass("selected");
+                    var myLinksTextPosition = myContextMenuElement.find(".textPosition").removeClass("selected");
                     // TODO: Fix weird bug: myLinksTextPosition.find(".textPosition.top") is not working...
-                    if (myTextTmp.hasClass("top")) {
+                    if (myText.hasClass("top")) {
                         $(myLinksTextPosition[0]).addClass("selected");
-                    } else if (myTextTmp.hasClass("right")) {
+                        pConfElement.text.position.rel = "top";
+                    } else if (myText.hasClass("right")) {
                         $(myLinksTextPosition[1]).addClass("selected");
-                    } else if (myTextTmp.hasClass("bottom")) {
+                        pConfElement.text.position.rel = "right";
+                    } else if (myText.hasClass("bottom")) {
                         $(myLinksTextPosition[2]).addClass("selected");
+                        pConfElement.text.position.rel = "bottom";
                     } else {
                         $(myLinksTextPosition[3]).addClass("selected");
+                        pConfElement.text.position.rel = "left";
                     }
+                    gCurrentElement = pConfElement;
                     myContextMenuElement.show();
                     // Keep menu open for 200ms
                     preventClosingContextMenu = true;
@@ -152,13 +159,17 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 "buttons": {
                     "Ok": function() {
                         myText.text($(this).find("input").val());
+                        gCurrentElement.text.value = myText.text();
                         myTextWidth = myText[0].getComputedTextLength();
                         if (myText.hasClass("top")) {
                             myText.attr("x", myImagePosX + (myImageWidth / 2) - (myTextWidth / 2));
+                            gCurrentElement.text.position.x = myText.attr("x") * 1;
                         } else if (myText.hasClass("bottom")) {
                             myText.attr("x", myImagePosX + (myImageWidth / 2) - (myTextWidth / 2));
+                            gCurrentElement.text.position.x = myText.attr("x") * 1;
                         } else if (myText.hasClass("left")) {
                             myText.attr("x", myImagePosX - myTextWidth);
+                            gCurrentElement.text.position.x = myText.attr("x") * 1;
                         }
                         $(this).dialog("close");
                     },
@@ -182,18 +193,30 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 if (myLink.hasClass("top")) {
                     myText.attr("x", myImagePosX + (myImageWidth / 2) - (myTextWidth / 2));
                     myText.attr("y", myImagePosY);
+                    gCurrentElement.text.position.rel = "top";
+                    gCurrentElement.text.position.x = myText.attr("x") * 1;
+                    gCurrentElement.text.position.y = myText.attr("y") * 1;
                     myText.addClass("top");
                 } else if (myLink.hasClass("bottom")) {
                     myText.attr("x", myImagePosX + (myImageWidth / 2) - (myTextWidth / 2));
                     myText.attr("y", myImagePosY + myImageHeight + 10);
+                    gCurrentElement.text.position.rel = "bottom";
+                    gCurrentElement.text.position.x = myText.attr("x") * 1;
+                    gCurrentElement.text.position.y = myText.attr("y") * 1;
                     myText.addClass("bottom");
                 } else if (myLink.hasClass("left")) {
                     myText.attr("x", myImagePosX - myTextWidth);
                     myText.attr("y", myImagePosY + (myImageHeight / 2) + 7);
+                    gCurrentElement.text.position.rel = "left";
+                    gCurrentElement.text.position.x = myText.attr("x") * 1;
+                    gCurrentElement.text.position.y = myText.attr("y") * 1;
                     myText.addClass("left");
                 } else {
                     myText.attr("x", myImagePosX + myImageWidth);
                     myText.attr("y", myImagePosY + (myImageHeight / 2) + 7);
+                    gCurrentElement.text.position.rel = "right";
+                    gCurrentElement.text.position.x = myText.attr("x") * 1;
+                    gCurrentElement.text.position.y = myText.attr("y") * 1;
                     myText.addClass("right");
                 }
                 myContextMenuElement.find(".textPosition").removeClass("selected");
@@ -256,9 +279,13 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     if (elem.is("image")) {
                         elem.attr("x", e.pageX - myCanvasContainer[0].offsetLeft - (myDraggedElementWidth / 2));
                         elem.attr("y", e.pageY - myCanvasContainer[0].offsetTop - (myDraggedElementHeight / 2));
+                        gCurrentElement.position.x = elem.attr("x") * 1;
+                        gCurrentElement.position.y = elem.attr("y") * 1;
                     } else if (elem.is("text")) {
                         elem.attr("x", e.pageX - myCanvasContainer[0].offsetLeft + (myDraggedElementWidth / 2));
                         elem.attr("y", e.pageY - myCanvasContainer[0].offsetTop + 7);
+                        gCurrentElement.text.position.x = elem.attr("x") * 1;
+                        gCurrentElement.text.position.y = elem.attr("y") * 1;
                     }
                 });
             }
