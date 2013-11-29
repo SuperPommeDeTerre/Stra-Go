@@ -114,7 +114,7 @@ main{
 .element span{display:none}
 .moving{opacity:.5}
 input.overlay, textarea.overlay{border:1px dotted #FFF;background:transparent;}
-#contextMenuElement{position:absolute;display:none;border:1px solid #CCC;background:#666;opacity:.5;padding:2px;height:22px}
+#contextMenuElement{position:absolute;display:none;border:1px solid #999;background:#666;opacity:.5;padding:2px;height:22px}
 #contextMenuElement:hover{opacity:1}
 #contextMenuElement *{font-size:.9em}
 #contextMenuElement label{color:#FFF;margin:-9px 0 0 0;padding:0}
