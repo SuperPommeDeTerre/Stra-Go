@@ -50,14 +50,19 @@ function clickMovable(e) {
 define(["jquery", "jquery-ui", "jquery-svg"], function($) {
     $(function() {
         /*
+        // Chrome specific
         $.support.cors = true;
         $.ajaxPrefilter("json jsonp script", function(options) {
             options.crossDomain = true;
         });
+        // Handle HTML5 drag&drop
         $.event.props.push("dataTransfer");
         */
         $("#menu a").click(function(e) {
             e.preventDefault();
+        });
+        $("#menuShare").on("mouseenter", function(e) {
+            $("#txtImportExport").val(btoa(unescape(encodeURIComponent(JSON.stringify(gCurrentConf)))));
         });
         $(document).on("submit", "form", function(e) {
             e.stopImmediatePropagation();
@@ -196,7 +201,21 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                                 myElemId = "element_" + elementType + "_" + elementTeam + "_" + gCountElems[elementType]++,
                                 myElemTextId = myElemId + "_text",
                                 myImage = myCanvas.image(g1, e.pageX - myCanvasContainer[0].offsetLeft - (myElem.size.x / 2), e.pageY - myCanvasContainer[0].offsetTop - (myElem.size.y / 2), myElem.size.x, myElem.size.y, "./res/" + gCurrentConf.game + "/elements/" + myElem.file, { "id": myElemId, "rel": myElemTextId }),
-                                myText = myCanvas.text(g2, e.pageX - myCanvasContainer[0].offsetLeft + (myElem.size.x / 2), e.pageY - myCanvasContainer[0].offsetTop + 7, selectedItem.text() + " " + gCountElems[elementType], { "id": myElemTextId, "rel": myElemId });
+                                myText = myCanvas.text(g2, e.pageX - myCanvasContainer[0].offsetLeft + (myElem.size.x / 2), e.pageY - myCanvasContainer[0].offsetTop + 7, selectedItem.text() + " " + gCountElems[elementType], { "id": myElemTextId, "rel": myElemId }),
+                                myConfElement = {};
+                            // Update serialization
+                            myConfElement["type"] = elementType;
+                            myConfElement["team"] = elementTeam;
+                            myConfElement["position"] = {};
+                            myConfElement.position["x"] = $(myImage).attr("x") * 1;
+                            myConfElement.position["y"] = $(myImage).attr("y") * 1;
+                            myConfElement["text"] = {};
+                            myConfElement.text["value"] = $(myText).text();
+                            myConfElement.text["position"] = {};
+                            myConfElement.text.position["rel"] = "right";
+                            myConfElement.text.position["x"] = $(myText).attr("x") * 1;
+                            myConfElement.text.position["y"] = $(myText).attr("y") * 1;
+                            gCurrentConf.elements.push(myConfElement);
                             $(myImage).addClass("movable").addClass("hasMenuElement");
                             $(myText).addClass("movable").addClass("hasMenuElement").addClass("right");
                             $(myImage).add($(myText)).on("mouseenter", function(e) {
@@ -207,6 +226,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                                     // Udpate context menu with element state
                                     var myTextTmp = $(myText),
                                         myLinksTextPosition = myContextMenuElement.find(".textPosition").removeClass("selected");
+                                    // TODO: Fix weird bug: myLinksTextPosition.find(".textPosition.top") is not working...
                                     if (myTextTmp.hasClass("top")) {
                                         $(myLinksTextPosition[0]).addClass("selected");
                                     } else if (myTextTmp.hasClass("right")) {
@@ -400,13 +420,16 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     $("#mapDesc .mapName").text(gI18n.games[myGameToken].maps[myMapToken]);
                     $("#mapDesc .mapMetrics").text(myMapObj.size.x + "m x " + myMapObj.size.y + "m");
                     $("#mapDesc .mapSquareLength").text("(1px = 1m)");
-                    $("#txtImportExport").val(JSON.stringify(gCurrentConf));
                     var myCanvas = myCanvasContainer.svg().svg("get");
                     myCanvas.group(null, "elementsOverlay", {});
                     myCanvas.group(null, "linesOverlay", {});
                     myCanvas.group(null, "shapesOverlay", {});
                     myCanvas.group(null, "zonesOverlay", {});
                     myCanvas.group(null, "textsOverlay", {});
+                    gCurrentConf.elements = [];
+                    for (myElementToken in gElements) {
+                        gCountElems[myElementToken] = 0;
+                    }
                 });
                 $("#selMode").change(function(e) {
                     e.stopImmediatePropagation();
@@ -414,7 +437,6 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     gCurrentConf.mode = $(this).val();
                     $("#basesOverlay").remove();
                     $("#chkBases").change();
-                    $("#txtImportExport").val(JSON.stringify(gCurrentConf));
                 });
                 $("#chkGrid").change(function(e) {
                     var i = 0;
@@ -532,7 +554,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 $("#btnImport").click(function(e) {
                     e.stopImmediatePropagation();
                     e.preventDefault();
-                    var myConf = $.parseJSON($("#txtImportExport").val());
+                    var myConf = $.parseJSON(decodeURIComponent(escape(atob($("#txtImportExport").val()))));
                     $("#selGame").val(myConf.game).change();
                     window.setTimeout(function() {
                         $("#selMap").val(myConf.map).change();

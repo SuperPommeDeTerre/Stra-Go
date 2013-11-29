@@ -43,7 +43,8 @@ footer{
     color:#FFF;
     text-decoration:none;
 }
-#menu select, #menu input, #menu option, #menu textarea, #menu ui-widget{color:#000}
+#menu select, #menu input, #menu option, #menu textarea{color:#000}
+#menu .ui-widget,#menu .ui-button-text{color:#555}
 #menu .colorpicker input{color:#898989}
 #menu > ul{
     display:block;
@@ -70,6 +71,7 @@ footer{
 #menu .operation{padding:0 0 0 20px}
 #menu .operation.delete{background:url('./icons/delete.png') no-repeat left top}
 #menu .operation.select{background:url('./icons/layout.png') no-repeat left top}
+#txtImportExport{width:100%}
 fieldset{border:1px dotted #CCC}
 fieldset legend{font-size:0.9em}
 label{font-size:0.9em}
