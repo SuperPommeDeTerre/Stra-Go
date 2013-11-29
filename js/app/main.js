@@ -204,7 +204,18 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                                     myContextMenuElement.css("top", ($(myImage).attr("y") * 1 + myCanvasContainer[0].offsetTop + 15) + "px")
                                         .css("left", (($(myImage).attr("x") * 1) + myCanvasContainer[0].offsetLeft + 20) + "px")
                                         .attr("rel", $(myImage).attr("id"));
-                                    //myContextMenuElement.find("select.textPosition").val($(myText).hasClass("top") ? "top" : ($(myText).hasClass("top") ? "top" : ($(myText).hasClass("left") ? "left" : "right")));
+                                    // Udpate context menu with element state
+                                    var myTextTmp = $(myText),
+                                        myLinksTextPosition = myContextMenuElement.find(".textPosition").removeClass("selected");
+                                    if (myTextTmp.hasClass("top")) {
+                                        $(myLinksTextPosition[0]).addClass("selected");
+                                    } else if (myTextTmp.hasClass("right")) {
+                                        $(myLinksTextPosition[1]).addClass("selected");
+                                    } else if (myTextTmp.hasClass("bottom")) {
+                                        $(myLinksTextPosition[2]).addClass("selected");
+                                    } else {
+                                        $(myLinksTextPosition[3]).addClass("selected");
+                                    }
                                     myContextMenuElement.show();
                                     // Keep menu open for 200ms
                                     preventClosingContextMenu = true;
