@@ -242,21 +242,24 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                         case "element":
                             var elementType = myItemProps[3],
                                 elementTeam = myItemProps[4],
-                                myElem = gElements[elementType]["team" + elementTeam],
-                                myConfElement = {};
+                                myElem = gElements[elementType]["team" + elementTeam];
                             // Update serialization
-                            myConfElement["type"] = elementType;
-                            myConfElement["team"] = elementTeam;
-                            myConfElement["position"] = {};
-                            myConfElement.position["x"] = e.pageX - myCanvasContainer[0].offsetLeft - (myElem.size.x / 2);
-                            myConfElement.position["y"] = e.pageY - myCanvasContainer[0].offsetTop - (myElem.size.y / 2);
-                            myConfElement["text"] = {};
-                            myConfElement.text["value"] = selectedItem.text() + " " + gCountElems[elementType];
-                            myConfElement.text["position"] = {};
-                            myConfElement.text.position["rel"] = "right";
-                            myConfElement.text.position["x"] = e.pageX - myCanvasContainer[0].offsetLeft + (myElem.size.x / 2);
-                            myConfElement.text.position["y"] = e.pageY - myCanvasContainer[0].offsetTop + 7;
-                            addElement(myConfElement);
+                            addElement({
+                                "type": elementType,
+                                "team": elementTeam,
+                                "position": {
+                                    "x": e.pageX - myCanvasContainer[0].offsetLeft - (myElem.size.x / 2),
+                                    "y": e.pageY - myCanvasContainer[0].offsetTop - (myElem.size.y / 2)
+                                },
+                                "text": {
+                                    "value": selectedItem.text() + " " + gCountElems[elementType],
+                                    "position": {
+                                        "rel": "right",
+                                        "x": e.pageX - myCanvasContainer[0].offsetLeft + (myElem.size.x / 2),
+                                        "y": e.pageY - myCanvasContainer[0].offsetTop + 7
+                                    }
+                                }
+                            });
                             break;
                         case "line":
                             break;
