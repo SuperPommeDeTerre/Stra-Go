@@ -9,6 +9,7 @@ var gGames = null,
     myDraggedElementWidth = 0,
     myDraggedElementHeight = 0,
     gCountElems = {},
+    gCountTexts = 0,
     gCurrentElement = null,
     gIsImporting = false;
 
@@ -38,9 +39,11 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
         */
         $("#menuAbout > div").html("<p>" + $("header > h1").html() + "</p>");
         var myCanvasContainer = $("#mapContainer"),
+            myContextMenus = $(".contextMenu"),
             myContextMenuElement = $("#contextMenuElement"),
+            myContextMenuText = $("#contextMenuText"),
             preventClosingContextMenu = false,
-            timeoutIdContextMenuElement = 0;
+            timeoutIdContextMenu = 0;
 
         function addElement(pConfElement) {
             var myElem = gElements[pConfElement.type]["team" + pConfElement.team],
@@ -84,7 +87,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     myContextMenuElement.show();
                     // Keep menu open for 200ms
                     preventClosingContextMenu = true;
-                    timeoutIdContextMenuElement = window.setTimeout(function() {
+                    timeoutIdContextMenu = window.setTimeout(function() {
                         preventClosingContextMenu = false;
                     }, 200);
                 }
@@ -95,65 +98,159 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             });
         };
 
+        function addText(pConfText) {
+            var myCanvas = myCanvasContainer.svg().svg("get"),
+                g = myCanvasContainer.find("#textsOverlay").svg(),
+                myElemTextId = "text_" + gCountTexts++,
+                myText = myCanvas.text(g, pConfText.position.x, pConfText.position.y, pConfText.value, { "id": myElemTextId });
+            // Update serialization
+            myText = $(myText);
+            myText.on("mouseenter", function(e) {
+                if (!$(this).hasClass("moving") && myDraggedElement === null) {
+                    myContextMenuText.css("top", ((myText.attr("y") * 1) + myCanvasContainer[0].offsetTop) + "px")
+                        .css("left", ((myText.attr("x") * 1) + myCanvasContainer[0].offsetLeft) + "px")
+                        .attr("rel", myText.attr("id"));
+                    gCurrentElement = pConfText;
+                    myContextMenuText.show();
+                    // Keep menu open for 200ms
+                    preventClosingContextMenu = true;
+                    timeoutIdContextMenu = window.setTimeout(function() {
+                        preventClosingContextMenu = false;
+                    }, 200);
+                }
+            }).on("mouseleave", function(e) {
+                if (!preventClosingContextMenu) {
+                    myContextMenuText.hide();
+                }
+            });
+            if (!gIsImporting) {
+                gCurrentConf.texts.push(pConfText);
+            }
+        };
+
         $("#menu a").click(function(e) {
             e.preventDefault();
+        });
+        $("#menuEditElements > a,#menuEditTexts > a,#menuEditLines > a,#menuEditShapes > a").on("click", function(e) {
+            e.stopImmediatePropagation();
+            e.preventDefault();
+            var myLink = $(this),
+                isAlreadySelected = myLink.hasClass("selected"),
+                myLinks = $("#menu a.selected").removeClass("selected");
+            if (!isAlreadySelected) {
+                myLink.addClass("selected");
+                if (myLink.attr("rel")) {
+                    myLink.next().find("[rel=" + myLink.attr("rel") + "]").addClass("selected");
+                }
+            }
         });
         $("#menuEditElements > a").on("click", function(e) {
             e.stopImmediatePropagation();
             e.preventDefault();
-            $(this).attr("class", "").parent().find(".selected").removeClass("selected");
+            var myLink = $(this),
+                mySelectedElement = myLink.next().find(".selected").removeClass("selected");
+            myLink.removeClass("selected " + mySelectedElement.attr("rel")).removeAttr("rel");
         });
         $("#menuShare").on("mouseenter", function(e) {
             $("#txtImportExport").val(btoa(unescape(encodeURIComponent(JSON.stringify(gCurrentConf)))));
+        });
+        $("#menuEditTexts > a").on("click", function(e) {
+            e.preventDefault();
         });
         $(document).on("submit", "form", function(e) {
             e.stopImmediatePropagation();
             e.preventDefault();
         });
         // Manage context menus
-        myContextMenuElement.on("mouseenter", function(e) {
+        myContextMenus.on("mouseenter", function(e) {
             preventClosingContextMenu = true;
-            window.clearTimeout(timeoutIdContextMenuElement);
+            window.clearTimeout(timeoutIdContextMenu);
         }).on("mouseleave", function(e) {
             preventClosingContextMenu = false;
-            myContextMenuElement.hide();
+            myContextMenus.hide();
         });
-        myContextMenuElement.find(".move").on("click", function(e) {
+        myContextMenus.find(".move").on("click", function(e) {
             e.stopImmediatePropagation();
             e.preventDefault();
+            var myContextMenu = $(this).closest(".contextMenu");
             if (myDraggedElement === null) {
-                myDraggedElement = $("#" + myContextMenuElement.attr("rel"));
+                myDraggedElement = $("#" + myContextMenu.attr("rel"));
                 myDraggedElementWidth = myDraggedElement.attr("width");
                 myDraggedElementHeight = myDraggedElement.attr("height");
                 myDraggedElement = myDraggedElement.add($("#" + myDraggedElement.attr("rel")));
                 myDraggedElement.addClass("moving");
-                myContextMenuElement.hide();
+                myContextMenu.hide();
             }
         });
-        myContextMenuElement.find(".delete").on("click", function(e) {
+        myContextMenus.find(".delete").on("click", function(e) {
             e.stopImmediatePropagation();
             e.preventDefault();
+            var myContextMenu = $(this).closest(".contextMenu");
             $("#dialog-confirm").dialog({
                 "resizable": false,
                 "modal": true,
-                "buttons": {
-                    "Oui": function() {
-                        var myTmpElement = $("#" + myContextMenuElement.attr("rel"));
-                        myTmpElement = myTmpElement.add($("#" + myTmpElement.attr("rel")));
-                        myTmpElement.remove();
-                        myContextMenuElement.hide();
-                        $(this).dialog("close");
+                "buttons": [
+                    {
+                        "text": gI18n.buttons.yes,
+                        "click": function() {
+                            var myTmpElement = $("#" + myContextMenu.attr("rel"));
+                            myTmpElement = myTmpElement.add($("#" + myTmpElement.attr("rel")));
+                            myTmpElement.remove();
+                            myContextMenu.hide();
+                            // TODO: Remove object from global configuration
+                            $(this).dialog("close");
+                        }
                     },
-                    "Non": function() {
-                        $(this).dialog("close");
+                    {
+                        "text": gI18n.buttons.no,
+                        "click": function() {
+                            $(this).dialog("close");
+                        }
                     }
+                ]
+            });
+        });
+        myContextMenuText.find(".modifytext").on("click", function(e) {
+            e.stopImmediatePropagation();
+            e.preventDefault();
+            // Handle text modify
+            var myText = $("#" + myContextMenuText.attr("rel"));
+            $("body>form").append("<div id=\"textEdit\" title=\"Modifier le texte\"><form><input type=\"text\" value=\"" + myText.text().replace(/\"/g, "&quot;") + "\" /></form></div>");
+            $("#textEdit").dialog({
+                "resizable": false,
+                "modal": true,
+                "buttons": [
+                    {
+                        "text": gI18n.buttons.ok,
+                        "click": function() {
+                            if ($(this).find("input").val().trim().length === 0) {
+                                // The text is deleted if it's empty
+                                myText.remove();
+                                // TODO: Remove text from global configuration
+                                //gCurrentConf.texts.remove(gCurrentElement);
+                            } else {
+                                myText.text($(this).find("input").val());
+                                gCurrentElement.value = myText.text();
+                            }
+                            $(this).dialog("close");
+                        }
+                    },
+                    {
+                        "text": gI18n.buttons.cancel,
+                        "click": function() {
+                            $(this).dialog("close");
+                        }
+                    }
+                ],
+                "close": function(e) {
+                    $(this).remove();
                 }
             });
         });
         myContextMenuElement.find(".modifytext").on("click", function(e) {
             e.stopImmediatePropagation();
             e.preventDefault();
-            // TODO: Handle text modify
+            // Handle text modify
             var myImage = $("#" + myContextMenuElement.attr("rel")),
                 myText = $("#" + myImage.attr("rel")),
                 myImagePosX = (myImage.attr("x") * 1),
@@ -162,26 +259,35 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             $("#textEdit").dialog({
                 "resizable": false,
                 "modal": true,
-                "buttons": {
-                    "Ok": function() {
-                        myText.text($(this).find("input").val());
-                        gCurrentElement.text.value = myText.text();
-                        myTextWidth = myText[0].getComputedTextLength();
-                        if (myText.hasClass("top")) {
-                            myText.attr("x", myImagePosX + (myImageWidth / 2) - (myTextWidth / 2));
-                            gCurrentElement.text.position.x = myText.attr("x") * 1;
-                        } else if (myText.hasClass("bottom")) {
-                            myText.attr("x", myImagePosX + (myImageWidth / 2) - (myTextWidth / 2));
-                            gCurrentElement.text.position.x = myText.attr("x") * 1;
-                        } else if (myText.hasClass("left")) {
-                            myText.attr("x", myImagePosX - myTextWidth);
-                            gCurrentElement.text.position.x = myText.attr("x") * 1;
+                "buttons": [
+                    {
+                        "text": gI18n.buttons.ok,
+                        "click": function() {
+                            myText.text($(this).find("input").val());
+                            gCurrentElement.text.value = myText.text();
+                            myTextWidth = myText[0].getComputedTextLength();
+                            if (myText.hasClass("top")) {
+                                myText.attr("x", myImagePosX + (myImageWidth / 2) - (myTextWidth / 2));
+                                gCurrentElement.text.position.x = myText.attr("x") * 1;
+                            } else if (myText.hasClass("bottom")) {
+                                myText.attr("x", myImagePosX + (myImageWidth / 2) - (myTextWidth / 2));
+                                gCurrentElement.text.position.x = myText.attr("x") * 1;
+                            } else if (myText.hasClass("left")) {
+                                myText.attr("x", myImagePosX - myTextWidth);
+                                gCurrentElement.text.position.x = myText.attr("x") * 1;
+                            }
+                            $(this).dialog("close");
                         }
-                        $(this).dialog("close");
                     },
-                    "Annuler": function() {
-                        $(this).dialog("close");
+                    {
+                        "text": gI18n.buttons.cancel,
+                        "click": function() {
+                            $(this).dialog("close");
+                        }
                     }
+                ],
+                "close": function(e) {
+                    $(this).remove();
                 }
             });
         });
@@ -240,42 +346,50 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 return;
             }
             var selectedItem = $("#menuEditElements div .selected");
-            if (selectedItem.length > 0) {
-                if (selectedItem.is("a")) {
-                    var myItemProps = selectedItem.attr("href").split(/\//g),
-                        i = 0;
-                    switch (myItemProps[2]) {
-                        case "element":
-                            var elementType = myItemProps[3],
-                                elementTeam = myItemProps[4],
-                                myElem = gElements[elementType]["team" + elementTeam];
-                            // Update serialization
-                            addElement({
-                                "type": elementType,
-                                "team": elementTeam,
+            if (selectedItem.length === 0) {
+                selectedItem = $("#menu .selected");
+            }
+            if (selectedItem.is("a")) {
+                var myItemProps = selectedItem.attr("href").split(/\//g),
+                    i = 0;
+                switch (myItemProps[2]) {
+                    case "element":
+                        var elementType = myItemProps[3],
+                            elementTeam = myItemProps[4],
+                            myElem = gElements[elementType]["team" + elementTeam];
+                        // Update serialization
+                        addElement({
+                            "type": elementType,
+                            "team": elementTeam,
+                            "position": {
+                                "x": e.pageX - myCanvasContainer[0].offsetLeft - (myElem.size.x / 2),
+                                "y": e.pageY - myCanvasContainer[0].offsetTop - (myElem.size.y / 2)
+                            },
+                            "text": {
+                                "value": selectedItem.text() + " " + gCountElems[elementType],
                                 "position": {
-                                    "x": e.pageX - myCanvasContainer[0].offsetLeft - (myElem.size.x / 2),
-                                    "y": e.pageY - myCanvasContainer[0].offsetTop - (myElem.size.y / 2)
-                                },
-                                "text": {
-                                    "value": selectedItem.text() + " " + gCountElems[elementType],
-                                    "position": {
-                                        "rel": "right",
-                                        "x": e.pageX - myCanvasContainer[0].offsetLeft + (myElem.size.x / 2),
-                                        "y": e.pageY - myCanvasContainer[0].offsetTop + 7
-                                    }
+                                    "rel": "right",
+                                    "x": e.pageX - myCanvasContainer[0].offsetLeft + (myElem.size.x / 2),
+                                    "y": e.pageY - myCanvasContainer[0].offsetTop + 7
                                 }
-                            });
-                            break;
-                        case "line":
-                            break;
-                        case "zone":
-                            break;
-                        case "text":
-                            break;
-                        default:
-                            break;
-                    }
+                            }
+                        });
+                        break;
+                    case "line":
+                        break;
+                    case "zone":
+                        break;
+                    case "text":
+                        addText({
+                            "value": "Texte " + gCountTexts,
+                            "position": {
+                                "x": e.pageX - myCanvasContainer[0].offsetLeft,
+                                "y": e.pageY - myCanvasContainer[0].offsetTop
+                            }
+                        });
+                        break;
+                    default:
+                        break;
                 }
             }
         })
@@ -290,10 +404,19 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                         gCurrentElement.position.x = elem.attr("x") * 1;
                         gCurrentElement.position.y = elem.attr("y") * 1;
                     } else if (elem.is("text")) {
-                        elem.attr("x", e.pageX - myCanvasContainer[0].offsetLeft + (myDraggedElementWidth / 2));
-                        elem.attr("y", e.pageY - myCanvasContainer[0].offsetTop + 7);
-                        gCurrentElement.text.position.x = elem.attr("x") * 1;
-                        gCurrentElement.text.position.y = elem.attr("y") * 1;
+                        if (gCurrentElement.text) {
+                            // Attached text
+                            elem.attr("x", e.pageX - myCanvasContainer[0].offsetLeft + (myDraggedElementWidth / 2));
+                            elem.attr("y", e.pageY - myCanvasContainer[0].offsetTop + 7);
+                            gCurrentElement.text.position.x = elem.attr("x") * 1;
+                            gCurrentElement.text.position.y = elem.attr("y") * 1;
+                        } else {
+                            // Plain text
+                            elem.attr("x", e.pageX - myCanvasContainer[0].offsetLeft);
+                            elem.attr("y", e.pageY - myCanvasContainer[0].offsetTop);
+                            gCurrentElement.position.x = elem.attr("x") * 1;
+                            gCurrentElement.position.y = elem.attr("y") * 1;
+                        }
                     }
                 });
             }
@@ -318,22 +441,6 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             // Get i18n strings
             $.getJSON("./i18n/" + data.lang.default + "/i18n.json", {}, function(data) {
                 gI18n = data;
-                // Add contexts menus
-                /* Buggy...
-                myCanvasContainer.children("svg").contextMenu({
-                    "selector": ".movable",
-                    "callback": function(key, options) {
-                        window.console && console.log(m);
-                    },
-                    "items": {
-                        "copy": {"name": gI18n.contextmenu.element.copy, "icon": "copy"},
-                        "paste": {"name": "Paste", "icon": "paste"},
-                        "delete": {"name": gI18n.contextmenu.element.delete, "icon": "delete"},
-                        "sep1": "---------",
-                        "quit": {"name": "Quit", "icon": "quit"}
-                    }
-                });
-                */
                 // Add the games to the corresponding menu
                 var myGames = "",
                     myGameToken = null;
@@ -393,7 +500,9 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                             $("#menuEditElements > a").attr("class", "");
                             if (!$(this).hasClass("selected")) {
                                 $("#menuEditElements").find(".selected").removeClass("selected");
-                                $("#menuEditElements > a").addClass($(this).attr("rel") + " selected");
+                                $("#menuEditElements > a").addClass($(this).attr("rel") + " selected").attr("rel", $(this).attr("rel"));
+                            } else {
+                                $("#menuEditElements > a").removeAttr("rel");
                             }
                             $(this).toggleClass("selected");
                         });
@@ -454,6 +563,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     for (myElementToken in gElements) {
                         gCountElems[myElementToken] = 0;
                     }
+                    gCurrentConf.texts = [];
                 });
                 $("#selMode").change(function(e) {
                     e.stopImmediatePropagation();
@@ -584,9 +694,13 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     window.setTimeout(function() {
                         $("#selMap").val(myConf.map).change();
                         window.setTimeout(function() {
+                            var i = 0;
                             $("#selMode").val(myConf.mode).change();
-                            for (var i = 0; i<myConf.elements.length; i++) {
+                            for (i = 0; i<myConf.elements.length; i++) {
                                 addElement(myConf.elements[i]);
+                            }
+                            for (i = 0; i<myConf.texts.length; i++) {
+                                addText(myConf.texts[i]);
                             }
                             gCurrentConf = myConf;
                             gIsImporting = false;

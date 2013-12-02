@@ -23,6 +23,12 @@
             }
         }
     },
+    "buttons": {
+        "ok": "Ok",
+        "cancel": "Annuler",
+        "yes": "Oui",
+        "no": "Non"
+    },
     "edit": {
         "map": "Carte",
         "options": {
