@@ -90,7 +90,7 @@ footer{
 #txtImportExport{width:100%}
 fieldset{border:1px dotted #CCC}
 fieldset legend{font-size:0.9em}
-label{font-size:0.9em}
+label{font-size:0.9em;display:inline}
 details > summary{transition:color 1s;color:black}
 details[open] > summary{color:red}
 main{

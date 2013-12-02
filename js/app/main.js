@@ -157,6 +157,12 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
         $("#menuEditTexts > a").on("click", function(e) {
             e.preventDefault();
         });
+        $("#inverseTeams").on("change", function(e) {
+            var elemsTeam1 = myCanvasContainer.find(".team1"),
+                elemsTeam2 = myCanvasContainer.find(".team2");
+            elemsTeam1.removeClass("team1").addClass("team2");
+            elemsTeam2.removeClass("team2").addClass("team1");
+        });
         $(document).on("submit", "form", function(e) {
             e.stopImmediatePropagation();
             e.preventDefault();
@@ -499,7 +505,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                             e.preventDefault();
                             $("#menuEditElements > a").attr("class", "");
                             if (!$(this).hasClass("selected")) {
-                                $("#menuEditElements").find(".selected").removeClass("selected");
+                                $("#menu .selected").removeClass("selected");
                                 $("#menuEditElements > a").addClass($(this).attr("rel") + " selected").attr("rel", $(this).attr("rel"));
                             } else {
                                 $("#menuEditElements > a").removeAttr("rel");
