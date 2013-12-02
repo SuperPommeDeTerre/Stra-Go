@@ -412,8 +412,19 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     } else if (elem.is("text")) {
                         if (gCurrentElement.text) {
                             // Attached text
-                            elem.attr("x", e.pageX - myCanvasContainer[0].offsetLeft + (myDraggedElementWidth / 2));
-                            elem.attr("y", e.pageY - myCanvasContainer[0].offsetTop + 7);
+                            if (elem.hasClass("top")) {
+                                elem.attr("x", e.pageX - myCanvasContainer[0].offsetLeft - (myDraggedElementWidth / 2) + 12 - (elem[0].getComputedTextLength() / 2));
+                                elem.attr("y", e.pageY - myCanvasContainer[0].offsetTop - 12);
+                            } else if (elem.hasClass("bottom")) {
+                                elem.attr("x", e.pageX - myCanvasContainer[0].offsetLeft - (myDraggedElementWidth / 2) + 12 - (elem[0].getComputedTextLength() / 2));
+                                elem.attr("y", e.pageY - myCanvasContainer[0].offsetTop + 21);
+                            } else if (elem.hasClass("left")) {
+                                elem.attr("x", e.pageX - myCanvasContainer[0].offsetLeft - (myDraggedElementWidth / 2) - elem[0].getComputedTextLength());
+                                elem.attr("y", e.pageY - myCanvasContainer[0].offsetTop + 7);
+                            } else {
+                                elem.attr("x", e.pageX - myCanvasContainer[0].offsetLeft + (myDraggedElementWidth / 2));
+                                elem.attr("y", e.pageY - myCanvasContainer[0].offsetTop + 7);
+                            }
                             gCurrentElement.text.position.x = elem.attr("x") * 1;
                             gCurrentElement.text.position.y = elem.attr("y") * 1;
                         } else {
