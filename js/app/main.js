@@ -36,6 +36,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
         // Handle HTML5 drag&drop
         $.event.props.push("dataTransfer");
         */
+        $("#menuAbout > div").html("<p>" + $("header > h1").html() + "</p>");
         var myCanvasContainer = $("#mapContainer"),
             myContextMenuElement = $("#contextMenuElement"),
             preventClosingContextMenu = false,
@@ -96,6 +97,11 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
 
         $("#menu a").click(function(e) {
             e.preventDefault();
+        });
+        $("#menuEditElements > a").on("click", function(e) {
+            e.stopImmediatePropagation();
+            e.preventDefault();
+            $(this).attr("class", "").parent().find(".selected").removeClass("selected");
         });
         $("#menuShare").on("mouseenter", function(e) {
             $("#txtImportExport").val(btoa(unescape(encodeURIComponent(JSON.stringify(gCurrentConf)))));
@@ -233,7 +239,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 myDraggedElementHeight = 0;
                 return;
             }
-            var selectedItem = $("#menuEdit .selected");
+            var selectedItem = $("#menuEditElements div .selected");
             if (selectedItem.length > 0) {
                 if (selectedItem.is("a")) {
                     var myItemProps = selectedItem.attr("href").split(/\//g),
@@ -304,7 +310,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             $(this).ColorPickerSetColor(this.value);
         });
         // Append colorpicker overlay to edit panel in order to prevent hiding of panel
-        $(".colorpicker").detach().appendTo($("#menuEdit > div"));
+        $(".colorpicker").detach().appendTo($("#menuEditLines > div"));
         // Load global configuration
         $.getJSON("./config/config.json", {}, function(data) {
             gGames = data.games;
@@ -369,23 +375,25 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                         for (myElementToken in gElements) {
                             gCountElems[myElementToken] = 0;
                             if (gElements[myElementToken].team0) {
-                                myElements0 += "<li><a href=\"edit/add/element/" + myElementToken + "/0\" class=\"element " + myElementToken + "0\" title=\"" + gI18n.games[myGameToken].elements[myElementToken] + "\"><span>" + gI18n.games[myGameToken].elements[myElementToken] + "</span></a></li>";
+                                myElements0 += "<li><a href=\"edit/add/element/" + myElementToken + "/0\" class=\"element " + myElementToken + "0\" rel=\"" + myElementToken + "0\" title=\"" + gI18n.games[myGameToken].elements[myElementToken] + "\"><span>" + gI18n.games[myGameToken].elements[myElementToken] + "</span></a></li>";
                             }
                             if (gElements[myElementToken].team1) {
-                                myElements1 += "<li><a href=\"edit/add/element/" + myElementToken + "/1\" class=\"element " + myElementToken + "1\" title=\"" + gI18n.games[myGameToken].elements[myElementToken] + "\"><span>" + gI18n.games[myGameToken].elements[myElementToken] + "</span></a></li>";
+                                myElements1 += "<li><a href=\"edit/add/element/" + myElementToken + "/1\" class=\"element " + myElementToken + "1\" rel=\"" + myElementToken + "1\" title=\"" + gI18n.games[myGameToken].elements[myElementToken] + "\"><span>" + gI18n.games[myGameToken].elements[myElementToken] + "</span></a></li>";
                             }
                             if (gElements[myElementToken].team2) {
-                                myElements2 += "<li><a href=\"edit/add/element/" + myElementToken + "/2\" class=\"element " + myElementToken + "2\" title=\"" + gI18n.games[myGameToken].elements[myElementToken] + "\"><span>" + gI18n.games[myGameToken].elements[myElementToken] + "</span></a></li>";
+                                myElements2 += "<li><a href=\"edit/add/element/" + myElementToken + "/2\" class=\"element " + myElementToken + "2\" rel=\"" + myElementToken + "2\" title=\"" + gI18n.games[myGameToken].elements[myElementToken] + "\"><span>" + gI18n.games[myGameToken].elements[myElementToken] + "</span></a></li>";
                             }
                         }
                         // Clear old elements and add the new ones
                         $("#elements").find("legend").siblings().remove();
                         $("#elements").append("<section class=\"flex flex-h\"><aside class=\"flex-start\"><ul class=\"elements\">" + myElements0 + "</ul></aside><aside class=\"flex-fluid\"><ul class=\"elements\">" + myElements1 + "</ul></aside><aside class=\"flex-end\"><ul class=\"elements\">" + myElements2 + "</ul></aside></section>");
-                        $("#menuEdit").find(".element").click(function(e) {
+                        $("#menuEditElements").find(".element").click(function(e) {
                             e.stopImmediatePropagation();
                             e.preventDefault();
+                            $("#menuEditElements > a").attr("class", "");
                             if (!$(this).hasClass("selected")) {
-                                $("#menuEdit").find(".selected").removeClass("selected")
+                                $("#menuEditElements").find(".selected").removeClass("selected");
+                                $("#menuEditElements > a").addClass($(this).attr("rel") + " selected");
                             }
                             $(this).toggleClass("selected");
                         });

@@ -15,16 +15,12 @@
         <nav id="menu">
             <ul>
                 <li id="menuMap"><a href="map" title="S&eacute;lectionner une carte" data-i18n-key="menu.map"><span>Carte</span></a><div>
-                        <section class="flex flex-h">
-                            <aside class="flex-start">
                                 <fieldset>
                                     <legend data-i18n-key="edit.options.map">Carte</legend>
                                     <p><label for="selGame" data-i18n-key="menu.games">Jeu&nbsp;:</label> <select id="selGame" name="selGame"></select></p>
                                     <p><label for="selMap" data-i18n-key="menu.maps">Carte&nbsp;:</label> <select id="selMap" name="selMap"></select></p>
                                     <p><label for="selMode" data-i18n-key="menu.modes">Mode&nbsp;:</label> <select id="selMode" name="selMode"></select></p>
                                 </fieldset>
-                            </aside>
-                            <aside class="flex-end">
                                 <fieldset>
                                     <legend data-i18n-key="edit.options.label">Options</legend>
                                     <section class="flex flex-h">
@@ -45,44 +41,34 @@
                                         </aside>
                                     </section>
                                 </fieldset>
-                            </aside>
-                        </section>
+                        <p id="mapDesc"><span class="mapName"></span> <span class="mapMetrics"></span> <span class="mapSquareLength"></span></p>
                     </div></li>
-                <li id="menuEdit"><a href="./edit" title="&Eacute;diter la carte" data-i18n-key="menu.edit"><span>Edition</span></a><div>
-                        <section class="flex flex-h">
-                            <aside class="flex-start">
-                                <fieldset id="elements">
-                                    <legend>&Eacute;l&eacute;ments</legend>
-                                </fieldset>
-                            </aside>
-                            <aside class="flex-fluid">
-                                <fieldset id="lines">
-                                    <legend>Lignes</legend>
-                                    <div class="lineSimple" />
-                                    <div class="lineArrow" />
-                                    <div class="lineDoubleArrow" />
-                                    <div class="lineStop" />
-                                    <div class="lineDoubleStop" />
-                                    <div class="lineStyle" />
-                                    <label>Couleur&nbsp;: <input id="colorSelectorLine" type="text" value="00FF00" /></label>
-                                </fieldset>
-                            </aside>
-                            <aside class="flex-fluid">
-                                <fieldset id="zones">
-                                    <legend>Zones</legend>
-                                </fieldset>
-                            </aside>
-                            <aside class="flex-fluid">
-                                <fieldset id="shapes">
-                                    <legend>Formes</legend>
-                                </fieldset>
-                            </aside>
-                            <aside class="flex-end">
-                                <fieldset id="texts">
-                                    <legend>Textes</legend>
-                                </fieldset>
-                            </aside>
-                        </section>
+                <li id="menuEditElements"><a href="./edit" title="&Eacute;diter les &eacute;l&eacute;ments" data-i18n-key="menu.edit.elements"><span>&Eacute;l&eacute;ments</span></a><div>
+                        <fieldset id="elements">
+                            <legend>&Eacute;l&eacute;ments</legend>
+                        </fieldset>
+                    </div></li>
+                <li id="menuEditLines"><a href="./edit" title="&Eacute;diter les lignes" data-i18n-key="menu.edit.lines"><span>Lignes</span></a><div>
+                        <fieldset id="lines">
+                            <legend>Lignes</legend>
+                            <div class="lineSimple" />
+                            <div class="lineArrow" />
+                            <div class="lineDoubleArrow" />
+                            <div class="lineStop" />
+                            <div class="lineDoubleStop" />
+                            <div class="lineStyle" />
+                            <label>Couleur&nbsp;: <input id="colorSelectorLine" type="text" value="00FF00" /></label>
+                        </fieldset>
+                    </div></li>
+                <li id="menuEditShapes"><a href="./edit" title="&Eacute;diter les formes" data-i18n-key="menu.edit.shapes"><span>Formes</span></a><div>
+                        <fieldset id="shapes">
+                            <legend>Formes</legend>
+                        </fieldset>
+                    </div></li>
+                <li id="menuEditTexts"><a href="./edit" title="&Eacute;diter les textes" data-i18n-key="menu.edit.texts"><span>Textes</span></a><div>
+                        <fieldset id="shapes">
+                            <legend>Textes</legend>
+                        </fieldset>
                     </div></li>
                 <li id="menuShare"><a href="share" title="Partager des strat&eacute;gies"><span>Partager</span></a><div>
                         <section class="flex flex-h">
@@ -95,9 +81,9 @@
                             </aside>
                         </section>
                     </div></li>
+                <li id="menuAbout"><a href="about" title="A propos"><span>A propos</span></a><div></div></li>
             </ul>
         </nav>
-        <p id="mapDesc"><span class="mapName"></span> <span class="mapMetrics"></span> <span class="mapSquareLength"></span></p>
     </header>
     <main>
         <div id="mapContainer"></div>
