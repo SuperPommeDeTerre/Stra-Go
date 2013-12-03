@@ -27,7 +27,7 @@ var gDECAL_GRID = 20,
  * Main function
  */
 define(["jquery", "jquery-ui", "jquery-svg"], function($) {
-    $(function() {
+    $(document).ready(function() {
         /*
         // Chrome specific
         $.support.cors = true;
@@ -42,6 +42,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             myContextMenus = $(".contextMenu"),
             myContextMenuElement = $("#contextMenuElement"),
             myContextMenuText = $("#contextMenuText"),
+            myContextMenuShape = $("#contextMenuShape"),
             preventClosingContextMenu = false,
             timeoutIdContextMenu = 0;
 
@@ -54,10 +55,6 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 myElemTextId = myElemId + "_text",
                 myImage = myCanvas.image(g1, pConfElement.position.x, pConfElement.position.y, myElem.size.x, myElem.size.y, "./res/" + gCurrentConf.game + "/elements/" + myElem.file, { "id": myElemId, "rel": myElemTextId }),
                 myText = myCanvas.text(g2, pConfElement.text.position.x, pConfElement.text.position.y, pConfElement.text.value, { "id": myElemTextId, "rel": myElemId });
-            // Update serialization
-            if (!gIsImporting) {
-                gCurrentConf.elements.push(pConfElement);
-            }
             myImage = $(myImage);
             myText = $(myText);
             myImage.addClass("movable").addClass("hasMenuElement");
@@ -96,6 +93,11 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     myContextMenuElement.hide();
                 }
             });
+            // Update serialization
+            if (!gIsImporting) {
+                gCurrentConf.elements.push(pConfElement);
+            }
+            myImage.data("index",  gCurrentConf.elements.length - 1);
         };
 
         function addText(pConfText) {
@@ -103,7 +105,6 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 g = myCanvasContainer.find("#textsOverlay").svg(),
                 myElemTextId = "text_" + gCountTexts++,
                 myText = myCanvas.text(g, pConfText.position.x, pConfText.position.y, pConfText.value, { "id": myElemTextId });
-            // Update serialization
             myText = $(myText);
             myText.on("mouseenter", function(e) {
                 if (!$(this).hasClass("moving") && myDraggedElement === null) {
@@ -123,9 +124,11 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     myContextMenuText.hide();
                 }
             });
+            // Update serialization
             if (!gIsImporting) {
                 gCurrentConf.texts.push(pConfText);
             }
+            myText.data("index",  gCurrentConf.texts.length - 1);
         };
 
         $("#menu a").click(function(e) {
@@ -156,6 +159,26 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
         });
         $("#menuEditTexts > a").on("click", function(e) {
             e.preventDefault();
+        });
+        myContextMenuText.find(".smallertext").on("click", function(e) {
+            var myText = $("#" + myContextMenuText.attr("rel")),
+                myFontSize = myText.css("font-size");
+            if (myFontSize) {
+                myFontSize = myFontSize.split(/px/g)[0] * 1;
+            } else {
+                myFontSize = 16;
+            }
+            myText.css("font-size", (myFontSize - 2) + "px");
+        });
+        myContextMenuText.find(".biggertext").on("click", function(e) {
+            var myText = $("#" + myContextMenuText.attr("rel")),
+                myFontSize = myText.css("font-size");
+            if (myFontSize) {
+                myFontSize = myFontSize.split(/px/g)[0] * 1;
+            } else {
+                myFontSize = 16;
+            }
+            myText.css("font-size", (myFontSize + 2) + "px");
         });
         $("#inverseTeams").on("change", function(e) {
             var elemsTeam1 = myCanvasContainer.find(".team1"),
@@ -199,11 +222,32 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     {
                         "text": gI18n.buttons.yes,
                         "click": function() {
-                            var myTmpElement = $("#" + myContextMenu.attr("rel"));
-                            myTmpElement = myTmpElement.add($("#" + myTmpElement.attr("rel")));
-                            myTmpElement.remove();
+                            if (myContextMenu.is("#contextMenuElement")) {
+                                var myTmpElement = $("#" + myContextMenu.attr("rel")),
+                                    myElementIndex = myTmpElement.data("index");
+                                myTmpElement = myTmpElement.add($("#" + myTmpElement.attr("rel")));
+                                myTmpElement.remove();
+                                // TODO: Remove object from global configuration
+                                gCurrentConf.elements.splice(myElementIndex, 1);
+                                $("#elementsOverlay image").each(function(i, el) {
+                                    if ($(el).data("index") > myElementIndex) {
+                                        $(el).data("index", $(el).data("index") - 1);
+                                    }
+                                });
+                            } else if (myContextMenu.is("#contextMenuText")) {
+                                var myTmpElement = $("#" + myContextMenu.attr("rel")),
+                                    myElementIndex = myTmpElement.data("index");
+                                myTmpElement.remove();
+                                // TODO: Remove object from global configuration
+                                gCurrentConf.texts.splice(myElementIndex, 1);
+                                $("#textsOverlay text:not([rel])").each(function(i, el) {
+                                    if ($(el).data("index") > myElementIndex) {
+                                        $(el).data("index", $(el).data("index") - 1);
+                                    }
+                                });
+                            }
+                            console.debug(JSON.stringify(gCurrentConf));
                             myContextMenu.hide();
-                            // TODO: Remove object from global configuration
                             $(this).dialog("close");
                         }
                     },
@@ -221,7 +265,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             e.preventDefault();
             // Handle text modify
             var myText = $("#" + myContextMenuText.attr("rel"));
-            $("body>form").append("<div id=\"textEdit\" title=\"Modifier le texte\"><form><input type=\"text\" value=\"" + myText.text().replace(/\"/g, "&quot;") + "\" /></form></div>");
+            $("body>form").append("<div id=\"textEdit\" title=\"" + gI18n.dialogs.modifytext.title + "\"><form><input type=\"text\" value=\"" + myText.text().replace(/\"/g, "&quot;") + "\" /></form></div>");
             $("#textEdit").dialog({
                 "resizable": false,
                 "modal": true,
@@ -261,7 +305,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 myText = $("#" + myImage.attr("rel")),
                 myImagePosX = (myImage.attr("x") * 1),
                 myImageWidth = (myImage.attr("width") * 1);
-            $("body>form").append("<div id=\"textEdit\" title=\"Modifier le texte\"><form><input type=\"text\" value=\"" + myText.text().replace(/\"/g, "&quot;") + "\" /></form></div>");
+            $("body>form").append("<div id=\"textEdit\" title=\"" + gI18n.dialogs.modifytext.title + "\"><form><input type=\"text\" value=\"" + myText.text().replace(/\"/g, "&quot;") + "\" /></form></div>");
             $("#textEdit").dialog({
                 "resizable": false,
                 "modal": true,
@@ -391,7 +435,8 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                             "position": {
                                 "x": e.pageX - myCanvasContainer[0].offsetLeft,
                                 "y": e.pageY - myCanvasContainer[0].offsetTop
-                            }
+                            },
+                            "style": {}
                         });
                         break;
                     default:

@@ -15,33 +15,33 @@
         <nav id="menu">
             <ul>
                 <li id="menuMap"><a href="map" title="S&eacute;lectionner une carte" data-i18n-key="menu.map"><span>Carte</span></a><div>
-                                <fieldset>
-                                    <legend data-i18n-key="edit.options.map">Carte</legend>
-                                    <p><label for="selGame" data-i18n-key="menu.games">Jeu&nbsp;:</label> <select id="selGame" name="selGame"></select></p>
-                                    <p><label for="selMap" data-i18n-key="menu.maps">Carte&nbsp;:</label> <select id="selMap" name="selMap"></select></p>
-                                    <p><label for="selMode" data-i18n-key="menu.modes">Mode&nbsp;:</label> <select id="selMode" name="selMode"></select></p>
-                                </fieldset>
-                                <fieldset>
-                                    <legend data-i18n-key="edit.options.label">Options</legend>
-                                    <p><label data-i18n-key="menu.inverseteams"><input type="checkbox" id="inverseTeams" name="inverseTeams" /> Inverser les &eacute;quipes</label></p>
-                                    <section class="flex flex-h">
-                                        <aside class="flex-start">
-                                            <p><label data-i18n-key="edit.options.grid"><input type="checkbox" name="chkGrid" id="chkGrid" checked="checked"> Grille</label></p>
-                                            <p><label data-i18n-key="edit.options.windrose"><input type="checkbox" name="chkDirections" id="chkDirections"> Rose des vents</label></p>
-                                            <p><label data-i18n-key="edit.options.bases"><input type="checkbox" name="chkBases" id="chkBases" checked="checked"> Bases</label></p>
-                                        </aside>
-                                        <aside class="flex-fluid">
-                                            <p><label data-i18n-key="edit.options.elements"><input type="checkbox" name="chkElements" id="chkElements" checked="checked"> &Eacute;l&eacute;ments</label></p>
-                                            <p><label data-i18n-key="edit.options.lines"><input type="checkbox" name="chkLines" id="chkLines" checked="checked"> Lignes</label></p>
-                                            <p><label data-i18n-key="edit.options.texts"><input type="checkbox" name="chkTexts" id="chkTexts" checked="checked"> Textes</label></p>
-                                        </aside>
-                                        <aside class="flex-end">
-                                            <p><label data-i18n-key="edit.options.zones"><input type="checkbox" name="chkZones" id="chkZones" checked="checked"> Zones</label></p>
-                                            <p><label data-i18n-key="edit.options.shapes"><input type="checkbox" name="chkShapes" id="chkShapes" checked="checked"> Formes</label></p>
-                                            <p><label data-i18n-key="edit.options.scale"><input type="checkbox" name="chkScale" id="chkScale"> &Eacute;chelle</label></p>
-                                        </aside>
-                                    </section>
-                                </fieldset>
+                        <fieldset>
+                            <legend data-i18n-key="edit.options.map">Carte</legend>
+                            <p><label for="selGame" data-i18n-key="menu.games">Jeu&nbsp;:</label> <select id="selGame" name="selGame"></select></p>
+                            <p><label for="selMap" data-i18n-key="menu.maps">Carte&nbsp;:</label> <select id="selMap" name="selMap"></select></p>
+                            <p><label for="selMode" data-i18n-key="menu.modes">Mode&nbsp;:</label> <select id="selMode" name="selMode"></select></p>
+                        </fieldset>
+                        <fieldset>
+                            <legend data-i18n-key="edit.options.label">Options</legend>
+                            <p><label data-i18n-key="menu.inverseteams"><input type="checkbox" id="inverseTeams" name="inverseTeams" /> Inverser les &eacute;quipes</label></p>
+                            <section class="flex flex-h">
+                                <aside class="flex-start">
+                                    <p><label data-i18n-key="edit.options.grid"><input type="checkbox" name="chkGrid" id="chkGrid" checked="checked"> Grille</label></p>
+                                    <p><label data-i18n-key="edit.options.windrose"><input type="checkbox" name="chkDirections" id="chkDirections"> Rose des vents</label></p>
+                                    <p><label data-i18n-key="edit.options.bases"><input type="checkbox" name="chkBases" id="chkBases" checked="checked"> Bases</label></p>
+                                </aside>
+                                <aside class="flex-fluid">
+                                    <p><label data-i18n-key="edit.options.elements"><input type="checkbox" name="chkElements" id="chkElements" checked="checked"> &Eacute;l&eacute;ments</label></p>
+                                    <p><label data-i18n-key="edit.options.lines"><input type="checkbox" name="chkLines" id="chkLines" checked="checked"> Lignes</label></p>
+                                    <p><label data-i18n-key="edit.options.texts"><input type="checkbox" name="chkTexts" id="chkTexts" checked="checked"> Textes</label></p>
+                                </aside>
+                                <aside class="flex-end">
+                                    <p><label data-i18n-key="edit.options.zones"><input type="checkbox" name="chkZones" id="chkZones" checked="checked"> Zones</label></p>
+                                    <p><label data-i18n-key="edit.options.shapes"><input type="checkbox" name="chkShapes" id="chkShapes" checked="checked"> Formes</label></p>
+                                    <p><label data-i18n-key="edit.options.scale"><input type="checkbox" name="chkScale" id="chkScale"> &Eacute;chelle</label></p>
+                                </aside>
+                            </section>
+                        </fieldset>
                         <p id="mapDesc"><span class="mapName"></span> <span class="mapMetrics"></span> <span class="mapSquareLength"></span></p>
                     </div></li>
                 <li id="menuEditElements"><a href="./edit" title="&Eacute;diter les &eacute;l&eacute;ments" data-i18n-key="menu.edit.elements"><span>&Eacute;l&eacute;ments</span></a><div>
@@ -52,37 +52,48 @@
                 <li id="menuEditLines"><a href="./edit" title="&Eacute;diter les lignes" data-i18n-key="menu.edit.lines"><span>Lignes</span></a><div>
                         <fieldset id="lines">
                             <legend>Lignes</legend>
-                            <div class="lineSimple" />
-                            <div class="lineArrow" />
-                            <div class="lineDoubleArrow" />
-                            <div class="lineStop" />
-                            <div class="lineDoubleStop" />
-                            <div class="lineStyle" />
-                            <label>Couleur&nbsp;: <input id="colorSelectorLine" type="text" value="00FF00" /></label>
+                            <p><label>Epaisseur&nbsp;: <select id="thicknessSelectorLine">
+                                    <option value="1px">1 pixel</option>
+                                    <option value="2px">2 pixels</option>
+                                    <option value="3px">3 pixels</option>
+                                    <option value="5px">5 pixels</option>
+                                </select></label></p>
+                            <p><label>Type&nbsp;: <select id="typeSelectorLine">
+                                    <option value="thick">Pleine</option>
+                                    <option value="dotted">Pointill&eacute;</option>
+                                    <option value="dashed">Tirets</option>
+                                </select></label></p>
+                            <p><label>Couleur&nbsp;: <input id="colorSelectorLine" type="text" value="00FF00" /></label></p>
                         </fieldset>
                     </div></li>
                 <li id="menuEditShapes"><a href="edit/add/shape" title="&Eacute;diter les formes" data-i18n-key="menu.edit.shapes"><span>Formes</span></a><div>
                         <fieldset id="shapes">
                             <legend>Formes</legend>
+                            <section class="flex flex-h">
+                                <aside class="flex-start">
+                                    <ul>
+                                        <li><a href="add/shape/circle" title="Cercle"><span>Cercle</span></a></li>
+                                        <li><a href="add/shape/ellipse" title="Ellipse"><span>Ellipse</span></a></li>
+                                        <li><a href="add/shape/rect" title="Rectangle"><span>Rectangle</span></a></li>
+                                        <li><a href="add/shape/poly" title="Polygone"><span>Polygone</span></a></li>
+                                    </ul>
+                                </aside>
+                            </section>
                         </fieldset>
                     </div></li>
-                <li id="menuEditTexts"><a href="edit/add/text" title="&Eacute;diter les textes" data-i18n-key="menu.edit.texts"><span>Textes</span></a><div>
-                        <fieldset id="shapes">
-                            <legend>Textes</legend>
-                        </fieldset>
-                    </div></li>
-                <li id="menuShare"><a href="share" title="Partager des strat&eacute;gies"><span>Partager</span></a><div>
+                <li id="menuEditTexts"><a href="edit/add/text" title="&Eacute;diter les textes" data-i18n-key="menu.edit.texts"><span>Textes</span></a></li>
+                <li id="menuShare"><a href="share" title="Partager des strat&eacute;gies" data-i18n-key="menu.share"><span>Partager</span></a><div>
                         <section class="flex flex-h">
                             <aside class="flex-fluid">
                                 <fieldset>
-                                    <legend>Import/Export</legend>
+                                    <legend data-i18n-key="menu.share.title">Import/Export</legend>
                                     <p><textarea id="txtImportExport"></textarea></p>
-                                    <p><button id="btnImport" type="submit">Importer</button></p>
+                                    <p><button id="btnImport" type="submit" data-i18n-key="menu.share.button.import">Importer</button></p>
                                 </fieldset>
                             </aside>
                         </section>
                     </div></li>
-                <li id="menuAbout"><a href="about" title="A propos"><span>A propos</span></a><div></div></li>
+                <li id="menuAbout"><a href="about" title="A propos" data-i18n-key="menu.about"><span>A propos</span></a><div></div></li>
             </ul>
         </nav>
     </header>
@@ -107,6 +118,14 @@
             <li><a href="/edit/modifytext/smaller" class="smallertext" title="Texte plus petit"><span>Texte plus petit</span></a></li>
             <li><a href="/edit/modifytext/bigger" class="biggertext" title="Texte plus grand"><span>Texte plus grand</span></a></li>
             <li><a href="/edit/delete/text" class="delete" title="Supprimer le texte"><span>Supprimer</span></a></li>
+        </ul>
+    </div>
+    <div id="contextMenuShape" class="contextMenu">
+        <ul>
+            <li><a href="/edit/shape/move" class="move" title="D&eacute;placer la forme"><span>D&eacute;placer</span></a></li>
+            <li><a href="/edit/shape/modifytext" class="modifytext" title="Modifier le texte"><span>Modifier le texte</span></a></li>
+            <li><a href="/edit/shape/rotate" class="rotate" title="Rotation"><span>Rotation</span></a></li>
+            <li><a href="/edit/shape/delete" class="delete" title="Supprimer le texte"><span>Supprimer</span></a></li>
         </ul>
     </div>
     <div id="dialog-confirm" title="&Ecirc;tes vous s&ucirc;r de vouloir effacer cet &eacute;l&eacute;ment&nbsp;?">
