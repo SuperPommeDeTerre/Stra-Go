@@ -5,6 +5,7 @@ var gGames = null,
     gElements = null,
     gCurrentConf = {},
     gI18n = null,
+    myResizedElement = null,
     myDraggedElement = null,
     myDraggedElementWidth = 0,
     myDraggedElementHeight = 0,
@@ -92,7 +93,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                         .attr("rel", myImage.attr("id"));
                     // Udpate context menu with element state
                     var myLinksTextPosition = myContextMenuElement.find(".textPosition").removeClass("selected");
-                    // TODO: Fix weird bug: myLinksTextPosition.find(".textPosition.top") is not working...
+                    // FIXME: Fix weird bug: myLinksTextPosition.find(".textPosition.top") is not working...
                     if (myText.hasClass("top")) {
                         $(myLinksTextPosition[0]).addClass("selected");
                         pConfElement.text.position.rel = "top";
@@ -215,6 +216,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                                         preventClosingContextMenu = false;
                                     }, 200);
                                 }).show();
+                            myResizeNSTop.parent().attr("rel", myShape.attr("id"));
                             gCurrentElement = pConfShape;
                             myShapeHandlers.show();
                         }
@@ -259,6 +261,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                                         preventClosingContextMenu = false;
                                     }, 200);
                                 }).show();
+                            myResizeNSTop.parent().attr("rel", myShape.attr("id"));
                             gCurrentElement = pConfShape;
                             myShapeHandlers.show();
                         }
@@ -283,20 +286,28 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
         });
         // TODO: Handle resize of shapes
         myResizeNSTop.on("click", function(e) {
+            myResizedElement = $("#" + $(this).parent().attr("rel")).addClass("resizing");
         });
         myResizeNSBottom.on("click", function(e) {
+            myResizedElement = $("#" + $(this).parent().attr("rel")).addClass("resizing");
         });
         myResizeEWLeft.on("click", function(e) {
+            myResizedElement = $("#" + $(this).parent().attr("rel")).addClass("resizing");
         });
         myResizeEWRight.on("click", function(e) {
+            myResizedElement = $("#" + $(this).parent().attr("rel")).addClass("resizing");
         });
         myResizeNWSETopLeft.on("click", function(e) {
+            myResizedElement = $("#" + $(this).parent().attr("rel")).addClass("resizing");
         });
         myResizeNWSEBottomRight.on("click", function(e) {
+            myResizedElement = $("#" + $(this).parent().attr("rel")).addClass("resizing");
         });
         myResizeSWNETopRight.on("click", function(e) {
+            myResizedElement = $("#" + $(this).parent().attr("rel")).addClass("resizing");
         });
         myResizeSWNEBottomLeft.on("click", function(e) {
+            myResizedElement = $("#" + $(this).parent().attr("rel")).addClass("resizing");
         });
         $("#menu a").click(function(e) {
             e.preventDefault();
@@ -381,18 +392,18 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                                 myStrokeColor = $("#colorSelectorShapeContour").val();
                                 myStrokeRadius = $("#shapeContourRadius").val(),
                                 myStrokeType = $("#shapeContourType").val();
-							gCurrentElement.style["fill-opacity"] = myFillOpacity;
-                            // FIX: Apply a fill color with a pattern
+                            gCurrentElement.style["fill-opacity"] = myFillOpacity;
+                            // FIXME: Apply a fill color with a pattern
                             if (myFillPattern !== "") {
-								gCurrentElement.style["fill"] = "url(#" + myFillPattern + ") #" + myFillColor;
+                                gCurrentElement.style["fill"] = "url(#" + myFillPattern + ") #" + myFillColor;
                             } else {
-								gCurrentElement.style["fill"] = "#" + myFillColor;
+                                gCurrentElement.style["fill"] = "#" + myFillColor;
                             }
-							gCurrentElement.style["stroke-width"] = myStrokeWidth + "px";
+                            gCurrentElement.style["stroke-width"] = myStrokeWidth + "px";
                             gCurrentElement.style["stroke"] = "#" + myStrokeColor;
                             if (myShape.is("rect")) {
-								gCurrentElement.rx = myStrokeRadius;
-								gCurrentElement.ry = myStrokeRadius;
+                                gCurrentElement.rx = myStrokeRadius;
+                                gCurrentElement.ry = myStrokeRadius;
                                 myShape.attr("rx", gCurrentElement.rx);
                                 myShape.attr("ry", gCurrentElement.ry);
                             }
@@ -412,7 +423,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                             myShape.css("fill-opacity", gCurrentElement.style["fill-opacity"]);
                             myShape.css("stroke-width", gCurrentElement.style["stroke-width"]);
                             myShape.css("stroke", gCurrentElement.style["stroke"]);
-							myShape.css("stroke-dasharray", gCurrentElement.style["stroke-dasharray"]);
+                            myShape.css("stroke-dasharray", gCurrentElement.style["stroke-dasharray"]);
                             $(this).dialog("close");
                         }
                     },
@@ -657,6 +668,10 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 myDraggedElementWidth = 0;
                 myDraggedElementHeight = 0;
                 return;
+            } else if (myResizedElement !== null) {
+                myResizedElement.removeClass("resizing");
+                myResizedElement = null;
+                return;
             }
             var selectedItem = $("#menuEditElements div .selected");
             if (selectedItem.length === 0) {
@@ -694,7 +709,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     case "line":
                         break;
                     case "shape":
-						var myShapeConf = {
+                        var myShapeConf = {
                             "type": myItemProps[3],
                             "position": {
                                 "x": e.pageX - myCanvasContainer[0].offsetLeft,
@@ -702,20 +717,20 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                             },
                             "style": {}
                         }
-						switch (myShapeConf.type) {
-							case "ellipse":
-								myShapeConf.rx = 25;
-								myShapeConf.ry = 25;
-								break;
-							case "polygon":
-								break;
-							case "rect":
-								myShapeConf.width = 50;
-								myShapeConf.height = 50;
-								myShapeConf.rx = 0;
-								myShapeConf.ry = 0;
-								break;
-						}
+                        switch (myShapeConf.type) {
+                            case "ellipse":
+                                myShapeConf.rx = 25;
+                                myShapeConf.ry = 25;
+                                break;
+                            case "polygon":
+                                break;
+                            case "rect":
+                                myShapeConf.width = 50;
+                                myShapeConf.height = 50;
+                                myShapeConf.rx = 0;
+                                myShapeConf.ry = 0;
+                                break;
+                        }
                         addShape(myShapeConf);
                         break;
                     case "text":
@@ -771,11 +786,28 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     } else if (elem.is("rect")) {
                         elem.attr("x", e.pageX - myCanvasContainer[0].offsetLeft - elem.attr("width") / 2);
                         elem.attr("y", e.pageY - myCanvasContainer[0].offsetTop - elem.attr("height") / 2);
+                        gCurrentElement.position.x = elem.attr("x") * 1;
+                        gCurrentElement.position.y = elem.attr("y") * 1;
                     } else if (elem.is("ellipse")) {
                         elem.attr("cx", e.pageX - myCanvasContainer[0].offsetLeft);
                         elem.attr("cy", e.pageY - myCanvasContainer[0].offsetTop);
+                        gCurrentElement.position.x = elem.attr("cx") * 1;
+                        gCurrentElement.position.y = elem.attr("cy") * 1;
                     }
                 });
+            } else if (myResizedElement !== null) {
+                // TODO: Handle resize
+                if (myResizedElement.is("rect")) {
+                    myResizedElement.attr("width", e.pageX - myCanvasContainer[0].offsetLeft - myResizedElement.attr("x"));
+                    myResizedElement.attr("height", e.pageY - myCanvasContainer[0].offsetTop - myResizedElement.attr("y"));
+                    gCurrentElement.width = myResizedElement.attr("width") * 1;
+                    gCurrentElement.height = myResizedElement.attr("height") * 1;
+                } else if (myResizedElement.is("ellipse")) {
+                    myResizedElement.attr("rx", e.pageX - myCanvasContainer[0].offsetLeft - (myResizedElement.attr("cx") * 1) - (myResizedElement.attr("rx") * 1));
+                    myResizedElement.attr("ry", e.pageY - myCanvasContainer[0].offsetTop - (myResizedElement.attr("cy") * 1) - (myResizedElement.attr("ry") * 1));
+                    gCurrentElement.rx = myResizedElement.attr("rx") * 1;
+                    gCurrentElement.ry = myResizedElement.attr("ry") * 1;
+                }
             }
         });
         $(".colorselector, #colorSelectorLine").ColorPicker({
