@@ -165,14 +165,14 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 myShapeHandles = null;
             switch (pConfShape.type) {
                 case "ellipse":
-                    myShape = myCanvas.ellipse(g, pConfShape.position.x, pConfShape.position.y, 25, 25, { "id": myElemId });
+                    myShape = myCanvas.ellipse(g, pConfShape.position.x, pConfShape.position.y, pConfShape.rx, pConfShape.ry, { "id": myElemId });
                     break;
                 case "polygon":
                     myShape = myCanvas.rect(g, pConfShape.position.x, pConfShape.position.y, 50, 50, $("#cornerRadiusSize").val() * 1, $("#cornerRadiusSize").val() * 1, { "id": myElemId });
                     break;
                 case "rect":
                 default:
-                    myShape = myCanvas.rect(g, pConfShape.position.x, pConfShape.position.y, 50, 50, $("#cornerRadiusSize").val() * 1, $("#cornerRadiusSize").val() * 1, { "id": myElemId });
+                    myShape = myCanvas.rect(g, pConfShape.position.x, pConfShape.position.y, pConfShape.width, pConfShape.height, pConfShape.rx, pConfShape.ry, { "id": myElemId });
                     break;
             }
             myShape = $(myShape);
@@ -376,15 +376,43 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                         "click": function() {
                             var myFillPattern = $("#shapeFillType").val(),
                                 myFillColor = $("#colorSelectorShapeFill").val(),
-                                myFillOpacity = $("#shapeFillOpacity").val();
-                            myShape.css("fill-opacity", myFillOpacity);
+                                myFillOpacity = $("#shapeFillOpacity").val(),
+                                myStrokeWidth = $("#shapeContourThickness").val(),
+                                myStrokeColor = $("#colorSelectorShapeContour").val();
+                                myStrokeRadius = $("#shapeContourRadius").val(),
+                                myStrokeType = $("#shapeContourType").val();
+							gCurrentElement.style["fill-opacity"] = myFillOpacity;
                             // FIX: Apply a fill color with a pattern
                             if (myFillPattern !== "") {
-                                myShape.css("fill", "url(#" + myFillPattern + ") #" + myFillColor);
+								gCurrentElement.style["fill"] = "url(#" + myFillPattern + ") #" + myFillColor;
                             } else {
-                                myShape.css("fill", "#" + myFillColor);
+								gCurrentElement.style["fill"] = "#" + myFillColor;
                             }
-                            // TODO: Finish applying styles to shape
+							gCurrentElement.style["stroke-width"] = myStrokeWidth + "px";
+                            gCurrentElement.style["stroke"] = "#" + myStrokeColor;
+                            if (myShape.is("rect")) {
+								gCurrentElement.rx = myStrokeRadius;
+								gCurrentElement.ry = myStrokeRadius;
+                                myShape.attr("rx", gCurrentElement.rx);
+                                myShape.attr("ry", gCurrentElement.ry);
+                            }
+                            switch (myStrokeType) {
+                                case "dashed":
+                                    gCurrentElement.style["stroke-dasharray"] = (myStrokeWidth * 3) + "," + (myStrokeWidth * 3);
+                                    break;
+                                case "dotted":
+                                    gCurrentElement.style["stroke-dasharray"] = myStrokeWidth + "," + myStrokeWidth;
+                                    break;
+                                case "solid":
+                                default:
+                                    gCurrentElement.style["stroke-dasharray"] = "";
+                                    break;
+                            }
+                            myShape.css("fill", gCurrentElement.style["fill"]);
+                            myShape.css("fill-opacity", gCurrentElement.style["fill-opacity"]);
+                            myShape.css("stroke-width", gCurrentElement.style["stroke-width"]);
+                            myShape.css("stroke", gCurrentElement.style["stroke"]);
+							myShape.css("stroke-dasharray", gCurrentElement.style["stroke-dasharray"]);
                             $(this).dialog("close");
                         }
                     },
@@ -666,14 +694,29 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     case "line":
                         break;
                     case "shape":
-                        addShape({
+						var myShapeConf = {
                             "type": myItemProps[3],
                             "position": {
                                 "x": e.pageX - myCanvasContainer[0].offsetLeft,
                                 "y": e.pageY - myCanvasContainer[0].offsetTop
                             },
                             "style": {}
-                        });
+                        }
+						switch (myShapeConf.type) {
+							case "ellipse":
+								myShapeConf.rx = 25;
+								myShapeConf.ry = 25;
+								break;
+							case "polygon":
+								break;
+							case "rect":
+								myShapeConf.width = 50;
+								myShapeConf.height = 50;
+								myShapeConf.rx = 0;
+								myShapeConf.ry = 0;
+								break;
+						}
+                        addShape(myShapeConf);
                         break;
                     case "text":
                         addText({
@@ -735,7 +778,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 });
             }
         });
-        $('#colorSelectorLine').ColorPicker({
+        $(".colorselector, #colorSelectorLine").ColorPicker({
             onSubmit: function(hsb, hex, rgb, el) {
                 $(el).val(hex);
                 $(el).ColorPickerHide();
@@ -747,7 +790,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             $(this).ColorPickerSetColor(this.value);
         });
         // Append colorpicker overlay to edit panel in order to prevent hiding of panel
-        $(".colorpicker").detach().appendTo($("#menuEditLines > div"));
+        //$(".colorpicker").detach().appendTo($("#menuEditLines > div"));
         // Load global configuration
         $.getJSON("./config/config.json", {}, function(data) {
             gGames = data.games;
@@ -1018,6 +1061,9 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                             }
                             for (i = 0; i<myConf.texts.length; i++) {
                                 addText(myConf.texts[i]);
+                            }
+                            for (i = 0; i<myConf.shapes.length; i++) {
+                                addShape(myConf.shapes[i]);
                             }
                             gCurrentConf = myConf;
                             gIsImporting = false;
