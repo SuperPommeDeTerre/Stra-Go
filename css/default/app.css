@@ -83,10 +83,15 @@ footer{
 #menuEditShapes > div{min-width:20em}
 #menuEditShapes ul{list-style:none;margin:0;padding:0}
 #menuEditShapes li{margin:0;padding:0}
+#menuEditShapes a.shape{display:block;width:16px;height:16px}
+#menuEditShapes a.shape span{display:none}
+#menuEditShapes a.shape.ellipse{background:url('./icons/layer-shape-ellipse.png') no-repeat center center}
+#menuEditShapes a.shape.rect{background:url('./icons/layer-shape.png') no-repeat center center}
+#menuEditShapes a.shape.polygon{background:url('./icons/layer-shape-polygon.png') no-repeat center center}
 #menuEditLines > a{background:url('./icons/arrow_right.png') no-repeat center center}
 #colorSelectorLine{width:4em}
 #menuEditLines > div{min-width:12em}
-#menuEditTexts > a{background:url('./icons/text_align_left.png') no-repeat center center}
+#menuEditTexts > a{background:url('./icons/edit.png') no-repeat center center}
 #menuShare div{min-width:20em}
 #menuShare > a{background:url('./icons/share.png') no-repeat center center}
 #menuShare textarea{height:15em}
@@ -127,7 +132,7 @@ main{text-align:center;padding:.25em}
 .element span{display:none}
 .moving{opacity:.5}
 input.overlay, textarea.overlay{border:1px dotted #FFF;background:transparent}
-.contextMenu{position:absolute;display:none;border:1px solid #999;background:#666;opacity:.5;padding:2px;height:22px}
+.contextMenu{position:absolute;display:none;border:1px solid #999;background:#FFF;opacity:.5;padding:2px;height:22px}
 .contextMenu:hover{opacity:1}
 .contextMenu *{font-size:.9em}
 .contextMenu label{color:#FFF;margin:-9px 0 0 0;padding:0}
@@ -138,9 +143,9 @@ input.overlay, textarea.overlay{border:1px dotted #FFF;background:transparent}
 .contextMenu a span{display:none}
 .contextMenu a.move{background:url('./icons/arrow_nsew.png') no-repeat left top}
 .contextMenu a.delete{background:url('./icons/cross.png') no-repeat left top}
-.contextMenu a.modifytext{background:url('./icons/text_signature.png') no-repeat left top}
-.contextMenu a.smallertext{background:url('./icons/bullet_toggle_minus.png') no-repeat left top}
-.contextMenu a.biggertext{background:url('./icons/bullet_toggle_plus.png') no-repeat left top}
+.contextMenu a.modifytext{background:url('./icons/edit.png') no-repeat left top}
+.contextMenu a.smallertext{background:url('./icons/edit-size-down.png') no-repeat left top}
+.contextMenu a.biggertext{background:url('./icons/edit-size-up.png') no-repeat left top}
 .contextMenu a.rotate{background:url('./icons/arrow_rotate_clockwise.png') no-repeat left top}
 .contextMenu a.textPosition.top{background:url('./icons/text_padding_bottom.png') no-repeat left top}
 .contextMenu a.textPosition.top.selected{background:url('./icons/text_padding_bottom_faded.png') no-repeat left top}

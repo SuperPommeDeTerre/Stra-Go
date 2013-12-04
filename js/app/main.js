@@ -50,6 +50,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             var myCanvas = myCanvasContainer.svg().svg("get"),
                 myDefs = myCanvas.defs(),
                 myPattern = myCanvas.pattern(myDefs, "patternZone", 0, 0, 20, 20, {"patternUnits": "userSpaceOnUse"});
+            // Diagonal stroke pattern
             myCanvas.polygon(myPattern, [[0, 0], [0, 5], [5, 0]], {});
             myCanvas.polygon(myPattern, [[20, 20], [15, 20], [20, 15]], {});
             myCanvas.polygon(myPattern, [[15, 0], [20, 0], [20, 5], [5, 20], [0, 20], [0, 15]], {});
@@ -144,7 +145,19 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             var myCanvas = myCanvasContainer.svg().svg("get"),
                 g = myCanvasContainer.find("#shapesOverlay").svg(),
                 myElemId = "shape_" + gCountTexts++,
-                myShape = myCanvas.rect(g, pConfShape.position.x, pConfShape.position.y, 50, 50, $("#cornerRadiusSize").val() * 1, $("#cornerRadiusSize").val() * 1, { "id": myElemId });
+                myShape = null;
+            switch (pConfShape.type) {
+                case "ellipse":
+                    myShape = myCanvas.ellipse(g, pConfShape.position.x, pConfShape.position.y, 50, 75, { "id": myElemId });
+                    break;
+                case "polygon":
+                    myShape = myCanvas.rect(g, pConfShape.position.x, pConfShape.position.y, 50, 50, $("#cornerRadiusSize").val() * 1, $("#cornerRadiusSize").val() * 1, { "id": myElemId });
+                    break;
+                case "rect":
+                default:
+                    myShape = myCanvas.rect(g, pConfShape.position.x, pConfShape.position.y, 50, 50, $("#cornerRadiusSize").val() * 1, $("#cornerRadiusSize").val() * 1, { "id": myElemId });
+                    break;
+            }
             myShape = $(myShape);
             for (myStyle in pConfShape.style) {
                 myShape.css(myStyle, pConfShape.style[myStyle]);

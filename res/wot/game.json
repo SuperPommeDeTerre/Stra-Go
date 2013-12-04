@@ -2,78 +2,78 @@
     "elements": {
         "HT": {
             "team0": {
-                "file": "HT0.png",
+                "file": "HT0.jpg",
                 "size": { "x": 24, "y": 24 }
             },
             "team1": {
-                "file": "HT1.png",
+                "file": "HT1.jpg",
                 "size": { "x": 24, "y": 24 }
             },
             "team2": {
-                "file": "HT2.png",
+                "file": "HT2.jpg",
                 "size": { "x": 24, "y": 24 }
             }
         },
         "MT": {
             "team0": {
-                "file": "MT0.png",
+                "file": "MT0.jpg",
                 "size": { "x": 24, "y": 24 }
             },
             "team1": {
-                "file": "MT1.png",
+                "file": "MT1.jpg",
                 "size": { "x": 24, "y": 24 }
             },
             "team2": {
-                "file": "MT2.png",
+                "file": "MT2.jpg",
                 "size": { "x": 24, "y": 24 }
             }
         },
         "LT": {
             "team0": {
-                "file": "LT0.png",
+                "file": "LT0.jpg",
                 "size": { "x": 24, "y": 24 }
             },
             "team1": {
-                "file": "LT1.png",
+                "file": "LT1.jpg",
                 "size": { "x": 24, "y": 24 }
             },
             "team2": {
-                "file": "LT2.png",
+                "file": "LT2.jpg",
                 "size": { "x": 24, "y": 24 }
             }
         },
         "TD": {
             "team0": {
-                "file": "TD0.png",
+                "file": "TD0.jpg",
                 "size": { "x": 24, "y": 24 }
             },
             "team1": {
-                "file": "TD1.png",
+                "file": "TD1.jpg",
                 "size": { "x": 24, "y": 24 }
             },
             "team2": {
-                "file": "TD2.png",
+                "file": "TD2.jpg",
                 "size": { "x": 24, "y": 24 }
             }
         },
         "SPG": {
             "team0": {
-                "file": "SPG0.png",
+                "file": "SPG0.jpg",
                 "size": { "x": 24, "y": 24 }
             },
             "team1": {
-                "file": "SPG1.png",
+                "file": "SPG1.jpg",
                 "size": { "x": 24, "y": 24 }
             },
             "team2": {
-                "file": "SPG2.png",
+                "file": "SPG2.jpg",
                 "size": { "x": 24, "y": 24 }
             }
         }
     },
     "maps": {
         "Abbey": {
-            "file": "Abbey.png",
+            "file": "Abbey.jpg",
             "size": { "x": 1000, "y": 1000 },
             "modes": {
                 "standard": {
@@ -87,7 +87,7 @@
             }
         },
         "Airfield": {
-            "file": "Airfield.png",
+            "file": "Airfield.jpg",
             "size": { "x": 1000, "y": 1000 },
             "modes": {
                 "standard": {
@@ -101,7 +101,7 @@
             }
         },
         "ArcticRegion": {
-            "file": "Arctic%20Region.png",
+            "file": "Arctic%20Region.jpg",
             "size": { "x": 1000, "y": 1000 },
             "modes": {
                 "standard": {
@@ -115,12 +115,12 @@
             }
         },
         "AsiaGreatWall": {
-            "file": "Asia%20Great%20Wall.png",
+            "file": "Asia%20Great%20Wall.jpg",
             "size": { "x": 1000, "y": 1000 },
             "modes": [ "standard" ]
         },
         "Cliff": {
-            "file": "Cliff.png",
+            "file": "Cliff.jpg",
             "size": { "x": 1000, "y": 1000 },
             "modes": {
                 "standard": {
@@ -134,7 +134,7 @@
             }
         },
         "DragonRidge": {
-            "file": "Dragon%20Ridge.png",
+            "file": "Dragon%20Ridge.jpg",
             "size": { "x": 1000, "y": 1000 },
             "modes": {
                 "standard": {
@@ -148,7 +148,7 @@
             }
         },
         "ElHalluf": {
-            "file": "El%20Halluf.png",
+            "file": "El%20Halluf.jpg",
             "size": { "x": 1000, "y": 1000 },
             "modes": {
                 "standard": {
@@ -173,7 +173,7 @@
             }
         },
         "Ensk": {
-            "file": "Ensk.png",
+            "file": "Ensk.jpg",
             "size": { "x": 600, "y": 600 },
             "modes": {
                 "standard": {
@@ -198,7 +198,7 @@
             }
         },
         "Erlenberg": {
-            "file": "Erlenberg.png",
+            "file": "Erlenberg.jpg",
             "size": { "x": 1000, "y": 1000 },
             "modes": {
                 "standard": {
@@ -222,7 +222,7 @@
             }
         },
         "FishermanBay": {
-            "file": "FishermanBay.png",
+            "file": "FishermanBay.jpg",
             "size": { "x": 1000, "y": 1000 },
             "modes": {
                 "standard": {
@@ -236,7 +236,7 @@
             }
         },
         "Fjord": {
-            "file": "Fjord.png",
+            "file": "Fjord.jpg",
             "size": { "x": 1000, "y": 1000 },
             "modes": {
                 "standard": {
@@ -250,7 +250,7 @@
             }
         },
         "Highway": {
-            "file": "Highway.png",
+            "file": "Highway.jpg",
             "size": { "x": 1000, "y": 1000 },
             "modes": {
                 "standard": {
@@ -264,7 +264,7 @@
             }
         },
         "Himmelsdorf": {
-            "file": "Himmelsdorf.png",
+            "file": "Himmelsdorf.jpg",
             "size": { "x": 700, "y": 700 },
             "modes": {
                 "standard": {
@@ -289,7 +289,7 @@
             }
         },
         "Karelia": {
-            "file": "Karelia.png",
+            "file": "Karelia.jpg",
             "size": { "x": 1000, "y": 1000 },
             "modes": {
                 "standard": {
@@ -311,7 +311,7 @@
             }
         },
         "Komarin": {
-            "file": "Komarin.png",
+            "file": "Komarin.jpg",
             "size": { "x": 800, "y": 800 },
             "modes": {
                 "standard": {
@@ -327,7 +327,7 @@
             }
         },
         "Lakeville": {
-            "file": "Lakeville.png",
+            "file": "Lakeville.jpg",
             "size": { "x": 800, "y": 800 },
             "modes": {
                 "standard": {
@@ -352,7 +352,7 @@
             }
         },
         "LiveOaks": {
-            "file": "Live%20Oaks.png",
+            "file": "Live%20Oaks.jpg",
             "size": { "x": 1000, "y": 1000 },
             "modes": {
                 "standard": {
@@ -366,7 +366,7 @@
             }
         },
         "Malinovka": {
-            "file": "Malinovka.png",
+            "file": "Malinovka.jpg",
             "size": { "x": 1000, "y": 1000 },
             "modes": {
                 "standard": {
@@ -402,7 +402,7 @@
             }
         },
         "Mines": {
-            "file": "Mines.png",
+            "file": "Mines.jpg",
             "size": { "x": 800, "y": 800 },
             "modes": {
                 "standard": {
@@ -427,7 +427,7 @@
             }
         },
         "MountainPass": {
-            "file": "Mountain%20Pass.png",
+            "file": "Mountain%20Pass.jpg",
             "size": { "x": 1000, "y": 1000 },
             "modes": {
                 "standard": {
@@ -441,7 +441,7 @@
             }
         },
         "Murovanka": {
-            "file": "Murovanka.png",
+            "file": "Murovanka.jpg",
             "size": { "x": 800, "y": 800 },
             "modes": {
                 "standard": {
@@ -466,7 +466,7 @@
             }
         },
         "Northwest": {
-            "file": "NorthWest.png",
+            "file": "NorthWest.jpg",
             "size": { "x": 800, "y": 800 },
             "modes": {
                 "standard": {
@@ -480,7 +480,7 @@
             }
         },
         "PearlRiver": {
-            "file": "Pearl%20River.png",
+            "file": "Pearl%20River.jpg",
             "size": { "x": 1000, "y": 1000 },
             "modes": {
                 "standard": {
@@ -494,7 +494,7 @@
             }
         },
         "Port": {
-            "file": "Port.png",
+            "file": "Port.jpg",
             "size": { "x": 830, "y": 830 },
             "modes": {
                 "standard": {
@@ -508,7 +508,7 @@
             }
         },
         "Prokhorovka": {
-            "file": "Prokhorovka.png",
+            "file": "Prokhorovka.jpg",
             "size": { "x": 1000, "y": 1000 },
             "modes": {
                 "standard": {
@@ -535,7 +535,7 @@
             }
         },
         "Province": {
-            "file": "Province.png",
+            "file": "Province.jpg",
             "size": { "x": 600, "y": 600 },
             "modes": {
                 "standard": {
@@ -549,7 +549,7 @@
             }
         },
         "Redshire": {
-            "file": "Redshire.png",
+            "file": "Redshire.jpg",
             "size": { "x": 1000, "y": 1000 },
             "modes": {
                 "standard": {
@@ -574,7 +574,7 @@
             }
         },
         "Ruinberg": {
-            "file": "Ruinberg.png",
+            "file": "Ruinberg.jpg",
             "size": { "x": 800, "y": 800 },
             "modes": {
                 "standard": {
@@ -599,7 +599,7 @@
             }
         },
         "SacredValley": {
-            "file": "Sacred%20Valley.png",
+            "file": "Sacred%20Valley.jpg",
             "size": { "x": 1000, "y": 1000 },
             "modes": {
                 "standard": {
@@ -624,7 +624,7 @@
             }
         },
         "SandRiver": {
-            "file": "Sand%20River.png",
+            "file": "Sand%20River.jpg",
             "size": { "x": 1000, "y": 1000 },
             "modes": {
                 "standard": {
@@ -659,7 +659,7 @@
             }
         },
         "SereneCoast": {
-            "file": "Serene%20Coast.png",
+            "file": "Serene%20Coast.jpg",
             "size": { "x": 1000, "y": 1000 },
             "modes": {
                 "standard": {
@@ -673,7 +673,7 @@
             }
         },
         "Severogosk": {
-            "file": "Severogosk.png",
+            "file": "Severogosk.jpg",
             "size": { "x": 1000, "y": 1000 },
             "modes": {
                 "standard": {
@@ -689,7 +689,7 @@
             }
         },
         "SiegfriedLine": {
-            "file": "Siegfried%20Line.png",
+            "file": "Siegfried%20Line.jpg",
             "size": { "x": 1000, "y": 1000 },
             "modes": {
                 "standard": {
@@ -727,7 +727,7 @@
             }
         },
         "SouthCoast": {
-            "file": "South%20Coast.png",
+            "file": "South%20Coast.jpg",
             "size": { "x": 1000, "y": 1000 },
             "modes": {
                 "standard": {
@@ -741,7 +741,7 @@
             }
         },
         "Steppes": {
-            "file": "Steppes.png",
+            "file": "Steppes.jpg",
             "size": { "x": 1000, "y": 1000 },
             "modes": {
                 "standard": {
@@ -766,7 +766,7 @@
             }
         },
         "Swamp": {
-            "file": "Swamp.png",
+            "file": "Swamp.jpg",
             "size": { "x": 1000, "y": 1000 },
             "modes": {
                 "standard": {
@@ -782,12 +782,12 @@
             }
         },
         "Tundra": {
-            "file": "Tundra.png",
+            "file": "Tundra.jpg",
             "size": { "x": 800, "y": 800 },
             "modes": [ "standard" ]
         },
         "Westfield": {
-            "file": "Westfield.png",
+            "file": "Westfield.jpg",
             "size": { "x": 1000, "y": 1000 },
             "modes": {
                 "standard": {
@@ -809,7 +809,7 @@
             }
         },
         "Widepark": {
-            "file": "Widepark.png",
+            "file": "Widepark.jpg",
             "size": { "x": 600, "y": 600 },
             "modes": {
                 "standard": {
