@@ -49,7 +49,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
         function initSvg() {
             var myCanvas = myCanvasContainer.svg().svg("get"),
                 myDefs = myCanvas.defs(),
-                myPattern = myCanvas.pattern(myDefs, "patternZone", 0, 0, 20, 20, {"patternUnits": "userSpaceOnUse"});
+                myPattern = myCanvas.pattern(myDefs, "patternZebra", 0, 0, 20, 20, {"patternUnits": "userSpaceOnUse"});
             // Diagonal stroke pattern
             myCanvas.polygon(myPattern, [[0, 0], [0, 5], [5, 0]], {});
             myCanvas.polygon(myPattern, [[20, 20], [15, 20], [20, 15]], {});
@@ -145,7 +145,8 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             var myCanvas = myCanvasContainer.svg().svg("get"),
                 g = myCanvasContainer.find("#shapesOverlay").svg(),
                 myElemId = "shape_" + gCountTexts++,
-                myShape = null;
+                myShape = null,
+                myShapeHandles = null;
             switch (pConfShape.type) {
                 case "ellipse":
                     myShape = myCanvas.ellipse(g, pConfShape.position.x, pConfShape.position.y, 50, 75, { "id": myElemId });
@@ -162,21 +163,59 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             for (myStyle in pConfShape.style) {
                 myShape.css(myStyle, pConfShape.style[myStyle]);
             }
-            myShape.css("fill", "url(#patternZone)");
-            myShape.on("mouseenter", function(e) {
-                if (!$(this).hasClass("moving") && myDraggedElement === null) {
-                    myContextMenuShape.css("top", ((myShape.attr("y") * 1) + myCanvasContainer[0].offsetTop) + "px")
-                        .css("left", ((myShape.attr("x") * 1) + myCanvasContainer[0].offsetLeft) + "px")
-                        .attr("rel", myShape.attr("id"));
-                    gCurrentElement = pConfShape;
-                    myContextMenuShape.show();
-                    // Keep menu open for 200ms
-                    preventClosingContextMenu = true;
-                    timeoutIdContextMenu = window.setTimeout(function() {
-                        preventClosingContextMenu = false;
-                    }, 200);
-                }
-            }).on("mouseleave", function(e) {
+            switch (pConfShape.type) {
+                case "polygon":
+                    break;
+                case "ellipse":
+                    break;
+                case "rect":
+                default:
+                    myShape.on("mouseenter", function(e) {
+                        if (!$(this).hasClass("moving") && myDraggedElement === null) {
+                            var myShapePositionX = myShape.attr("x") * 1,
+                                myShapePositionY = myShape.attr("y") * 1,
+                                myShapeWidth = myShape.attr("width") * 1,
+                                myShapeHeight = myShape.attr("height") * 1;
+                            $("#resizenstop").css("top", (myShapePositionY + myCanvasContainer[0].offsetTop - 8) + "px")
+                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + (myShapeWidth / 2) - 8) + "px");
+                            $("#resizensbottom").css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + myShapeHeight - 8) + "px")
+                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + (myShapeWidth / 2) - 8) + "px");
+                            $("#resizeewleft").css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + (myShapeHeight / 2) - 8) + "px")
+                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft - 8) + "px");
+                            $("#resizeewright").css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + (myShapeHeight / 2) - 8) + "px")
+                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + myShapeWidth - 8) + "px");
+                            $("#resizenwsetopleft").css("top", (myShapePositionY + myCanvasContainer[0].offsetTop - 8) + "px")
+                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft - 8) + "px");
+                            $("#resizenwsebottomright").css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + myShapeHeight - 8) + "px")
+                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + myShapeWidth - 8) + "px");
+                            $("#resizeswnetopright").css("top", (myShapePositionY + myCanvasContainer[0].offsetTop - 8) + "px")
+                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + myShapeWidth - 8) + "px");
+                            $("#resizeswnebottomleft").css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + myShapeHeight - 8) + "px")
+                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft - 8) + "px");
+                            $("#shapeoptions").css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + (myShapeHeight / 2) - 8) + "px")
+                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + (myShapeWidth / 2) - 8) + "px")
+                                .on("mouseenter", function(e) {
+                                    myContextMenuShape.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + (myShapeHeight / 2) - 8) + "px")
+                                        .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + (myShapeWidth / 2) - 8) + "px")
+                                        .attr("rel", myShape.attr("id"));
+                                    $(this).hide();
+                                    myContextMenuShape.show();
+                                    // Keep menu open for 200ms
+                                    preventClosingContextMenu = true;
+                                    timeoutIdContextMenu = window.setTimeout(function() {
+                                        preventClosingContextMenu = false;
+                                    }, 200);
+                                }).show();
+                            $("#shapeHandlers").show();
+                            gCurrentElement = pConfShape;
+                            $("#shapeHandlers").on("mouseleave", function() {
+                                $(this).hide();
+                            });
+                        }
+                    });
+                    break;
+            }
+            myShape.on("mouseleave", function(e) {
                 if (!preventClosingContextMenu) {
                     myContextMenuShape.hide();
                 }
@@ -249,6 +288,28 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 myFontSize = 16;
             }
             myText.css("font-size", (myFontSize + 2) + "px");
+        });
+        myContextMenuShape.find(".options").on("click", function(e) {
+            e.stopImmediatePropagation();
+            e.preventDefault();
+            $("#shapeOptions").dialog({
+                "resizable": false,
+                "modal": true,
+                "buttons": [
+                    {
+                        "text": gI18n.buttons.ok,
+                        "click": function() {
+                            $(this).dialog("close");
+                        }
+                    },
+                    {
+                        "text": gI18n.buttons.cancel,
+                        "click": function() {
+                            $(this).dialog("close");
+                        }
+                    }
+                ]
+            });
         });
         $("#inverseTeams").on("change", function(e) {
             var elemsTeam1 = myCanvasContainer.find(".team1"),
@@ -522,9 +583,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                                 "x": e.pageX - myCanvasContainer[0].offsetLeft,
                                 "y": e.pageY - myCanvasContainer[0].offsetTop
                             },
-                            "style": {
-                                "stroke-width": $("#thicknessSelectorShape").val()
-                            }
+                            "style": {}
                         });
                         break;
                     case "text":
@@ -542,7 +601,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 }
             }
         })
-        // Handle movement of items
+        // Handle movement, rotation and resize of items
         .on("mousemove", function(e) {
             if (myDraggedElement !== null) {
                 myDraggedElement.each(function(i, el) {
@@ -577,6 +636,9 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                             gCurrentElement.position.x = elem.attr("x") * 1;
                             gCurrentElement.position.y = elem.attr("y") * 1;
                         }
+                    } else if (elem.is("rect")) {
+                        elem.attr("x", e.pageX - myCanvasContainer[0].offsetLeft - elem.attr("width") / 2);
+                        elem.attr("y", e.pageY - myCanvasContainer[0].offsetTop - elem.attr("height") / 2);
                     }
                 });
             }

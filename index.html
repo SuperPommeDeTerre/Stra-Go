@@ -78,23 +78,6 @@
                                     </ul>
                                 </fieldset>
                             </aside>
-                            <aside class="flex-end">
-                                <fieldset id="shapeProperties">
-                                    <legend>Propri&eacute;t&eacute;s</legend>
-                                    <p><label>Epaisseur&nbsp;: <select id="thicknessSelectorShape">
-                                            <option value="1">1 pixel</option>
-                                            <option value="2">2 pixels</option>
-                                            <option value="3">3 pixels</option>
-                                            <option value="5">5 pixels</option>
-                                        </select></label></p>
-                                    <p class="rect"><label>Rayon&nbsp;: <select id="cornerRadiusSize">
-                                            <option value="0">Aucun</option>
-                                            <option value="2">2 pixels</option>
-                                            <option value="5">5 pixels</option>
-                                            <option value="10">10 pixels</option>
-                                        </select></label></p>
-                                </fieldset>
-                            </aside>
                         </section>
                     </div></li>
                 <li id="menuEditTexts"><a href="edit/add/text" title="&Eacute;diter les textes" data-i18n-key="menu.edit.texts"><span>Textes</span></a></li>
@@ -141,6 +124,7 @@
         <ul>
             <li><a href="/edit/shape/move" class="move" title="D&eacute;placer la forme"><span>D&eacute;placer</span></a></li>
             <li><a href="/edit/shape/rotate" class="rotate" title="Rotation"><span>Rotation</span></a></li>
+            <li><a href="/edit/shape/options" class="options" title="Options de la forme"><span>Options</span></a></li>
             <li><a href="/edit/shape/delete" class="delete" title="Supprimer la forme"><span>Supprimer</span></a></li>
         </ul>
     </div>
@@ -152,8 +136,57 @@
     <div id="dialog-confirm" title="Confirmation">
         <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Vous allez supprimer un &eacute;l&eacute;ment.<br />&Ecirc;tes-vous s&ucirc;r&nbsp;?</p>
     </div>
-	<div id="shapeOptions" title="Options de la forme">
-	</div>
+    <div id="shapeOptions" title="Options de la forme">
+        <fieldset>
+            <legend>Contour</legend>
+            <p><label>Couleur&nbsp;: <input id="colorSelectorShapeContour" class="colorselector" type="text" value="FFFFFF" /></label></p>
+            <p><label>Epaisseur&nbsp;: <select id="shapeContourThickness">
+                    <option value="1">1 pixel</option>
+                    <option value="2">2 pixels</option>
+                    <option value="3">3 pixels</option>
+                    <option value="5">5 pixels</option>
+                </select></label></p>
+            <p><label>Type de trait&nbsp;: <select id="shapeContourType">
+                    <option value="solid">Plein</option>
+                    <option value="dotted">Pointill&eacute;s</option>
+                    <option value="dashed">Tirets</option>
+                </select></label></p>
+            <p class="rect"><label>Rayon&nbsp;: <select id="shapeContourRadius">
+                    <option value="0">Aucun</option>
+                    <option value="2">2 pixels</option>
+                    <option value="5">5 pixels</option>
+                    <option value="10">10 pixels</option>
+                </select></label></p>
+        </fieldset>
+        <fieldset>
+            <legend>Remplissage</legend>
+            <p><label>Couleur&nbsp;: <input id="colorSelectorShapeFill" class="colorselector" type="text" value="000000" /></label></p>
+            <p><label>Type&nbsp;: <select id="shapeFillType">
+                    <option value="">Aucun</option>
+                    <option value="patternZebra">Zebra</option>
+                    <option value="patternChess">Damier</option>
+                    <option value="patternTriangle">Triangle</option>
+                </select></label></p>
+            <p><label>Opacit&eacute;&nbsp;: <select id="shapeFillType">
+                    <option value="1">100 %</option>
+                    <option value=".75">75 %</option>
+                    <option value=".5">50 %</option>
+                    <option value=".25">25 %</option>
+                    <option value="0">0 % (Invisible)</option>
+                </select></label></p>
+        </fieldset>
+    </div>
+    <div id="shapeHandlers">
+        <div class="resize ns" id="resizenstop"></div>
+        <div class="resize ns" id="resizensbottom"></div>
+        <div class="resize ew" id="resizeewleft"></div>
+        <div class="resize ew" id="resizeewright"></div>
+        <div class="resize nwse" id="resizenwsetopleft"></div>
+        <div class="resize nwse" id="resizenwsebottomright"></div>
+        <div class="resize swne" id="resizeswnetopright"></div>
+        <div class="resize swne" id="resizeswnebottomleft"></div>
+        <div class="shape options" id="shapeoptions"></div>
+    </div>
 </form>
 </body>
 </html>
