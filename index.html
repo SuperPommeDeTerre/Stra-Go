@@ -72,9 +72,9 @@
                                 <fieldset id="shapes">
                                     <legend>Formes</legend>
                                     <ul>
-                                        <li><a href="edit/add/shape/ellipse" title="Ellipse" class="shape ellipse"><span>Ellipse</span></a></li>
-                                        <li><a href="edit/add/shape/rect" title="Rectangle" class="shape rect"><span>Rectangle</span></a></li>
-                                        <li><a href="edit/add/shape/poly" title="Polygone" class="shape polygon"><span>Polygone</span></a></li>
+                                        <li><a href="edit/add/shape/ellipse" title="Ellipse" class="shape ellipse" rel="ellipse"><span>Ellipse</span></a></li>
+                                        <li><a href="edit/add/shape/rect" title="Rectangle" class="shape rect" rel="rect"><span>Rectangle</span></a></li>
+                                        <li><a href="edit/add/shape/poly" title="Polygone" class="shape polygon" rel="polygon"><span>Polygone</span></a></li>
                                     </ul>
                                 </fieldset>
                             </aside>
@@ -139,14 +139,14 @@
     <div id="shapeOptions" title="Options de la forme">
         <fieldset>
             <legend>Contour</legend>
-            <p><label>Couleur&nbsp;: <input id="colorSelectorShapeContour" class="colorselector" type="text" value="FFFFFF" /></label></p>
-            <p><label>Epaisseur&nbsp;: <select id="shapeContourThickness">
+            <p class="rect ellipse polygon"><label>Couleur&nbsp;: <input id="colorSelectorShapeContour" class="colorselector" type="text" value="FFFFFF" /></label></p>
+            <p class="rect ellipse polygon"><label>Epaisseur&nbsp;: <select id="shapeContourThickness">
                     <option value="1">1 pixel</option>
                     <option value="2">2 pixels</option>
                     <option value="3">3 pixels</option>
                     <option value="5">5 pixels</option>
                 </select></label></p>
-            <p><label>Type de trait&nbsp;: <select id="shapeContourType">
+            <p class="rect ellipse polygon"><label>Type de trait&nbsp;: <select id="shapeContourType">
                     <option value="solid">Plein</option>
                     <option value="dotted">Pointill&eacute;s</option>
                     <option value="dashed">Tirets</option>
@@ -160,14 +160,14 @@
         </fieldset>
         <fieldset>
             <legend>Remplissage</legend>
-            <p><label>Couleur&nbsp;: <input id="colorSelectorShapeFill" class="colorselector" type="text" value="000000" /></label></p>
-            <p><label>Type&nbsp;: <select id="shapeFillType">
+            <p class="rect ellipse polygon"><label>Couleur&nbsp;: <input id="colorSelectorShapeFill" class="colorselector" type="text" value="000000" /></label></p>
+            <p class="rect ellipse polygon"><label>Type&nbsp;: <select id="shapeFillType">
                     <option value="">Aucun</option>
                     <option value="patternZebra">Zebra</option>
                     <option value="patternChess">Damier</option>
                     <option value="patternTriangle">Triangle</option>
                 </select></label></p>
-            <p><label>Opacit&eacute;&nbsp;: <select id="shapeFillType">
+            <p class="rect ellipse polygon"><label>Opacit&eacute;&nbsp;: <select id="shapeFillOpacity">
                     <option value="1">100 %</option>
                     <option value=".75">75 %</option>
                     <option value=".5">50 %</option>
@@ -185,7 +185,7 @@
         <div class="resize nwse" id="resizenwsebottomright"></div>
         <div class="resize swne" id="resizeswnetopright"></div>
         <div class="resize swne" id="resizeswnebottomleft"></div>
-        <div class="shape options" id="shapeoptions"></div>
+        <div class="shape options" id="shapeoptionshandler"></div>
     </div>
 </form>
 </body>

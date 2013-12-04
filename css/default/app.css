@@ -82,11 +82,12 @@ footer{
 #menuEditShapes > a{background:url('./icons/shape_move_front.png') no-repeat center center}
 #menuEditShapes ul{list-style:none;margin:0;padding:0}
 #menuEditShapes li{margin:0;padding:0}
-#menuEditShapes a.shape{display:block;width:16px;height:16px}
+#menuEditShapes a.shape{display:block;width:24px;height:24px}
+#menuEditShapes a.shape.selected{border:1px solid #999}
 #menuEditShapes a.shape span{display:none}
-#menuEditShapes a.shape.ellipse{background:url('./icons/layer-shape-ellipse.png') no-repeat center center}
-#menuEditShapes a.shape.rect{background:url('./icons/layer-shape.png') no-repeat center center}
-#menuEditShapes a.shape.polygon{background:url('./icons/layer-shape-polygon.png') no-repeat center center}
+#menuEditShapes > a.ellipse,#menuEditShapes a.shape.ellipse{background:url('./icons/layer-shape-ellipse.png') no-repeat center center}
+#menuEditShapes > a.rect,#menuEditShapes a.shape.rect{background:url('./icons/layer-shape.png') no-repeat center center}
+#menuEditShapes > a.polygon,#menuEditShapes a.shape.polygon{background:url('./icons/layer-shape-polygon.png') no-repeat center center}
 #menuEditLines > a{background:url('./icons/arrow_right.png') no-repeat center center}
 #colorSelectorLine{width:4em}
 #menuEditLines > div{min-width:12em}

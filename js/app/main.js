@@ -43,6 +43,17 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             myContextMenuElement = $("#contextMenuElement"),
             myContextMenuText = $("#contextMenuText"),
             myContextMenuShape = $("#contextMenuShape"),
+            myShapeHandlers = $("#shapeHandlers"),
+            myShapeOptions = $("#shapeOptions"),
+            myShapeOptionsHandler = $("#shapeoptionshandler"),
+            myResizeNSTop = $("#resizenstop"),
+            myResizeNSBottom = $("#resizensbottom"),
+            myResizeEWLeft = $("#resizeewleft"),
+            myResizeEWRight = $("#resizeewright"),
+            myResizeNWSETopLeft = $("#resizenwsetopleft"),
+            myResizeNWSEBottomRight = $("#resizenwsebottomright"),
+            myResizeSWNETopRight = $("#resizeswnetopright"),
+            myResizeSWNEBottomLeft = $("#resizeswnebottomleft"),
             preventClosingContextMenu = false,
             timeoutIdContextMenu = 0;
 
@@ -54,6 +65,11 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             myCanvas.polygon(myPattern, [[0, 0], [0, 5], [5, 0]], {});
             myCanvas.polygon(myPattern, [[20, 20], [15, 20], [20, 15]], {});
             myCanvas.polygon(myPattern, [[15, 0], [20, 0], [20, 5], [5, 20], [0, 20], [0, 15]], {});
+            myPattern = myCanvas.pattern(myDefs, "patternChess", 0, 0, 20, 20, {"patternUnits": "userSpaceOnUse"});
+            myCanvas.polygon(myPattern, [[0, 0], [0, 10], [10, 10], [10, 0]], {});
+            myCanvas.polygon(myPattern, [[10, 10], [10, 20], [20, 20], [20, 10]], {});
+            myPattern = myCanvas.pattern(myDefs, "patternTriangle", 0, 0, 10, 10, {"patternUnits": "userSpaceOnUse"});
+            myCanvas.polygon(myPattern, [[5, 0], [10, 10], [0, 10]], {});
         };
 
         function addElement(pConfElement) {
@@ -149,7 +165,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 myShapeHandles = null;
             switch (pConfShape.type) {
                 case "ellipse":
-                    myShape = myCanvas.ellipse(g, pConfShape.position.x, pConfShape.position.y, 50, 75, { "id": myElemId });
+                    myShape = myCanvas.ellipse(g, pConfShape.position.x, pConfShape.position.y, 25, 25, { "id": myElemId });
                     break;
                 case "polygon":
                     myShape = myCanvas.rect(g, pConfShape.position.x, pConfShape.position.y, 50, 50, $("#cornerRadiusSize").val() * 1, $("#cornerRadiusSize").val() * 1, { "id": myElemId });
@@ -167,6 +183,43 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 case "polygon":
                     break;
                 case "ellipse":
+                    myShape.on("mouseenter", function(e) {
+                        if (!$(this).hasClass("moving") && myDraggedElement === null) {
+                            var myShapePositionX = myShape.attr("cx") * 1,
+                                myShapePositionY = myShape.attr("cy") * 1,
+                                myShapeRadiusX = myShape.attr("rx") * 1,
+                                myShapeRadiusY = myShape.attr("ry") * 1;
+                            myResizeNSTop.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop - myShapeRadiusY - 8) + "px")
+                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft - 8) + "px").show();
+                            myResizeNSBottom.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + myShapeRadiusY - 8) + "px")
+                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft - 8) + "px").show();
+                            myResizeEWLeft.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop - 8) + "px")
+                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft - myShapeRadiusX - 8) + "px").show();
+                            myResizeEWRight.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop - 8) + "px")
+                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + myShapeRadiusX - 8) + "px").show();
+                            myResizeNWSETopLeft.hide();
+                            myResizeNWSEBottomRight.hide();
+                            myResizeSWNETopRight.hide();
+                            myResizeSWNEBottomLeft.hide();
+                            myShapeOptionsHandler.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop - 8) + "px")
+                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft - 8) + "px")
+                                .on("mouseenter", function(e) {
+                                    myContextMenuShape.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop - 8) + "px")
+                                        .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft - 8) + "px")
+                                        .attr("rel", myShape.attr("id"));
+                                    $(this).hide();
+                                    myContextMenuShape.show();
+                                    // Keep menu open for 200ms
+                                    preventClosingContextMenu = true;
+                                    timeoutIdContextMenu = window.setTimeout(function() {
+                                        preventClosingContextMenu = false;
+                                    }, 200);
+                                }).show();
+                            gCurrentElement = pConfShape;
+                            myShapeHandlers.show();
+                        }
+                    });
+                    break;
                     break;
                 case "rect":
                 default:
@@ -176,23 +229,23 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                                 myShapePositionY = myShape.attr("y") * 1,
                                 myShapeWidth = myShape.attr("width") * 1,
                                 myShapeHeight = myShape.attr("height") * 1;
-                            $("#resizenstop").css("top", (myShapePositionY + myCanvasContainer[0].offsetTop - 8) + "px")
-                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + (myShapeWidth / 2) - 8) + "px");
-                            $("#resizensbottom").css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + myShapeHeight - 8) + "px")
-                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + (myShapeWidth / 2) - 8) + "px");
-                            $("#resizeewleft").css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + (myShapeHeight / 2) - 8) + "px")
-                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft - 8) + "px");
-                            $("#resizeewright").css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + (myShapeHeight / 2) - 8) + "px")
-                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + myShapeWidth - 8) + "px");
-                            $("#resizenwsetopleft").css("top", (myShapePositionY + myCanvasContainer[0].offsetTop - 8) + "px")
-                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft - 8) + "px");
-                            $("#resizenwsebottomright").css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + myShapeHeight - 8) + "px")
-                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + myShapeWidth - 8) + "px");
-                            $("#resizeswnetopright").css("top", (myShapePositionY + myCanvasContainer[0].offsetTop - 8) + "px")
-                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + myShapeWidth - 8) + "px");
-                            $("#resizeswnebottomleft").css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + myShapeHeight - 8) + "px")
-                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft - 8) + "px");
-                            $("#shapeoptions").css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + (myShapeHeight / 2) - 8) + "px")
+                            myResizeNSTop.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop - 8) + "px")
+                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + (myShapeWidth / 2) - 8) + "px").show();
+                            myResizeNSBottom.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + myShapeHeight - 8) + "px")
+                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + (myShapeWidth / 2) - 8) + "px").show();
+                            myResizeEWLeft.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + (myShapeHeight / 2) - 8) + "px")
+                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft - 8) + "px").show();
+                            myResizeEWRight.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + (myShapeHeight / 2) - 8) + "px")
+                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + myShapeWidth - 8) + "px").show();
+                            myResizeNWSETopLeft.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop - 8) + "px")
+                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft - 8) + "px").show();
+                            myResizeNWSEBottomRight.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + myShapeHeight - 8) + "px")
+                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + myShapeWidth - 8) + "px").show();
+                            myResizeSWNETopRight.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop - 8) + "px")
+                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + myShapeWidth - 8) + "px").show();
+                            myResizeSWNEBottomLeft.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + myShapeHeight - 8) + "px")
+                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft - 8) + "px").show();
+                            myShapeOptionsHandler.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + (myShapeHeight / 2) - 8) + "px")
                                 .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + (myShapeWidth / 2) - 8) + "px")
                                 .on("mouseenter", function(e) {
                                     myContextMenuShape.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + (myShapeHeight / 2) - 8) + "px")
@@ -206,11 +259,8 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                                         preventClosingContextMenu = false;
                                     }, 200);
                                 }).show();
-                            $("#shapeHandlers").show();
                             gCurrentElement = pConfShape;
-                            $("#shapeHandlers").on("mouseleave", function() {
-                                $(this).hide();
-                            });
+                            myShapeHandlers.show();
                         }
                     });
                     break;
@@ -228,6 +278,26 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
         };
 
         initSvg();
+        myShapeHandlers.on("mouseleave", function() {
+            $(this).hide();
+        });
+        // TODO: Handle resize of shapes
+        myResizeNSTop.on("click", function(e) {
+        });
+        myResizeNSBottom.on("click", function(e) {
+        });
+        myResizeEWLeft.on("click", function(e) {
+        });
+        myResizeEWRight.on("click", function(e) {
+        });
+        myResizeNWSETopLeft.on("click", function(e) {
+        });
+        myResizeNWSEBottomRight.on("click", function(e) {
+        });
+        myResizeSWNETopRight.on("click", function(e) {
+        });
+        myResizeSWNEBottomLeft.on("click", function(e) {
+        });
         $("#menu a").click(function(e) {
             e.preventDefault();
         });
@@ -257,7 +327,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
         $("#menuEditTexts > a").on("click", function(e) {
             e.preventDefault();
         });
-        $("#menuEditShapes").find(".element").click(function(e) {
+        $("#menuEditShapes").find(".shape").click(function(e) {
             e.stopImmediatePropagation();
             e.preventDefault();
             $("#menuEditShapes > a").attr("class", "");
@@ -292,13 +362,29 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
         myContextMenuShape.find(".options").on("click", function(e) {
             e.stopImmediatePropagation();
             e.preventDefault();
-            $("#shapeOptions").dialog({
+            var myShape = $("#" + myContextMenuShape.attr("rel"));
+            myShapeOptions.find("p").show().filter(function(index) {
+                return !$(this).hasClass(myShape.prop("nodeName").toLowerCase());
+            }).hide();
+            // TODO: Handle init of shape form with shape properties
+            myShapeOptions.dialog({
                 "resizable": false,
                 "modal": true,
                 "buttons": [
                     {
                         "text": gI18n.buttons.ok,
                         "click": function() {
+                            var myFillPattern = $("#shapeFillType").val(),
+                                myFillColor = $("#colorSelectorShapeFill").val(),
+                                myFillOpacity = $("#shapeFillOpacity").val();
+                            myShape.css("fill-opacity", myFillOpacity);
+                            // FIX: Apply a fill color with a pattern
+                            if (myFillPattern !== "") {
+                                myShape.css("fill", "url(#" + myFillPattern + ") #" + myFillColor);
+                            } else {
+                                myShape.css("fill", "#" + myFillColor);
+                            }
+                            // TODO: Finish applying styles to shape
                             $(this).dialog("close");
                         }
                     },
@@ -546,7 +632,10 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             }
             var selectedItem = $("#menuEditElements div .selected");
             if (selectedItem.length === 0) {
-                selectedItem = $("#menu .selected");
+                selectedItem = $("#menuEditShapes div .selected");
+                if (selectedItem.length === 0) {
+                    selectedItem = $("#menu .selected");
+                }
             }
             if (selectedItem.is("a")) {
                 var myItemProps = selectedItem.attr("href").split(/\//g),
@@ -639,6 +728,9 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     } else if (elem.is("rect")) {
                         elem.attr("x", e.pageX - myCanvasContainer[0].offsetLeft - elem.attr("width") / 2);
                         elem.attr("y", e.pageY - myCanvasContainer[0].offsetTop - elem.attr("height") / 2);
+                    } else if (elem.is("ellipse")) {
+                        elem.attr("cx", e.pageX - myCanvasContainer[0].offsetLeft);
+                        elem.attr("cy", e.pageY - myCanvasContainer[0].offsetTop);
                     }
                 });
             }
@@ -769,7 +861,6 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     $("#elementsOverlay").remove();
                     $("#linesOverlay").remove();
                     $("#shapesOverlay").remove();
-                    $("#zonesOverlay").remove();
                     $("#textsOverlay").remove();
                     $("#chkDirections").change();
                     $("#mapDesc .mapName").text(gI18n.games[myGameToken].maps[myMapToken]);
@@ -782,7 +873,6 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     myCanvas.group(null, "elementsOverlay", {});
                     myCanvas.group(null, "linesOverlay", {});
                     myCanvas.group(null, "shapesOverlay", {});
-                    myCanvas.group(null, "zonesOverlay", {});
                     myCanvas.group(null, "textsOverlay", {});
                     gCurrentConf.elements = [];
                     for (myElementToken in gElements) {
