@@ -23,11 +23,11 @@
             }
         }
     },
-	"dialogs": {
-		"modifytext": {
-			"title": "Modifier le texte"
-		}
-	},
+    "dialogs": {
+        "modifytext": {
+            "title": "Modifier le texte"
+        }
+    },
     "buttons": {
         "ok": "Ok",
         "cancel": "Annuler",

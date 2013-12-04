@@ -80,6 +80,7 @@ footer{
 #menuMap > a{background:url('./icons/map.png') no-repeat center center}
 #menuEditElements > a{background:url('./icons/pencil.png') no-repeat center center}
 #menuEditShapes > a{background:url('./icons/shape_move_front.png') no-repeat center center}
+#menuEditShapes > div{min-width:20em}
 #menuEditShapes ul{list-style:none;margin:0;padding:0}
 #menuEditShapes li{margin:0;padding:0}
 #menuEditLines > a{background:url('./icons/arrow_right.png') no-repeat center center}
@@ -111,13 +112,14 @@ main{text-align:center;padding:.25em}
 #gridOverlay line.outer{stroke:#FFF;stroke-width:0.5;stroke-dasharray:1,1}
 #gridOverlay line.inner{stroke:#000;stroke-width:0.5;stroke-dasharray:1,1}
 #basesOverlay circle{fill-opacity:.5}
-#basesOverlay polygon{fill-opacity:.2}
-#basesOverlay circle.team0, #basesOverlay polygon.team0{fill:#FFF}
-#basesOverlay circle.team1, #basesOverlay polygon.team1{fill:#0F0}
-#basesOverlay circle.team2, #basesOverlay polygon.team2{fill:#F00}
+#basesOverlay polygon{fill-opacity:.5;fill:#333}
+#basesOverlay circle.team0{fill:#FFF}
+#basesOverlay circle.team1{fill:#0F0}
+#basesOverlay circle.team2{fill:#F00}
 #textsOverlay text{fill:#FFF}
 #scaleOverlay line{stroke:#FFF;stroke-width:0.5}
 #scaleOverlay text{fill:#FFF}
+#shapesOverlay *{stroke:#FFF;stroke-width:1;fill:#333;fill-opacity:.5}
 .elements{list-style:none;padding:0;margin:0}
 .elements li{margin:.25em}
 .element{list-style:none;padding:0;margin:0;display:block;width:24px;height:24px;border:1px solid transparent}
@@ -149,3 +151,10 @@ input.overlay, textarea.overlay{border:1px dotted #FFF;background:transparent}
 .contextMenu a.textPosition.left{background:url('./icons/text_padding_right.png') no-repeat left top}
 .contextMenu a.textPosition.left.selected{background:url('./icons/text_padding_right_faded.png') no-repeat left top}
 #dialog-confirm,#textEdit{display:none}
+.resize{display:block;width:16px;height:16px;opacity:.5}
+.resize:hover{opacity:1}
+.resize.ns{background:url('./icons/arrow_ns.png') no-repeat center center}
+.resize.ew{background:url('./icons/arrow_ew.png') no-repeat center center}
+.resize.nwse{background:url('./icons/arrow_nw_se.png') no-repeat center center}
+.resize.swne{background:url('./icons/arrow_sw_ne.png') no-repeat center center}
+.resize.move{background:url('./icons/arrow_nsew.png') no-repeat center center}

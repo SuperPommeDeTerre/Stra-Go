@@ -67,19 +67,36 @@
                         </fieldset>
                     </div></li>
                 <li id="menuEditShapes"><a href="edit/add/shape" title="&Eacute;diter les formes" data-i18n-key="menu.edit.shapes"><span>Formes</span></a><div>
-                        <fieldset id="shapes">
-                            <legend>Formes</legend>
-                            <section class="flex flex-h">
-                                <aside class="flex-start">
+                        <section class="flex flex-h">
+                            <aside class="flex-start">
+                                <fieldset id="shapes">
+                                    <legend>Formes</legend>
                                     <ul>
-                                        <li><a href="add/shape/circle" title="Cercle"><span>Cercle</span></a></li>
-                                        <li><a href="add/shape/ellipse" title="Ellipse"><span>Ellipse</span></a></li>
-                                        <li><a href="add/shape/rect" title="Rectangle"><span>Rectangle</span></a></li>
-                                        <li><a href="add/shape/poly" title="Polygone"><span>Polygone</span></a></li>
+                                        <li><a href="edit/add/shape/circle" title="Cercle"><span>Cercle</span></a></li>
+                                        <li><a href="edit/add/shape/ellipse" title="Ellipse"><span>Ellipse</span></a></li>
+                                        <li><a href="edit/add/shape/rect" title="Rectangle"><span>Rectangle</span></a></li>
+                                        <li><a href="edit/add/shape/poly" title="Polygone"><span>Polygone</span></a></li>
                                     </ul>
-                                </aside>
-                            </section>
-                        </fieldset>
+                                </fieldset>
+                            </aside>
+                            <aside class="flex-end">
+                                <fieldset id="shapeProperties">
+                                    <legend>Propri&eacute;t&eacute;s</legend>
+                                    <p><label>Epaisseur&nbsp;: <select id="thicknessSelectorShape">
+                                            <option value="1">1 pixel</option>
+                                            <option value="2">2 pixels</option>
+                                            <option value="3">3 pixels</option>
+                                            <option value="5">5 pixels</option>
+                                        </select></label></p>
+                                    <p class="rect"><label>Rayon&nbsp;: <select id="cornerRadiusSize">
+                                            <option value="0">Aucun</option>
+                                            <option value="2">2 pixels</option>
+                                            <option value="5">5 pixels</option>
+                                            <option value="10">10 pixels</option>
+                                        </select></label></p>
+                                </fieldset>
+                            </aside>
+                        </section>
                     </div></li>
                 <li id="menuEditTexts"><a href="edit/add/text" title="&Eacute;diter les textes" data-i18n-key="menu.edit.texts"><span>Textes</span></a></li>
                 <li id="menuShare"><a href="share" title="Partager des strat&eacute;gies" data-i18n-key="menu.share"><span>Partager</span></a><div>
@@ -98,7 +115,8 @@
         </nav>
     </header>
     <main>
-        <div id="mapContainer"></div>
+        <div id="mapContainer">
+        </div>
     </main>
     <div id="contextMenuElement" class="contextMenu">
         <ul>
@@ -123,12 +141,16 @@
     <div id="contextMenuShape" class="contextMenu">
         <ul>
             <li><a href="/edit/shape/move" class="move" title="D&eacute;placer la forme"><span>D&eacute;placer</span></a></li>
-            <li><a href="/edit/shape/modifytext" class="modifytext" title="Modifier le texte"><span>Modifier le texte</span></a></li>
             <li><a href="/edit/shape/rotate" class="rotate" title="Rotation"><span>Rotation</span></a></li>
-            <li><a href="/edit/shape/delete" class="delete" title="Supprimer le texte"><span>Supprimer</span></a></li>
+            <li><a href="/edit/shape/delete" class="delete" title="Supprimer la forme"><span>Supprimer</span></a></li>
         </ul>
     </div>
-    <div id="dialog-confirm" title="&Ecirc;tes vous s&ucirc;r de vouloir effacer cet &eacute;l&eacute;ment&nbsp;?">
+    <div id="contextMenuLine" class="contextMenu">
+        <ul>
+            <li><a href="/edit/line/delete" class="delete" title="Supprimer la ligne"><span>Supprimer</span></a></li>
+        </ul>
+    </div>
+    <div id="dialog-confirm" title="Confirmation">
         <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Vous allez supprimer un &eacute;l&eacute;ment.<br />&Ecirc;tes-vous s&ucirc;r&nbsp;?</p>
     </div>
 </form>

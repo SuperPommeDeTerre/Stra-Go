@@ -46,6 +46,15 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             preventClosingContextMenu = false,
             timeoutIdContextMenu = 0;
 
+        function initSvg() {
+            var myCanvas = myCanvasContainer.svg().svg("get"),
+                myDefs = myCanvas.defs(),
+                myPattern = myCanvas.pattern(myDefs, "patternZone", 0, 0, 20, 20, {"patternUnits": "userSpaceOnUse"});
+            myCanvas.polygon(myPattern, [[0, 0], [0, 5], [5, 0]], {});
+            myCanvas.polygon(myPattern, [[20, 20], [15, 20], [20, 15]], {});
+            myCanvas.polygon(myPattern, [[15, 0], [20, 0], [20, 5], [5, 20], [0, 20], [0, 15]], {});
+        };
+
         function addElement(pConfElement) {
             var myElem = gElements[pConfElement.type]["team" + pConfElement.team],
                 myCanvas = myCanvasContainer.svg().svg("get"),
@@ -131,6 +140,42 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             myText.data("index",  gCurrentConf.texts.length - 1);
         };
 
+        function addShape(pConfShape) {
+            var myCanvas = myCanvasContainer.svg().svg("get"),
+                g = myCanvasContainer.find("#shapesOverlay").svg(),
+                myElemId = "shape_" + gCountTexts++,
+                myShape = myCanvas.rect(g, pConfShape.position.x, pConfShape.position.y, 50, 50, $("#cornerRadiusSize").val() * 1, $("#cornerRadiusSize").val() * 1, { "id": myElemId });
+            myShape = $(myShape);
+            for (myStyle in pConfShape.style) {
+                myShape.css(myStyle, pConfShape.style[myStyle]);
+            }
+            myShape.css("fill", "url(#patternZone)");
+            myShape.on("mouseenter", function(e) {
+                if (!$(this).hasClass("moving") && myDraggedElement === null) {
+                    myContextMenuShape.css("top", ((myShape.attr("y") * 1) + myCanvasContainer[0].offsetTop) + "px")
+                        .css("left", ((myShape.attr("x") * 1) + myCanvasContainer[0].offsetLeft) + "px")
+                        .attr("rel", myShape.attr("id"));
+                    gCurrentElement = pConfShape;
+                    myContextMenuShape.show();
+                    // Keep menu open for 200ms
+                    preventClosingContextMenu = true;
+                    timeoutIdContextMenu = window.setTimeout(function() {
+                        preventClosingContextMenu = false;
+                    }, 200);
+                }
+            }).on("mouseleave", function(e) {
+                if (!preventClosingContextMenu) {
+                    myContextMenuShape.hide();
+                }
+            });
+            // Update serialization
+            if (!gIsImporting) {
+                gCurrentConf.shapes.push(pConfShape);
+            }
+            myShape.data("index",  gCurrentConf.shapes.length - 1);
+        };
+
+        initSvg();
         $("#menu a").click(function(e) {
             e.preventDefault();
         });
@@ -159,6 +204,18 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
         });
         $("#menuEditTexts > a").on("click", function(e) {
             e.preventDefault();
+        });
+        $("#menuEditShapes").find(".element").click(function(e) {
+            e.stopImmediatePropagation();
+            e.preventDefault();
+            $("#menuEditShapes > a").attr("class", "");
+            if (!$(this).hasClass("selected")) {
+                $("#menu .selected").removeClass("selected");
+                $("#menuEditShapes > a").addClass($(this).attr("rel") + " selected").attr("rel", $(this).attr("rel"));
+            } else {
+                $("#menuEditShapes > a").removeAttr("rel");
+            }
+            $(this).toggleClass("selected");
         });
         myContextMenuText.find(".smallertext").on("click", function(e) {
             var myText = $("#" + myContextMenuText.attr("rel")),
@@ -227,7 +284,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                                     myElementIndex = myTmpElement.data("index");
                                 myTmpElement = myTmpElement.add($("#" + myTmpElement.attr("rel")));
                                 myTmpElement.remove();
-                                // TODO: Remove object from global configuration
+                                // Remove object from global configuration
                                 gCurrentConf.elements.splice(myElementIndex, 1);
                                 $("#elementsOverlay image").each(function(i, el) {
                                     if ($(el).data("index") > myElementIndex) {
@@ -238,15 +295,27 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                                 var myTmpElement = $("#" + myContextMenu.attr("rel")),
                                     myElementIndex = myTmpElement.data("index");
                                 myTmpElement.remove();
-                                // TODO: Remove object from global configuration
+                                // Remove object from global configuration
                                 gCurrentConf.texts.splice(myElementIndex, 1);
                                 $("#textsOverlay text:not([rel])").each(function(i, el) {
                                     if ($(el).data("index") > myElementIndex) {
                                         $(el).data("index", $(el).data("index") - 1);
                                     }
                                 });
+                            } else if (myContextMenu.is("#contextMenuShape")) {
+                                var myTmpElement = $("#" + myContextMenu.attr("rel")),
+                                    myElementIndex = myTmpElement.data("index");
+                                myTmpElement.remove();
+                                // Remove object from global configuration
+                                gCurrentConf.shapes.splice(myElementIndex, 1);
+                                $("#shapesOverlay *:not([rel])").each(function(i, el) {
+                                    if ($(el).data("index") > myElementIndex) {
+                                        $(el).data("index", $(el).data("index") - 1);
+                                    }
+                                });
+                            } else if (myContextMenu.is("#contextMenuLine")) {
+                                // TODO
                             }
-                            console.debug(JSON.stringify(gCurrentConf));
                             myContextMenu.hide();
                             $(this).dialog("close");
                         }
@@ -276,8 +345,14 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                             if ($(this).find("input").val().trim().length === 0) {
                                 // The text is deleted if it's empty
                                 myText.remove();
-                                // TODO: Remove text from global configuration
-                                //gCurrentConf.texts.remove(gCurrentElement);
+                                // Remove text from global configuration
+                                var myElementIndex = myText.data("index");
+                                gCurrentConf.texts.splice(myElementIndex, 1);
+                                $("#textsOverlay text:not([rel])").each(function(i, el) {
+                                    if ($(el).data("index") > myElementIndex) {
+                                        $(el).data("index", $(el).data("index") - 1);
+                                    }
+                                });
                             } else {
                                 myText.text($(this).find("input").val());
                                 gCurrentElement.value = myText.text();
@@ -416,7 +491,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                                 "y": e.pageY - myCanvasContainer[0].offsetTop - (myElem.size.y / 2)
                             },
                             "text": {
-                                "value": selectedItem.text() + " " + gCountElems[elementType],
+                                "value": selectedItem.text() + " " + (gCountElems[elementType] + 1),
                                 "position": {
                                     "rel": "right",
                                     "x": e.pageX - myCanvasContainer[0].offsetLeft + (myElem.size.x / 2),
@@ -427,7 +502,17 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                         break;
                     case "line":
                         break;
-                    case "zone":
+                    case "shape":
+                        addShape({
+                            "type": myItemProps[3],
+                            "position": {
+                                "x": e.pageX - myCanvasContainer[0].offsetLeft,
+                                "y": e.pageY - myCanvasContainer[0].offsetTop
+                            },
+                            "style": {
+                                "stroke-width": $("#thicknessSelectorShape").val()
+                            }
+                        });
                         break;
                     case "text":
                         addText({
@@ -616,6 +701,9 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     $("#mapDesc .mapMetrics").text(myMapObj.size.x + "m x " + myMapObj.size.y + "m");
                     $("#mapDesc .mapSquareLength").text("(1px = 1m)");
                     var myCanvas = myCanvasContainer.svg().svg("get");
+                    // Update size of svg element
+                    myCanvasContainer.children("svg").attr("width", myMapObj.size.x + gDECAL_GRID);
+                    myCanvasContainer.children("svg").attr("height", myMapObj.size.y + gDECAL_GRID);
                     myCanvas.group(null, "elementsOverlay", {});
                     myCanvas.group(null, "linesOverlay", {});
                     myCanvas.group(null, "shapesOverlay", {});
@@ -626,6 +714,8 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                         gCountElems[myElementToken] = 0;
                     }
                     gCurrentConf.texts = [];
+                    gCurrentConf.shapes = [];
+                    gCurrentConf.lines = [];
                 });
                 $("#selMode").change(function(e) {
                     e.stopImmediatePropagation();
