@@ -141,18 +141,19 @@
             <legend>Contour</legend>
             <p class="rect ellipse polygon"><label>Couleur&nbsp;: <input id="colorSelectorShapeContour" class="colorselector" type="text" value="FFFFFF" /></label></p>
             <p class="rect ellipse polygon"><label>Epaisseur&nbsp;: <select id="shapeContourThickness">
-                    <option value="1">1 pixel</option>
+                    <option value="0">0 (Aucun trait)</option>
+                    <option value="1" selected="selected">1 pixel</option>
                     <option value="2">2 pixels</option>
                     <option value="3">3 pixels</option>
                     <option value="5">5 pixels</option>
                 </select></label></p>
             <p class="rect ellipse polygon"><label>Type de trait&nbsp;: <select id="shapeContourType">
-                    <option value="solid">Plein</option>
+                    <option value="solid" selected="selected">Plein</option>
                     <option value="dotted">Pointill&eacute;s</option>
                     <option value="dashed">Tirets</option>
                 </select></label></p>
             <p class="rect"><label>Rayon&nbsp;: <select id="shapeContourRadius">
-                    <option value="0">Aucun</option>
+                    <option value="0" selected="selected">Aucun</option>
                     <option value="2">2 pixels</option>
                     <option value="5">5 pixels</option>
                     <option value="10">10 pixels</option>
@@ -160,9 +161,9 @@
         </fieldset>
         <fieldset>
             <legend>Remplissage</legend>
-            <p class="rect ellipse polygon"><label>Couleur&nbsp;: <input id="colorSelectorShapeFill" class="colorselector" type="text" value="000000" /></label></p>
+            <p class="rect ellipse polygon"><label>Couleur&nbsp;: <input id="colorSelectorShapeFill" class="colorselector" type="text" value="333333" /></label></p>
             <p class="rect ellipse polygon"><label>Type&nbsp;: <select id="shapeFillType">
-                    <option value="">Aucun</option>
+                    <option value="none" selected="selected">Aucun</option>
                     <option value="patternZebra">Zebra</option>
                     <option value="patternChess">Damier</option>
                     <option value="patternTriangle">Triangle</option>
@@ -170,7 +171,7 @@
             <p class="rect ellipse polygon"><label>Opacit&eacute;&nbsp;: <select id="shapeFillOpacity">
                     <option value="1">100 %</option>
                     <option value=".75">75 %</option>
-                    <option value=".5">50 %</option>
+                    <option value=".5" selected="selected">50 %</option>
                     <option value=".25">25 %</option>
                     <option value="0">0 % (Invisible)</option>
                 </select></label></p>

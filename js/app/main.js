@@ -324,7 +324,46 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             myShapeOptions.find("p").show().filter(function(index) {
                 return !$(this).hasClass(myShape.prop("nodeName").toLowerCase());
             }).hide();
-            // TODO: Handle init of shape form with shape properties
+            // Handle init of shape form with shape properties
+            if (gCurrentElement.style["stroke"]) {
+                $("#colorSelectorShapeContour").val(gCurrentElement.style["stroke"].substr(gCurrentElement.style["stroke"].lastIndexOf("#") + 1));
+            } else {
+                $("#colorSelectorShapeContour").val("FFFFFF");
+            }
+            if (gCurrentElement.style["stroke-width"]) {
+                $("#shapeContourThickness").val(gCurrentElement.style["stroke-width"].substring(0, gCurrentElement.style["stroke-width"].indexOf("px")));
+            } else {
+                $("#shapeContourThickness").val("1");
+            }
+            if (gCurrentElement.style["stroke-dasharray"]) {
+                $("#shapeContourType").val(gCurrentElement.style["stroke-dasharray"].split(/,/g)[0] * 1 > $("#colorSelectorShapeContour").val() * 1?"dashed":"dotted");
+            } else {
+                $("#shapeContourType").val("solid");
+            }
+            if (gCurrentElement["rx"]) {
+                $("#shapeContourRadius").val(gCurrentElement["rx"]);
+            } else {
+                $("#shapeContourRadius").val("0");
+            }
+            if (gCurrentElement.style["fill"]) {
+                $("#colorSelectorShapeFill").val(gCurrentElement.style["fill"].substr(gCurrentElement.style["fill"].lastIndexOf("#") + 1));
+                if (gCurrentElement.style["fill"].lastIndexOf("url(") >= 0) {
+                    var myPatternName = gCurrentElement.style["fill"].substring(gCurrentElement.style["fill"].indexOf("#") + 1);
+                    myPatternName = myPatternName.substring(0, myPatternName.indexOf(")"));
+                    $("#shapeFillType").val(myPatternName);
+                } else {
+                    $("#shapeFillType").val("none");
+                }
+            } else {
+                $("#colorSelectorShapeFill").val("333333");
+                $("#shapeFillType").val("none");
+            }
+            if (gCurrentElement.style["fill-opacity"]) {
+                $("#shapeFillOpacity").val(gCurrentElement.style["fill-opacity"]);
+            } else {
+                $("#shapeFillOpacity").val(".5");
+            }
+            // Show dialog
             myShapeOptions.dialog({
                 "resizable": false,
                 "modal": true,
@@ -341,7 +380,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                                 myStrokeType = $("#shapeContourType").val();
                             gCurrentElement.style["fill-opacity"] = myFillOpacity;
                             // FIXME: Apply a fill color with a pattern
-                            if (myFillPattern !== "") {
+                            if (myFillPattern !== "none") {
                                 gCurrentElement.style["fill"] = "url(#" + myFillPattern + ") #" + myFillColor;
                             } else {
                                 gCurrentElement.style["fill"] = "#" + myFillColor;
@@ -743,7 +782,6 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     }
                 });
             } else if (myResizedElement !== null) {
-                // TODO: Handle resize
                 if (myResizedElement.is("rect")) {
                     var actualWidth = myResizedElement.attr("width") * 1,
                         actualHeight = myResizedElement.attr("height") * 1,
@@ -774,6 +812,8 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                         .attr("ry", Math.abs(e.pageY - myCanvasContainer[0].offsetTop - (myResizedElement.attr("cy") * 1)));
                     gCurrentElement.rx = myResizedElement.attr("rx") * 1;
                     gCurrentElement.ry = myResizedElement.attr("ry") * 1;
+                } else if (myResizedElement.is("polygon")) {
+                    // TODO: Handle resize og polygons
                 }
             }
         });
