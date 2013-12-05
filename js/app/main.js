@@ -129,12 +129,11 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
         function addElement(pConfElement) {
             var myElem = gElements[pConfElement.type]["team" + pConfElement.team],
                 myCanvas = myCanvasContainer.svg().svg("get"),
-                g1 = myCanvasContainer.find("#elementsOverlay").svg(),
-                g2 = myCanvasContainer.find("#textsOverlay").svg(),
+                g = myCanvasContainer.find("#elementsOverlay").svg(),
                 myElemId = "element_" + pConfElement.type + "_" + pConfElement.team + "_" + gCountElems[pConfElement.type]++,
                 myElemTextId = myElemId + "_text",
-                myImage = myCanvas.image(g1, pConfElement.position.x, pConfElement.position.y, myElem.size.x, myElem.size.y, "./res/" + gCurrentConf.game + "/elements/" + myElem.file, { "id": myElemId, "rel": myElemTextId }),
-                myText = myCanvas.text(g2, pConfElement.text.position.x, pConfElement.text.position.y, pConfElement.text.value, { "id": myElemTextId, "rel": myElemId });
+                myImage = myCanvas.image(g, pConfElement.position.x, pConfElement.position.y, myElem.size.x, myElem.size.y, "./res/" + gCurrentConf.game + "/elements/" + myElem.file, { "id": myElemId, "rel": myElemTextId }),
+                myText = myCanvas.text(g, pConfElement.text.position.x, pConfElement.text.position.y, pConfElement.text.value, { "id": myElemTextId, "rel": myElemId });
             myImage = $(myImage);
             myText = $(myText);
             myImage.addClass("movable hasMenuElement");
@@ -1158,11 +1157,25 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                         $("#elementsOverlay").hide();
                     }
                 });
+                $("#chkElementsTexts").click(function(e) {
+                    if ($(this).is(":checked")) {
+                        $("#elementsOverlay text").show();
+                    } else {
+                        $("#elementsOverlay text").hide();
+                    }
+                });
                 $("#chkTexts").click(function(e) {
                     if ($(this).is(":checked")) {
                         $("#textsOverlay").show();
                     } else {
                         $("#textsOverlay").hide();
+                    }
+                });
+                $("#chkShapes").click(function(e) {
+                    if ($(this).is(":checked")) {
+                        $("#shapesOverlay").show();
+                    } else {
+                        $("#shapesOverlay").hide();
                     }
                 });
                 $("#chkScale").change(function(e) {
