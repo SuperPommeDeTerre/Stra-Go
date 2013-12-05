@@ -2,71 +2,71 @@
     "elements": {
         "HT": {
             "team0": {
-                "file": "HT0.jpg",
+                "file": "HT0.png",
                 "size": { "x": 24, "y": 24 }
             },
             "team1": {
-                "file": "HT1.jpg",
+                "file": "HT1.png",
                 "size": { "x": 24, "y": 24 }
             },
             "team2": {
-                "file": "HT2.jpg",
+                "file": "HT2.png",
                 "size": { "x": 24, "y": 24 }
             }
         },
         "MT": {
             "team0": {
-                "file": "MT0.jpg",
+                "file": "MT0.png",
                 "size": { "x": 24, "y": 24 }
             },
             "team1": {
-                "file": "MT1.jpg",
+                "file": "MT1.png",
                 "size": { "x": 24, "y": 24 }
             },
             "team2": {
-                "file": "MT2.jpg",
+                "file": "MT2.png",
                 "size": { "x": 24, "y": 24 }
             }
         },
         "LT": {
             "team0": {
-                "file": "LT0.jpg",
+                "file": "LT0.png",
                 "size": { "x": 24, "y": 24 }
             },
             "team1": {
-                "file": "LT1.jpg",
+                "file": "LT1.png",
                 "size": { "x": 24, "y": 24 }
             },
             "team2": {
-                "file": "LT2.jpg",
+                "file": "LT2.png",
                 "size": { "x": 24, "y": 24 }
             }
         },
         "TD": {
             "team0": {
-                "file": "TD0.jpg",
+                "file": "TD0.png",
                 "size": { "x": 24, "y": 24 }
             },
             "team1": {
-                "file": "TD1.jpg",
+                "file": "TD1.png",
                 "size": { "x": 24, "y": 24 }
             },
             "team2": {
-                "file": "TD2.jpg",
+                "file": "TD2.png",
                 "size": { "x": 24, "y": 24 }
             }
         },
         "SPG": {
             "team0": {
-                "file": "SPG0.jpg",
+                "file": "SPG0.png",
                 "size": { "x": 24, "y": 24 }
             },
             "team1": {
-                "file": "SPG1.jpg",
+                "file": "SPG1.png",
                 "size": { "x": 24, "y": 24 }
             },
             "team2": {
-                "file": "SPG2.jpg",
+                "file": "SPG2.png",
                 "size": { "x": 24, "y": 24 }
             }
         }
