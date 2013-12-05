@@ -584,7 +584,12 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             e.preventDefault();
             // Handle text modify
             var myText = $("#" + myContextMenuText.attr("rel"));
-            $("body>form").append("<div id=\"textEdit\" title=\"" + gI18n.dialogs.modifytext.title + "\"><form><input type=\"text\" value=\"" + myText.text().replace(/\"/g, "&quot;") + "\" /></form></div>");
+            $("#textValue").val(myText.text());
+            if (myText.css("stroke") !== "none") {
+                $("#textColor").val(myText.css("stroke").substr(1));
+            } else {
+                $("#textColor").val("FFFFFF");
+            }
             $("#textEdit").dialog({
                 "resizable": false,
                 "modal": true,
@@ -592,7 +597,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     {
                         "text": gI18n.buttons.ok,
                         "click": function() {
-                            if ($(this).find("input").val().trim().length === 0) {
+                            if ($("#textValue").val().trim().length === 0) {
                                 // The text is deleted if it's empty
                                 myText.remove();
                                 // Remove text from global configuration
@@ -604,8 +609,9 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                                     }
                                 });
                             } else {
-                                myText.text($(this).find("input").val());
+                                myText.text($("#textValue").val());
                                 gCurrentElement.value = myText.text();
+                                myText.css("stroke", "#" + $("#textColor").val()).css("fill", "#" + $("#textColor").val());
                             }
                             $(this).dialog("close");
                         }
@@ -616,10 +622,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                             $(this).dialog("close");
                         }
                     }
-                ],
-                "close": function(e) {
-                    $(this).remove();
-                }
+                ]
             });
         });
         myContextMenuElement.find(".modifytext").on("click", function(e) {
@@ -630,7 +633,12 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 myText = $("#" + myImage.attr("rel")),
                 myImagePosX = (myImage.attr("x") * 1),
                 myImageWidth = (myImage.attr("width") * 1);
-            $("body>form").append("<div id=\"textEdit\" title=\"" + gI18n.dialogs.modifytext.title + "\"><form><input type=\"text\" value=\"" + myText.text().replace(/\"/g, "&quot;") + "\" /></form></div>");
+            $("#textValue").val(myText.text());
+            if (myText.css("stroke") !== "none") {
+                $("#textColor").val(myText.css("stroke").substr(1));
+            } else {
+                $("#textColor").val("FFFFFF");
+            }
             $("#textEdit").dialog({
                 "resizable": false,
                 "modal": true,
@@ -638,7 +646,8 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     {
                         "text": gI18n.buttons.ok,
                         "click": function() {
-                            myText.text($(this).find("input").val());
+                            myText.text($("#textValue").val());
+                            myText.css("stroke", "#" + $("#textColor").val()).css("fill", "#" + $("#textColor").val());
                             gCurrentElement.text.value = myText.text();
                             myTextWidth = myText[0].getComputedTextLength();
                             if (myText.hasClass("top")) {
@@ -660,10 +669,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                             $(this).dialog("close");
                         }
                     }
-                ],
-                "close": function(e) {
-                    $(this).remove();
-                }
+                ]
             });
         });
         myContextMenuElement.find(".textPosition").on("click", function(e) {
