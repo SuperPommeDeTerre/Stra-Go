@@ -6,6 +6,7 @@ var gGames = null,
     gCurrentConf = {},
     gI18n = null,
     myResizedElement = null,
+    myRotatedElement = null,
     myDraggedElement = null,
     myDraggedElementWidth = 0,
     myDraggedElementHeight = 0,
@@ -52,6 +53,10 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             preventClosingContextMenu = false,
             timeoutIdContextMenu = 0;
 
+        /**
+         * Inityialization of the SVG Canvas
+         * Here lies the definitions of the patterns.
+         */
         function initSvg() {
             var myCanvas = myCanvasContainer.svg().svg("get"),
                 myDefs = myCanvas.defs(),
@@ -65,6 +70,60 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             myCanvas.polygon(myPattern, [[10, 10], [10, 20], [20, 20], [20, 10]], {});
             myPattern = myCanvas.pattern(myDefs, "patternTriangle", 0, 0, 10, 10, {"patternUnits": "userSpaceOnUse"});
             myCanvas.polygon(myPattern, [[5, 0], [10, 10], [0, 10]], {});
+        };
+
+        /**
+         * Sets the position of a shape
+         *
+         * @param pShape
+         *     The jQuery object of a shape
+         * @param pPos
+         *     The position to set
+         * @return The shape
+         */
+        function setShapePos(pShape, pPos) {
+            var myTransform = pShape.attr("transform");
+            if (myTransform) {
+                pShape.attr("transform", "translate(" + pPos.x + " " + pPos.y + ")" + myTransform.substr(myTransform.indexOf(")") + 1));
+            } else if (pShape.is("rect")) {
+                pShape.attr("x", pPos.x).attr("y", pPos.y);
+            } else if (pShape.is("ellipse")) {
+                pShape.attr("cx", pPos.x).attr("cy", pPos.y);
+            }
+            pShape.data("x", pPos.x).data("y", pPos.y);
+            return pShape;
+        };
+
+        /**
+         * Gets the position of a shape
+         * 
+         * @return { x, y }
+         */
+        function getShapePos(pShape) {
+            var myTransform = pShape.attr("transform");
+            if (myTransform) {
+                var myIndexTranslate = myTransform.indexOf("translate(");
+                if (myIndexTranslate >= 0) {
+                    myTransform = myTransform.substr(myTransform.indexOf("translate(") + 10);
+                    myTransform = myTransform.substr(0, myTransform.indexOf(")"));
+                    var myDims = myTransform.split(/ /g);
+                    return {
+                        "x": myDims[0] * 1,
+                        "y": myDims[1] * 1
+                    }
+                }
+            }
+            if (pShape.is("rect")) {
+                return {
+                    "x": pShape.attr("x") * 1,
+                    "y": pShape.attr("y") * 1
+                }
+            } else if (pShape.is("ellipse")) {
+                return {
+                    "x": pShape.attr("cx") * 1,
+                    "y": pShape.attr("cy") * 1
+                }
+            }
         };
 
         function addElement(pConfElement) {
@@ -171,6 +230,8 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     break;
             }
             myShape = $(myShape);
+            myShape.data("x", pConfShape.position.x);
+            myShape.data("y", pConfShape.position.y);
             for (myStyle in pConfShape.style) {
                 myShape.css(myStyle, pConfShape.style[myStyle]);
             }
@@ -179,9 +240,9 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     break;
                 case "ellipse":
                     myShape.on("mouseenter", function(e) {
-                        if (!$(this).hasClass("moving") && myDraggedElement === null && !$(this).hasClass("resizing") && myResizedElement === null) {
-                            var myShapePositionX = myShape.attr("cx") * 1,
-                                myShapePositionY = myShape.attr("cy") * 1,
+                        if (!$(this).hasClass("moving") && myDraggedElement === null && !$(this).hasClass("resizing") && myResizedElement === null && !$(this).hasClass("rotating") && myRotatedElement === null) {
+                            var myShapePositionX = myShape.data("x"),
+                                myShapePositionY = myShape.data("y"),
                                 myShapeRadiusX = myShape.attr("rx") * 1,
                                 myShapeRadiusY = myShape.attr("ry") * 1;
                             myShapeOptionsHandler.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop - 8) + "px")
@@ -208,9 +269,9 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 case "rect":
                 default:
                     myShape.on("mouseenter", function(e) {
-                        if (!$(this).hasClass("moving") && myDraggedElement === null && !$(this).hasClass("resizing") && myResizedElement === null) {
-                            var myShapePositionX = myShape.attr("x") * 1,
-                                myShapePositionY = myShape.attr("y") * 1,
+                        if (!$(this).hasClass("moving") && myDraggedElement === null && !$(this).hasClass("resizing") && myResizedElement === null && !$(this).hasClass("rotating") && myRotatedElement === null) {
+                            var myShapePositionX = myShape.data("x"),
+                                myShapePositionY = myShape.data("y"),
                                 myShapeWidth = myShape.attr("width") * 1,
                                 myShapeHeight = myShape.attr("height") * 1;
                             myShapeOptionsHandler.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + (myShapeHeight / 2) - 8) + "px")
@@ -250,11 +311,15 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
         myShapeOptionsHandler.find().on("mouseleave", function() {
             $(this).hide();
         });
-        // TODO: Handle resize of shapes
+        // Handle resize of shapes
         myContextMenuShape.find(".resize").on("click", function(e) {
             myResizedElement = $("#" + myContextMenuShape.attr("rel")).addClass("resizing");
-            myResizedElement.data("originalposx", myResizedElement.attr("x") * 1);
-            myResizedElement.data("originalposy", myResizedElement.attr("y") * 1);
+            myResizedElement.data("originalposx", myResizedElement.data("x"));
+            myResizedElement.data("originalposy", myResizedElement.data("y"));
+        });
+        // Handle rotation of shapes
+        myContextMenuShape.find(".rotate").on("click", function(e) {
+            myRotatedElement = $("#" + myContextMenuShape.attr("rel")).addClass("rotating");
         });
         $("#menu a").click(function(e) {
             e.preventDefault();
@@ -658,6 +723,10 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 myResizedElement.removeClass("resizing");
                 myResizedElement = null;
                 return;
+            } else if (myRotatedElement !== null) {
+                myRotatedElement.removeClass("rotating");
+                myRotatedElement = null;
+                return;
             }
             var selectedItem = $("#menuEditElements div .selected");
             if (selectedItem.length === 0) {
@@ -744,6 +813,8 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                         elem.attr("y", e.pageY - myCanvasContainer[0].offsetTop - (myDraggedElementHeight / 2));
                         gCurrentElement.position.x = elem.attr("x") * 1;
                         gCurrentElement.position.y = elem.attr("y") * 1;
+                        elem.data("x", gCurrentElement.position.x);
+                        elem.data("y", gCurrentElement.position.y);
                     } else if (elem.is("text")) {
                         if (gCurrentElement.text) {
                             // Attached text
@@ -762,31 +833,33 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                             }
                             gCurrentElement.text.position.x = elem.attr("x") * 1;
                             gCurrentElement.text.position.y = elem.attr("y") * 1;
+                            elem.data("x", gCurrentElement.text.position.x);
+                            elem.data("y", gCurrentElement.text.position.y);
                         } else {
                             // Plain text
                             elem.attr("x", e.pageX - myCanvasContainer[0].offsetLeft);
                             elem.attr("y", e.pageY - myCanvasContainer[0].offsetTop);
                             gCurrentElement.position.x = elem.attr("x") * 1;
                             gCurrentElement.position.y = elem.attr("y") * 1;
+                            elem.data("x", gCurrentElement.position.x);
+                            elem.data("y", gCurrentElement.position.y);
                         }
                     } else if (elem.is("rect")) {
-                        elem.attr("x", e.pageX - myCanvasContainer[0].offsetLeft - elem.attr("width") / 2);
-                        elem.attr("y", e.pageY - myCanvasContainer[0].offsetTop - elem.attr("height") / 2);
-                        gCurrentElement.position.x = elem.attr("x") * 1;
-                        gCurrentElement.position.y = elem.attr("y") * 1;
+                        gCurrentElement.position.x = e.pageX - myCanvasContainer[0].offsetLeft - elem.attr("width") / 2;
+                        gCurrentElement.position.y = e.pageY - myCanvasContainer[0].offsetTop - elem.attr("height") / 2;
+                        setShapePos(elem, gCurrentElement.position);
                     } else if (elem.is("ellipse")) {
-                        elem.attr("cx", e.pageX - myCanvasContainer[0].offsetLeft);
-                        elem.attr("cy", e.pageY - myCanvasContainer[0].offsetTop);
-                        gCurrentElement.position.x = elem.attr("cx") * 1;
-                        gCurrentElement.position.y = elem.attr("cy") * 1;
+                        gCurrentElement.position.x = e.pageX - myCanvasContainer[0].offsetLeft;
+                        gCurrentElement.position.y = e.pageY - myCanvasContainer[0].offsetTop;
+                        setShapePos(elem, gCurrentElement.position);
                     }
                 });
             } else if (myResizedElement !== null) {
                 if (myResizedElement.is("rect")) {
                     var actualWidth = myResizedElement.attr("width") * 1,
                         actualHeight = myResizedElement.attr("height") * 1,
-                        actualPosX = myResizedElement.attr("x") * 1,
-                        actualPosY = myResizedElement.attr("y") * 1,
+                        actualPosX = myResizedElement.data("x"),
+                        actualPosY = myResizedElement.data("y"),
                         newWidth = e.pageX - myCanvasContainer[0].offsetLeft - myResizedElement.data("originalposx"),
                         newHeight = e.pageY - myCanvasContainer[0].offsetTop - myResizedElement.data("originalposy"),
                         newPosX = actualPosX,
@@ -799,14 +872,12 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                         newHeight = Math.abs(newHeight);
                         newPosY = myResizedElement.data("originalposy") - newHeight;
                     }
-                    myResizedElement.attr("width", newWidth)
-                        .attr("height", newHeight)
-                        .attr("x", newPosX)
-                        .attr("y", newPosY);
-                    gCurrentElement.width = myResizedElement.attr("width") * 1;
-                    gCurrentElement.height = myResizedElement.attr("height") * 1;
-                    gCurrentElement.position.x = myResizedElement.attr("x") * 1;
-                    gCurrentElement.position.y = myResizedElement.attr("y") * 1;
+                    myResizedElement.attr("width", newWidth).attr("height", newHeight);
+                    gCurrentElement.width = newWidth;
+                    gCurrentElement.height = newHeight;
+                    gCurrentElement.position.x = newPosX;
+                    gCurrentElement.position.y = newPosY;
+                    setShapePos(myResizedElement, gCurrentElement.position);
                 } else if (myResizedElement.is("ellipse")) {
                     myResizedElement.attr("rx", Math.abs(e.pageX - myCanvasContainer[0].offsetLeft - (myResizedElement.attr("cx") * 1)))
                         .attr("ry", Math.abs(e.pageY - myCanvasContainer[0].offsetTop - (myResizedElement.attr("cy") * 1)));
@@ -815,6 +886,29 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 } else if (myResizedElement.is("polygon")) {
                     // TODO: Handle resize og polygons
                 }
+            } else if (myRotatedElement !== null) {
+                // TODO: Handle rotation
+                var elPosX = 0,
+                    elPosY = 0,
+                    angleToApply = 0,
+                    radius = 1;
+                elPosX = myRotatedElement.data("x");
+                elPosY = myRotatedElement.data("y");
+                // Reposition element to 0,0
+                if (myRotatedElement.is("rect")) {
+                    myRotatedElement.attr("x", 0);
+                    myRotatedElement.attr("y", 0);
+                } else if (myRotatedElement.is("ellipse")) {
+                    myRotatedElement.attr("cx", 0);
+                    myRotatedElement.attr("cy", 0);
+                }
+                radius = Math.sqrt(Math.pow(elPosX - e.pageX - myCanvasContainer[0].offsetLeft, 2) + Math.pow(elPosY - e.pageY - myCanvasContainer[0].offsetTop, 2));
+                angleToApply = Math.acos((elPosX - e.pageX - myCanvasContainer[0].offsetLeft) / radius);
+                if (elPosY > e.pageY - myCanvasContainer[0].offsetTop) {
+                    angleToApply = -angleToApply;
+                }
+                angleToApply = angleToApply * 360 / Math.PI;
+                myRotatedElement.attr("transform", "translate(" + elPosX + " " + elPosY + ") rotate(" + angleToApply + ")");
             }
         });
         $(".colorselector, #colorSelectorLine").ColorPicker({
