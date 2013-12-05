@@ -22,7 +22,9 @@ var gDECAL_GRID = 20,
     gDROP_ZONE_BORDER = 30,
     gNB_COLS = 10,
     gNB_ROWS = 10,
-    gIMPORT_TIMEOUT = 100;
+    gIMPORT_TIMEOUT = 100,
+    gRECT_MIN_WIDTH = 10,
+    gRECT_MIN_HEIGHT = 10;
 
 /**
  * Main function
@@ -47,14 +49,6 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             myShapeHandlers = $("#shapeHandlers"),
             myShapeOptions = $("#shapeOptions"),
             myShapeOptionsHandler = $("#shapeoptionshandler"),
-            myResizeNSTop = $("#resizenstop"),
-            myResizeNSBottom = $("#resizensbottom"),
-            myResizeEWLeft = $("#resizeewleft"),
-            myResizeEWRight = $("#resizeewright"),
-            myResizeNWSETopLeft = $("#resizenwsetopleft"),
-            myResizeNWSEBottomRight = $("#resizenwsebottomright"),
-            myResizeSWNETopRight = $("#resizeswnetopright"),
-            myResizeSWNEBottomLeft = $("#resizeswnebottomleft"),
             preventClosingContextMenu = false,
             timeoutIdContextMenu = 0;
 
@@ -84,8 +78,8 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 myText = myCanvas.text(g2, pConfElement.text.position.x, pConfElement.text.position.y, pConfElement.text.value, { "id": myElemTextId, "rel": myElemId });
             myImage = $(myImage);
             myText = $(myText);
-            myImage.addClass("movable").addClass("hasMenuElement");
-            myText.addClass("movable").addClass("hasMenuElement").addClass(pConfElement.text.position.rel);
+            myImage.addClass("movable hasMenuElement");
+            myText.addClass("movable hasMenuElement " + pConfElement.text.position.rel);
             myImage.add(myText).on("mouseenter", function(e) {
                 if (!$(this).hasClass("moving") && myDraggedElement === null) {
                     myContextMenuElement.css("top", ((myImage.attr("y") * 1) + myCanvasContainer[0].offsetTop + 15) + "px")
@@ -185,23 +179,11 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     break;
                 case "ellipse":
                     myShape.on("mouseenter", function(e) {
-                        if (!$(this).hasClass("moving") && myDraggedElement === null) {
+                        if (!$(this).hasClass("moving") && myDraggedElement === null && !$(this).hasClass("resizing") && myResizedElement === null) {
                             var myShapePositionX = myShape.attr("cx") * 1,
                                 myShapePositionY = myShape.attr("cy") * 1,
                                 myShapeRadiusX = myShape.attr("rx") * 1,
                                 myShapeRadiusY = myShape.attr("ry") * 1;
-                            myResizeNSTop.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop - myShapeRadiusY - 8) + "px")
-                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft - 8) + "px").show();
-                            myResizeNSBottom.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + myShapeRadiusY - 8) + "px")
-                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft - 8) + "px").show();
-                            myResizeEWLeft.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop - 8) + "px")
-                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft - myShapeRadiusX - 8) + "px").show();
-                            myResizeEWRight.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop - 8) + "px")
-                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + myShapeRadiusX - 8) + "px").show();
-                            myResizeNWSETopLeft.hide();
-                            myResizeNWSEBottomRight.hide();
-                            myResizeSWNETopRight.hide();
-                            myResizeSWNEBottomLeft.hide();
                             myShapeOptionsHandler.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop - 8) + "px")
                                 .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft - 8) + "px")
                                 .on("mouseenter", function(e) {
@@ -216,7 +198,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                                         preventClosingContextMenu = false;
                                     }, 200);
                                 }).show();
-                            myResizeNSTop.parent().attr("rel", myShape.attr("id"));
+                            myShapeOptionsHandler.parent().attr("rel", myShape.attr("id"));
                             gCurrentElement = pConfShape;
                             myShapeHandlers.show();
                         }
@@ -226,27 +208,11 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 case "rect":
                 default:
                     myShape.on("mouseenter", function(e) {
-                        if (!$(this).hasClass("moving") && myDraggedElement === null) {
+                        if (!$(this).hasClass("moving") && myDraggedElement === null && !$(this).hasClass("resizing") && myResizedElement === null) {
                             var myShapePositionX = myShape.attr("x") * 1,
                                 myShapePositionY = myShape.attr("y") * 1,
                                 myShapeWidth = myShape.attr("width") * 1,
                                 myShapeHeight = myShape.attr("height") * 1;
-                            myResizeNSTop.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop - 8) + "px")
-                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + (myShapeWidth / 2) - 8) + "px").show();
-                            myResizeNSBottom.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + myShapeHeight - 8) + "px")
-                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + (myShapeWidth / 2) - 8) + "px").show();
-                            myResizeEWLeft.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + (myShapeHeight / 2) - 8) + "px")
-                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft - 8) + "px").show();
-                            myResizeEWRight.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + (myShapeHeight / 2) - 8) + "px")
-                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + myShapeWidth - 8) + "px").show();
-                            myResizeNWSETopLeft.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop - 8) + "px")
-                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft - 8) + "px").show();
-                            myResizeNWSEBottomRight.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + myShapeHeight - 8) + "px")
-                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + myShapeWidth - 8) + "px").show();
-                            myResizeSWNETopRight.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop - 8) + "px")
-                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + myShapeWidth - 8) + "px").show();
-                            myResizeSWNEBottomLeft.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + myShapeHeight - 8) + "px")
-                                .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft - 8) + "px").show();
                             myShapeOptionsHandler.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + (myShapeHeight / 2) - 8) + "px")
                                 .css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + (myShapeWidth / 2) - 8) + "px")
                                 .on("mouseenter", function(e) {
@@ -261,7 +227,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                                         preventClosingContextMenu = false;
                                     }, 200);
                                 }).show();
-                            myResizeNSTop.parent().attr("rel", myShape.attr("id"));
+                            myShapeOptionsHandler.parent().attr("rel", myShape.attr("id"));
                             gCurrentElement = pConfShape;
                             myShapeHandlers.show();
                         }
@@ -281,33 +247,14 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
         };
 
         initSvg();
-        myShapeHandlers.on("mouseleave", function() {
+        myShapeOptionsHandler.find().on("mouseleave", function() {
             $(this).hide();
         });
         // TODO: Handle resize of shapes
-        myResizeNSTop.on("click", function(e) {
-            myResizedElement = $("#" + $(this).parent().attr("rel")).addClass("resizing");
-        });
-        myResizeNSBottom.on("click", function(e) {
-            myResizedElement = $("#" + $(this).parent().attr("rel")).addClass("resizing");
-        });
-        myResizeEWLeft.on("click", function(e) {
-            myResizedElement = $("#" + $(this).parent().attr("rel")).addClass("resizing");
-        });
-        myResizeEWRight.on("click", function(e) {
-            myResizedElement = $("#" + $(this).parent().attr("rel")).addClass("resizing");
-        });
-        myResizeNWSETopLeft.on("click", function(e) {
-            myResizedElement = $("#" + $(this).parent().attr("rel")).addClass("resizing");
-        });
-        myResizeNWSEBottomRight.on("click", function(e) {
-            myResizedElement = $("#" + $(this).parent().attr("rel")).addClass("resizing");
-        });
-        myResizeSWNETopRight.on("click", function(e) {
-            myResizedElement = $("#" + $(this).parent().attr("rel")).addClass("resizing");
-        });
-        myResizeSWNEBottomLeft.on("click", function(e) {
-            myResizedElement = $("#" + $(this).parent().attr("rel")).addClass("resizing");
+        myContextMenuShape.find(".resize").on("click", function(e) {
+            myResizedElement = $("#" + myContextMenuShape.attr("rel")).addClass("resizing");
+            myResizedElement.data("originalposx", myResizedElement.attr("x") * 1);
+            myResizedElement.data("originalposy", myResizedElement.attr("y") * 1);
         });
         $("#menu a").click(function(e) {
             e.preventDefault();
@@ -798,13 +745,33 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             } else if (myResizedElement !== null) {
                 // TODO: Handle resize
                 if (myResizedElement.is("rect")) {
-                    myResizedElement.attr("width", e.pageX - myCanvasContainer[0].offsetLeft - myResizedElement.attr("x"));
-                    myResizedElement.attr("height", e.pageY - myCanvasContainer[0].offsetTop - myResizedElement.attr("y"));
+                    var actualWidth = myResizedElement.attr("width") * 1,
+                        actualHeight = myResizedElement.attr("height") * 1,
+                        actualPosX = myResizedElement.attr("x") * 1,
+                        actualPosY = myResizedElement.attr("y") * 1,
+                        newWidth = e.pageX - myCanvasContainer[0].offsetLeft - myResizedElement.data("originalposx"),
+                        newHeight = e.pageY - myCanvasContainer[0].offsetTop - myResizedElement.data("originalposy"),
+                        newPosX = actualPosX,
+                        newPosY = actualPosY;
+                    if (newWidth < 0) {
+                        newWidth = Math.abs(newWidth);
+                        newPosX = myResizedElement.data("originalposx") - newWidth;
+                    }
+                    if (newHeight < 0) {
+                        newHeight = Math.abs(newHeight);
+                        newPosY = myResizedElement.data("originalposy") - newHeight;
+                    }
+                    myResizedElement.attr("width", newWidth)
+                        .attr("height", newHeight)
+                        .attr("x", newPosX)
+                        .attr("y", newPosY);
                     gCurrentElement.width = myResizedElement.attr("width") * 1;
                     gCurrentElement.height = myResizedElement.attr("height") * 1;
+                    gCurrentElement.position.x = myResizedElement.attr("x") * 1;
+                    gCurrentElement.position.y = myResizedElement.attr("y") * 1;
                 } else if (myResizedElement.is("ellipse")) {
-                    myResizedElement.attr("rx", e.pageX - myCanvasContainer[0].offsetLeft - (myResizedElement.attr("cx") * 1) - (myResizedElement.attr("rx") * 1));
-                    myResizedElement.attr("ry", e.pageY - myCanvasContainer[0].offsetTop - (myResizedElement.attr("cy") * 1) - (myResizedElement.attr("ry") * 1));
+                    myResizedElement.attr("rx", Math.abs(e.pageX - myCanvasContainer[0].offsetLeft - (myResizedElement.attr("cx") * 1)))
+                        .attr("ry", Math.abs(e.pageY - myCanvasContainer[0].offsetTop - (myResizedElement.attr("cy") * 1)));
                     gCurrentElement.rx = myResizedElement.attr("rx") * 1;
                     gCurrentElement.ry = myResizedElement.attr("ry") * 1;
                 }

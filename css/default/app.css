@@ -148,6 +148,7 @@ input.overlay, textarea.overlay{border:1px dotted #FFF;background:transparent}
 .contextMenu a.smallertext{background:url('./icons/edit-size-down.png') no-repeat left top}
 .contextMenu a.biggertext{background:url('./icons/edit-size-up.png') no-repeat left top}
 .contextMenu a.rotate{background:url('./icons/arrow_rotate_clockwise.png') no-repeat left top}
+.contextMenu a.resize{background:url('./icons/arrow_out.png') no-repeat left top}
 .contextMenu a.options{background:url('./icons/gear.png') no-repeat left top}
 .contextMenu a.textPosition.top{background:url('./icons/text_padding_bottom.png') no-repeat left top}
 .contextMenu a.textPosition.top.selected{background:url('./icons/text_padding_bottom_faded.png') no-repeat left top}
@@ -160,11 +161,5 @@ input.overlay, textarea.overlay{border:1px dotted #FFF;background:transparent}
 #dialog-confirm,#textEdit{display:none}
 #shapeHandlers{display:none}
 #shapeOptions{display:none}
-.resize{display:block;width:16px;height:16px;opacity:.5;position:absolute}
-.resize:hover{opacity:1}
-.resize.ns{background:url('./icons/arrow_ns.png') no-repeat center center}
-.resize.ew{background:url('./icons/arrow_ew.png') no-repeat center center}
-.resize.nwse{background:url('./icons/arrow_nw_se.png') no-repeat center center}
-.resize.swne{background:url('./icons/arrow_sw_ne.png') no-repeat center center}
 .shape.options{display:block;width:16px;height:16px;opacity:.5;border:1px solid #000;background:#666;position:absolute}
 .shape.options:hover{opacity:1}
