@@ -39,8 +39,9 @@ footer{
     font-size:0.8em;
     color:#999;
 }
+#menu{background:#000;position:absolute;top:0;bottom:0;left:0}
 #menu * {
-    color:#000;
+    color:#FFF;
     text-decoration:none;
 }
 #menu select, #menu input, #menu option, #menu textarea{color:#000}
@@ -65,16 +66,16 @@ footer{
     bottom:0;
     z-index:1000;
     padding:1em;
-    background: rgba(255,255,255,.9);
+    background: #000;
 }
 #menu > ul > li:hover > div{display:block}
 #menu > ul > li > ul{display:none}
 #menu .operation{padding:0 0 0 20px}
 #menu .operation.delete{background:url('./icons/delete.png') no-repeat left top}
 #menu .operation.select{background:url('./icons/layout.png') no-repeat left top}
-#menu > ul > li > a{display:block;width:24px;height:24px;opacity:.25;border:1px solid transparent}
+#menu > ul > li > a{display:block;width:24px;height:24px;border:1px solid transparent}
 #menu > ul > li > a.selected{border:1px solid #999}
-#menu > ul:hover > li > a{opacity:1}
+#menu > ul:hover > li > a{}
 #menu > ul > li > a > span{display:none}
 #menuMap div{min-width:20em}
 #menuMap > a{background:url('./icons/map.png') no-repeat center center}
@@ -130,7 +131,7 @@ main{text-align:center;padding:.25em}
 .element{list-style:none;padding:0;margin:0;display:block;width:24px;height:24px;border:1px solid transparent}
 .element.selected{border:1px solid #999}
 .element span{display:none}
-.moving{opacity:.5}
+.moving,.resizing{opacity:.5}
 input.overlay, textarea.overlay{border:1px dotted #FFF;background:transparent}
 .contextMenu{position:absolute;display:none;border:1px solid #999;background:#FFF;opacity:.5;padding:2px;height:22px}
 .contextMenu:hover{opacity:1}
