@@ -17,30 +17,37 @@
                 <li id="menuMap"><a href="map" title="S&eacute;lectionner une carte" data-i18n-key="menu.map"><span>Carte</span></a><div>
                         <fieldset>
                             <legend data-i18n-key="edit.options.map">Carte</legend>
-                            <p><label for="selGame" data-i18n-key="menu.games">Jeu&nbsp;:</label> <select id="selGame" name="selGame"></select></p>
-                            <p><label for="selMap" data-i18n-key="menu.maps">Carte&nbsp;:</label> <select id="selMap" name="selMap"></select></p>
-                            <p><label for="selMode" data-i18n-key="menu.modes">Mode&nbsp;:</label> <select id="selMode" name="selMode"></select></p>
+                            <p><label for="selGame" data-i18n-key="menu.games" class="fortext" for="selGame">Jeu&nbsp;:</label> <select id="selGame" name="selGame"></select></p>
+                            <p><label for="selMap" data-i18n-key="menu.maps" class="fortext" for="selMap">Carte&nbsp;:</label> <select id="selMap" name="selMap"></select></p>
+                            <p><label for="selMode" data-i18n-key="menu.modes" class="fortext" for="selMode">Mode&nbsp;:</label> <select id="selMode" name="selMode"></select></p>
                         </fieldset>
                         <fieldset>
                             <legend data-i18n-key="edit.options.label">Options</legend>
                             <p><label data-i18n-key="menu.inverseteams"><input type="checkbox" id="inverseTeams" name="inverseTeams" /> Inverser les &eacute;quipes</label></p>
                             <section class="flex flex-h">
                                 <aside class="flex-start">
-                                    <p><label data-i18n-key="edit.options.grid"><input type="checkbox" name="chkGrid" id="chkGrid" checked="checked"> Grille</label></p>
-                                    <p><label data-i18n-key="edit.options.windrose"><input type="checkbox" name="chkDirections" id="chkDirections"> Rose des vents</label></p>
-                                    <p><label data-i18n-key="edit.options.bases"><input type="checkbox" name="chkBases" id="chkBases" checked="checked"> Bases</label></p>
-                                    <p><label data-i18n-key="edit.options.scale"><input type="checkbox" name="chkScale" id="chkScale"> &Eacute;chelle</label></p>
+                                    <p><label data-i18n-key="edit.options.grid"><input type="checkbox" name="chkGrid" id="chkGrid" checked="checked" /> Grille</label></p>
+                                    <p><label data-i18n-key="edit.options.windrose"><input type="checkbox" name="chkDirections" id="chkDirections" /> Rose des vents</label></p>
+                                    <p><label data-i18n-key="edit.options.bases"><input type="checkbox" name="chkBases" id="chkBases" checked="checked" /> Bases</label></p>
+                                    <p><label data-i18n-key="edit.options.scale"><input type="checkbox" name="chkScale" id="chkScale" /> &Eacute;chelle</label></p>
                                 </aside>
                                 <aside class="flex-fluid">
-                                    <p><label data-i18n-key="edit.options.elements"><input type="checkbox" name="chkElements" id="chkElements" checked="checked"> &Eacute;l&eacute;ments</label></p>
-                                    <p><label data-i18n-key="edit.options.elements"><input type="checkbox" name="chkElementsTexts" id="chkElementsTexts" checked="checked"> Textes des &eacute;l&eacute;ments</label></p>
-                                    <p><label data-i18n-key="edit.options.lines"><input type="checkbox" name="chkLines" id="chkLines" checked="checked"> Lignes</label></p>
-                                    <p><label data-i18n-key="edit.options.texts"><input type="checkbox" name="chkTexts" id="chkTexts" checked="checked"> Textes</label></p>
-                                    <p><label data-i18n-key="edit.options.shapes"><input type="checkbox" name="chkShapes" id="chkShapes" checked="checked"> Formes</label></p>
+                                    <p><label data-i18n-key="edit.options.elements"><input type="checkbox" name="chkElements" id="chkElements" checked="checked" /> &Eacute;l&eacute;ments</label></p>
+                                    <p><label data-i18n-key="edit.options.elements"><input type="checkbox" name="chkElementsTexts" id="chkElementsTexts" checked="checked" /> Textes des &eacute;l&eacute;ments</label></p>
+                                    <p><label data-i18n-key="edit.options.lines"><input type="checkbox" name="chkLines" id="chkLines" checked="checked" /> Lignes</label></p>
+                                    <p><label data-i18n-key="edit.options.texts"><input type="checkbox" name="chkTexts" id="chkTexts" checked="checked" /> Textes</label></p>
+                                    <p><label data-i18n-key="edit.options.shapes"><input type="checkbox" name="chkShapes" id="chkShapes" checked="checked" /> Formes</label></p>
                                 </aside>
                             </section>
                         </fieldset>
-                        <p id="mapDesc"><span class="mapName"></span> <span class="mapMetrics"></span> <span class="mapSquareLength"></span></p>
+                    </div></li>
+                <li id="menuEditStrat"><a href="./edit/strat" title="&Eacute;diter les propi&eacute;t&eacute; de la strat&eacute;gie" data-i18n-key="menu.edit.strat"><span>Strat&eacute;gie</span></a><div>
+                        <fieldset>
+                            <legend data-i18n-key="edit.options.strat">Strat&eacute;gie</legend>
+                            <p id="mapDesc"><span class="mapName"></span> <span class="mapMetrics"></span> <span class="mapSquareLength"></span></p>
+                            <p><label data-i18n-key="edit.options.strat.name" class="fortext" for="lblStratName">Nom&nbsp;:</label> <input type="text" name="lblStratName" id="lblStratName" /></p>
+                            <p><label data-i18n-key="edit.options.strat.description" class="fortext" for="lblStratDesc">Description&nbsp;:</label> <textarea name="lblStratDesc" id="lblStratDesc"></textarea></p>
+                        </fieldset>
                     </div></li>
                 <li id="menuEditElements"><a href="./edit" title="&Eacute;diter les &eacute;l&eacute;ments" data-i18n-key="menu.edit.elements"><span>&Eacute;l&eacute;ments</span></a><div>
                         <fieldset id="elements">

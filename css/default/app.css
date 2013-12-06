@@ -77,8 +77,12 @@ footer{
 #menu > ul > li > a.selected{border:1px solid #999}
 #menu > ul:hover > li > a{}
 #menu > ul > li > a > span{display:none}
+#menu label.fortext{display:inline-block;width:5em;text-align:right}
 #menuMap div{min-width:20em}
 #menuMap > a{background:url('./icons/map.png') no-repeat center center}
+#menuEditStrat > a{background:url('./icons/book.png') no-repeat center center}
+#menuEditStrat > div{min-width:25em}
+#lblStratDesc{width:100%;height:25em}
 #menuEditElements > a{background:url('./icons/pencil.png') no-repeat center center}
 #menuEditShapes > a{background:url('./icons/shape_move_front.png') no-repeat center center}
 #menuEditShapes ul{list-style:none;margin:0;padding:0}

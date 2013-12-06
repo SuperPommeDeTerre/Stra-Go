@@ -126,7 +126,15 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             }
         };
 
-        function addElement(pConfElement) {
+        /**
+         * Adds an element to the map
+         *
+         * @param pConfElement
+         *     The element to add
+         * @param pIndex
+         *     The index of the element in the configuration (used during import)
+         */
+        function addElement(pConfElement, pIndex) {
             var myElem = gElements[pConfElement.type]["team" + pConfElement.team],
                 myCanvas = myCanvasContainer.svg().svg("get"),
                 g = myCanvasContainer.find("#elementsOverlay").svg(),
@@ -175,11 +183,21 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             // Update serialization
             if (!gIsImporting) {
                 gCurrentConf.elements.push(pConfElement);
+                myImage.data("index", gCurrentConf.elements.length - 1);
+            } else {
+                myImage.data("index", pIndex);
             }
-            myImage.data("index",  gCurrentConf.elements.length - 1);
         };
 
-        function addText(pConfText) {
+        /**
+         * Adds a text to the map
+         *
+         * @param pConfText
+         *     The text to add
+         * @param pIndex
+         *     The index of the text in the configuration (used during import)
+         */
+        function addText(pConfText, pIndex) {
             var myCanvas = myCanvasContainer.svg().svg("get"),
                 g = myCanvasContainer.find("#textsOverlay").svg(),
                 myElemTextId = "text_" + gCountTexts++,
@@ -206,11 +224,21 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             // Update serialization
             if (!gIsImporting) {
                 gCurrentConf.texts.push(pConfText);
+                myText.data("index",  gCurrentConf.texts.length - 1);
+            } else {
+                myText.data("index", pIndex);
             }
-            myText.data("index",  gCurrentConf.texts.length - 1);
         };
 
-        function addShape(pConfShape) {
+        /**
+         * Adds a shape to the map
+         *
+         * @param pConfShape
+         *     The shape to add
+         * @param pIndex
+         *     The index of the shape in the configuration (used during import)
+         */
+        function addShape(pConfShape, pIndex) {
             var myCanvas = myCanvasContainer.svg().svg("get"),
                 g = myCanvasContainer.find("#shapesOverlay").svg(),
                 myElemId = "shape_" + gCountTexts++,
@@ -302,10 +330,13 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             // Update serialization
             if (!gIsImporting) {
                 gCurrentConf.shapes.push(pConfShape);
+                myShape.data("index",  gCurrentConf.shapes.length - 1);
+            } else {
+                myShape.data("index", pIndex);
             }
-            myShape.data("index",  gCurrentConf.shapes.length - 1);
         };
 
+        // Initialize the SVG and the events handlers
         initSvg();
         myShapeOptionsHandler.find().on("mouseleave", function() {
             $(this).hide();
@@ -927,6 +958,12 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
         }).bind('keyup', function(){
             $(this).ColorPickerSetColor(this.value);
         });
+        $("#lblStratName").change(function(e) {
+            gCurrentConf.name = $(this).val();
+        });
+        $("#lblStratDesc").change(function(e) {
+            gCurrentConf.desc = $(this).val();
+        });
         // Append colorpicker overlay to edit panel in order to prevent hiding of panel
         //$(".colorpicker").detach().appendTo($("#menuEditLines > div"));
         // Load global configuration
@@ -972,7 +1009,6 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                             $("#selMap").val(myMapToken);
                             break;
                         }
-                        $("#selMap").change();
                         // Populate the elements
                         for (myElementToken in gElements) {
                             gCountElems[myElementToken] = 0;
@@ -1001,6 +1037,10 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                             }
                             $(this).toggleClass("selected");
                         });
+                        if (gIsImporting) {
+                            $("#selMap").val(gCurrentConf.map);
+                        }
+                        $("#selMap").change();
                     }).fail(function() {
                         console.log("Error while getting ./res/" + myGameToken + "/game.json");
                     });
@@ -1024,7 +1064,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     for (var myMode in myMapObj.modes) {
                         myMapModes += "<option value=\"" + myMode + "\">" + gI18n.games[myGameToken].modes[myMode] + "</option>";
                     }
-                    $("#selMode").html(myMapModes).change();
+                    $("#selMode").html(myMapModes);
                     $("#selMode").html($("option", $("#selMode")).sort(function(a, b) { 
                         return $(a).text().localeCompare($(b).text());
                     }));
@@ -1032,17 +1072,15 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                         $("#selMode").val(myMode);
                         break;
                     }
+                    if (gIsImporting) {
+                        $("#selMode").val(gCurrentConf.mode);
+                    }
                     // Remove groups and trigger events
-                    $("#selMode").change();
                     $("#gridOverlay").remove();
                     $("#chkGrid").change();
                     $("#scaleOverlay").remove();
                     $("#chkScale").change();
-                    $("#windRoseOverlay").remove();
-                    $("#elementsOverlay").remove();
-                    $("#linesOverlay").remove();
-                    $("#shapesOverlay").remove();
-                    $("#textsOverlay").remove();
+                    $("#windRoseOverlay, #elementsOverlay, #linesOverlay, #shapesOverlay, #textsOverlay").remove();
                     $("#chkDirections").change();
                     $("#mapDesc .mapName").text(gI18n.games[myGameToken].maps[myMapToken]);
                     $("#mapDesc .mapMetrics").text(myMapObj.size.x + "m x " + myMapObj.size.y + "m");
@@ -1055,19 +1093,35 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     myCanvas.group(null, "linesOverlay", {});
                     myCanvas.group(null, "shapesOverlay", {});
                     myCanvas.group(null, "textsOverlay", {});
-                    gCurrentConf.elements = [];
+                    if (!gIsImporting) {
+                        gCurrentConf.elements = [];
+                        gCurrentConf.texts = [];
+                        gCurrentConf.shapes = [];
+                        gCurrentConf.lines = [];
+                    }
                     for (myElementToken in gElements) {
                         gCountElems[myElementToken] = 0;
                     }
-                    gCurrentConf.texts = [];
-                    gCurrentConf.shapes = [];
-                    gCurrentConf.lines = [];
+                    $("#selMode").change();
                 });
                 $("#selMode").change(function(e) {
                     e.stopImmediatePropagation();
                     e.preventDefault();
                     gCurrentConf.mode = $(this).val();
                     $("#basesOverlay").remove();
+                    if (gIsImporting) {
+                        var i = 0;
+                        for (i = 0; i<gCurrentConf.elements.length; i++) {
+                            addElement(gCurrentConf.elements[i], i);
+                        }
+                        for (i = 0; i<gCurrentConf.texts.length; i++) {
+                            addText(gCurrentConf.texts[i], i);
+                        }
+                        for (i = 0; i<gCurrentConf.shapes.length; i++) {
+                            addShape(gCurrentConf.shapes[i], i);
+                        }
+                        gIsImporting = false;
+                    }
                     $("#chkBases").change();
                 });
                 $("#chkGrid").change(function(e) {
@@ -1139,7 +1193,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                                                              [myMapMode[myMapTeam][i].x + gDECAL_GRID, myMapMode[myMapTeam][i].y - gDROP_ZONE_BORDER + gDECAL_GRID],
                                                              [myMapMode[myMapTeam][i].x + gDROP_ZONE_BORDER + gDECAL_GRID, myMapMode[myMapTeam][i].y + gDECAL_GRID],
                                                              [myMapMode[myMapTeam][i].x + gDECAL_GRID, myMapMode[myMapTeam][i].y + gDROP_ZONE_BORDER + gDECAL_GRID]], { "class": myMapTeam });
-                                        myCanvas.text(g, myMapMode[myMapTeam][i].x + gDECAL_GRID - 2, myMapMode[myMapTeam][i].y + 5 + gDECAL_GRID, (countDrops++ + 1) + "", { "class": myMapTeam });
+                                        myCanvas.text(g, myMapMode[myMapTeam][i].x + gDECAL_GRID - 2, myMapMode[myMapTeam][i].y + 5 + gDECAL_GRID, (++countDrops) + "", { "class": myMapTeam });
                                     }
                                 }
                             }
@@ -1201,26 +1255,10 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     e.stopImmediatePropagation();
                     e.preventDefault();
                     gIsImporting = true;
-                    var myConf = $.parseJSON(decodeURIComponent(escape(atob($("#txtImportExport").val()))));
-                    $("#selGame").val(myConf.game).change();
-                    window.setTimeout(function() {
-                        $("#selMap").val(myConf.map).change();
-                        window.setTimeout(function() {
-                            var i = 0;
-                            $("#selMode").val(myConf.mode).change();
-                            for (i = 0; i<myConf.elements.length; i++) {
-                                addElement(myConf.elements[i]);
-                            }
-                            for (i = 0; i<myConf.texts.length; i++) {
-                                addText(myConf.texts[i]);
-                            }
-                            for (i = 0; i<myConf.shapes.length; i++) {
-                                addShape(myConf.shapes[i]);
-                            }
-                            gCurrentConf = myConf;
-                            gIsImporting = false;
-                        }, gIMPORT_TIMEOUT);
-                    }, gIMPORT_TIMEOUT);
+                    gCurrentConf = $.parseJSON(decodeURIComponent(escape(atob($("#txtImportExport").val()))));
+                    $("#lblStratName").val(gCurrentConf.name);
+                    $("#lblStratDesc").val(gCurrentConf.desc);
+                    $("#selGame").val(gCurrentConf.game).change();
                 });
                 updateComponents();
             }).fail(function() {
