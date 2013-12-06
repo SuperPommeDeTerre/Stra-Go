@@ -249,6 +249,20 @@
                 }
             }
         },
+        "HiddenVillage": {
+            "file": "Hidden%20Village.jpg",
+            "size": { "x": 1000, "y": 1000 },
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 700, "y": 130 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 150, "y": 840 }
+                    ]
+                }
+            }
+        },
         "Highway": {
             "file": "Highway.jpg",
             "size": { "x": 1000, "y": 1000 },
