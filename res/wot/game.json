@@ -117,7 +117,16 @@
         "AsiaGreatWall": {
             "file": "Asia%20Great%20Wall.jpg",
             "size": { "x": 1000, "y": 1000 },
-            "modes": [ "standard" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 700, "y": 130 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 150, "y": 840 }
+                    ]
+                }
+            }
         },
         "Cliff": {
             "file": "Cliff.jpg",
