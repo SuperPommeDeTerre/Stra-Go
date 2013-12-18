@@ -664,8 +664,8 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 myImagePosX = (myImage.attr("x") * 1),
                 myImageWidth = (myImage.attr("width") * 1);
             $("#textValue").val(myText.text());
-            if (myText.css("stroke") !== "none") {
-                $("#textColor").val(myText.css("stroke").substr(1));
+            if (myText.css("fill") !== "none") {
+                $("#textColor").val(myText.css("fill").substr(1));
             } else {
                 $("#textColor").val("FFFFFF");
             }
@@ -677,7 +677,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                         "text": gI18n.buttons.ok,
                         "click": function() {
                             myText.text($("#textValue").val());
-                            myText.css("stroke", "#" + $("#textColor").val()).css("fill", "#" + $("#textColor").val());
+                            myText.css("fill", "#" + $("#textColor").val()).css("fill", "#" + $("#textColor").val());
                             gCurrentElement.text.value = myText.text();
                             myTextWidth = myText[0].getComputedTextLength();
                             if (myText.hasClass("top")) {
