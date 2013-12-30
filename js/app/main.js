@@ -77,16 +77,22 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
         function initSvg() {
             var myCanvas = myCanvasContainer.svg().svg("get"),
                 myDefs = myCanvas.defs(),
-                myPattern = myCanvas.pattern(myDefs, "patternZebra", 0, 0, 20, 20, {"patternUnits": "userSpaceOnUse"});
+                myPattern = myCanvas.pattern(myDefs, "patternZebra", 0, 0, 20, 20, {"patternUnits": "userSpaceOnUse"}),
+                myMarker = null;
             // Diagonal stroke pattern
             myCanvas.polygon(myPattern, [[0, 0], [0, 5], [5, 0]], {});
             myCanvas.polygon(myPattern, [[20, 20], [15, 20], [20, 15]], {});
             myCanvas.polygon(myPattern, [[15, 0], [20, 0], [20, 5], [5, 20], [0, 20], [0, 15]], {});
+            // Chess pattern
             myPattern = myCanvas.pattern(myDefs, "patternChess", 0, 0, 20, 20, {"patternUnits": "userSpaceOnUse"});
             myCanvas.polygon(myPattern, [[0, 0], [0, 10], [10, 10], [10, 0]], {});
             myCanvas.polygon(myPattern, [[10, 10], [10, 20], [20, 20], [20, 10]], {});
+            // Triangle pattern
             myPattern = myCanvas.pattern(myDefs, "patternTriangle", 0, 0, 10, 10, {"patternUnits": "userSpaceOnUse"});
             myCanvas.polygon(myPattern, [[5, 0], [10, 10], [0, 10]], {});
+            // Triangle marker
+            myMarker = myCanvas.marker(myDefs, "markerTriangle", 0.1, 2, 2, 4);
+            myCanvas.path(myMarker, "M0,0 V4 L2,2 Z", {});
         };
 
         /**
@@ -376,7 +382,8 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 }
                 var myLineProps = {
                     "id": myElemId,
-                    "class": "drawing"
+                    "class": "drawing",
+                    "marker-end": "url(#markerTriangle)"
                 }
                 for (var myLinePropName in pConfLine.style) {
                     myLineProps[myLinePropName] = pConfLine.style[myLinePropName];
@@ -509,6 +516,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             myLineOptions.dialog({
                 "resizable": false,
                 "modal": true,
+                "width": 475,
                 "buttons": [
                     {
                         "text": gI18n.buttons.ok,

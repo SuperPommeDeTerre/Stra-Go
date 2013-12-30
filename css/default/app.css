@@ -133,7 +133,7 @@ main{text-align:center;padding:.25em}
 #scaleOverlay line{stroke:#FFF;stroke-width:0.5}
 #scaleOverlay text{fill:#FFF}
 #shapesOverlay *{stroke:#FFF;stroke-width:1;fill:#333;fill-opacity:.5}
-#linesOverlay polyline{stroke:#0F0;fill:none}
+#linesOverlay polyline{stroke:#0F0;fill:none;stroke-linecap:round}
 #linesOverlay polyline.drawing{stroke-opacity:.5}
 .elements{list-style:none;padding:0;margin:0}
 .elements li{margin:.25em}
@@ -170,5 +170,6 @@ input.overlay, textarea.overlay{border:1px dotted #FFF;background:transparent}
 #dialog-confirm,#textEdit{display:none}
 #shapeHandlers{display:none}
 #shapeOptions{display:none}
+#lineOptions{display:none}
 .handler{display:block;width:16px;height:16px;opacity:.5;border:1px solid #000;background:#666;position:absolute}
 .handler:hover{opacity:1}

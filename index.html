@@ -190,18 +190,63 @@
         </fieldset>
     </div>
     <div id="lineOptions" title="Options de la ligne">
-        <p><label>Couleur&nbsp;: <input id="lineColor" class="colorselector" type="text" value="000000" /></label></p>
-        <p><label>Epaisseur&nbsp;: <select id="lineThickness">
-                                    <option value="1">1 pixel</option>
-                                    <option value="2">2 pixels</option>
-                                    <option value="3">3 pixels</option>
-                                    <option value="5">5 pixels</option>
-                                </select></label></p>
-        <p><label>Type&nbsp;: <select id="lineType">
-                <option value="solid">Pleine</option>
-                <option value="dotted">Pointill&eacute;</option>
-                <option value="dashed">Tirets</option>
-            </select></label></p>
+        <fieldset>
+            <legend>Options g&eacute;n&eacute;rales</legend>
+            <p><label>Couleur&nbsp;: <input id="lineColor" class="colorselector" type="text" value="000000" /></label></p>
+            <p><label>Epaisseur&nbsp;: <select id="lineThickness">
+                                        <option value="1">1 pixel</option>
+                                        <option value="2">2 pixels</option>
+                                        <option value="3">3 pixels</option>
+                                        <option value="5">5 pixels</option>
+                                    </select></label></p>
+            <p><label>Type&nbsp;: <select id="lineType">
+                    <option value="solid">Pleine</option>
+                    <option value="dotted">Pointill&eacute;</option>
+                    <option value="dashed">Tirets</option>
+                </select></label></p>
+            <p><label>Opacit&eacute;&nbsp;: <select id="lineOpacity">
+                    <option value="1" selected="selected">100 %</option>
+                    <option value=".75">75 %</option>
+                    <option value=".5">50 %</option>
+                    <option value=".25">25 %</option>
+                </select></label></p>
+        </fieldset>
+        <section class="flex flex-h">
+            <aside class="flex-start">
+                <fieldset>
+                    <legend>Marqueur de d&eacute;but</legend>
+                    <p><label>Type&nbsp;: <select id="lineMarkerStartType">
+                            <option value="none" selected="selected">Aucun</option>
+                            <option value="markerTrinagle">Triangle</option>
+                            <option value="markerLine">Ligne</option>
+                        </select></label></p>
+                    <p><label>Couleur&nbsp;: <input id="lineMarkerStartColor" class="colorselector" type="text" value="333333" /></label></p>
+                    <p><label>Opacit&eacute;&nbsp;: <select id="lineMarkerStartOpacity">
+                            <option value="1" selected="selected">100 %</option>
+                            <option value=".75">75 %</option>
+                            <option value=".5">50 %</option>
+                            <option value=".25">25 %</option>
+                        </select></label></p>
+                </fieldset>
+            </aside>
+            <aside class="flex-fluid">
+                <fieldset>
+                    <legend>Marqueur de fin</legend>
+                    <p><label>Type&nbsp;: <select id="lineMarkerEndType">
+                            <option value="none" selected="selected">Aucun</option>
+                            <option value="markerTrinagle">Triangle</option>
+                            <option value="markerLine">Ligne</option>
+                        </select></label></p>
+                    <p><label>Couleur&nbsp;: <input id="lineMarkerEndColor" class="colorselector" type="text" value="333333" /></label></p>
+                    <p><label>Opacit&eacute;&nbsp;: <select id="lineMarkerEndOpacity">
+                            <option value="1" selected="selected">100 %</option>
+                            <option value=".75">75 %</option>
+                            <option value=".5">50 %</option>
+                            <option value=".25">25 %</option>
+                        </select></label></p>
+                </fieldset>
+            </aside>
+        </section>
     </div>
     <div id="textEdit" title="Modifier le texte">
         <p><label>Texte&nbsp;: <input type="text" id="textValue" value="" /></label></p>
