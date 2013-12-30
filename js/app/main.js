@@ -20,7 +20,9 @@ var gGames = null,
     gCurrentLineConf = null;
 
 // Constants
-var gDECAL_GRID = 20,
+var gWG_APP_ID= "65d48624959befe37494ffa27e085450",
+    gWG_API_URL = "http://api.worldoftanks.eu/wot/",
+    gDECAL_GRID = 20,
     gCHAR_CODE_A = "A".charCodeAt(0),
     gCHAR_CODE_1 = "1".charCodeAt(0),
     gWIND_ROSE_SIZE = 100,

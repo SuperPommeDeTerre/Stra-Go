@@ -42,14 +42,6 @@
                             </section>
                         </fieldset>
                     </div></li>
-                <li id="menuEditStrat"><a href="./edit/strat" title="&Eacute;diter les propi&eacute;t&eacute; de la strat&eacute;gie" data-i18n-key="menu.edit.strat"><span>Strat&eacute;gie</span></a><div>
-                        <fieldset>
-                            <legend data-i18n-key="edit.options.strat">Strat&eacute;gie</legend>
-                            <p id="mapDesc"><span class="mapName"></span> <span class="mapMetrics"></span> <span class="mapSquareLength"></span></p>
-                            <p><label data-i18n-key="edit.options.strat.name" class="fortext" for="lblStratName">Nom&nbsp;:</label> <input type="text" name="lblStratName" id="lblStratName" /></p>
-                            <p><label data-i18n-key="edit.options.strat.description" class="fortext" for="lblStratDesc">Description&nbsp;:</label> <textarea name="lblStratDesc" id="lblStratDesc"></textarea></p>
-                        </fieldset>
-                    </div></li>
                 <li id="menuEditElements"><a href="./edit" title="&Eacute;diter les &eacute;l&eacute;ments" data-i18n-key="menu.edit.elements"><span>&Eacute;l&eacute;ments</span></a><div>
                         <fieldset id="elements">
                             <legend>&Eacute;l&eacute;ments</legend>
@@ -87,15 +79,17 @@
                     </div></li>
                 <li id="menuEditTexts"><a href="edit/add/text" title="&Eacute;diter les textes" data-i18n-key="menu.edit.texts"><span>Textes</span></a></li>
                 <li id="menuShare"><a href="share" title="Partager des strat&eacute;gies" data-i18n-key="menu.share"><span>Partager</span></a><div>
-                        <section class="flex flex-h">
-                            <aside class="flex-fluid">
-                                <fieldset>
-                                    <legend data-i18n-key="menu.share.title">Import/Export</legend>
-                                    <p><textarea id="txtImportExport"></textarea></p>
-                                    <p><button id="btnImport" type="submit" data-i18n-key="menu.share.button.import">Importer</button></p>
-                                </fieldset>
-                            </aside>
-                        </section>
+                        <fieldset>
+                            <legend data-i18n-key="edit.options.strat">Strat&eacute;gie</legend>
+                            <p id="mapDesc"><span class="mapName"></span> <span class="mapMetrics"></span> <span class="mapSquareLength"></span></p>
+                            <p><label data-i18n-key="edit.options.strat.name" class="fortext" for="lblStratName">Nom&nbsp;:</label> <input type="text" name="lblStratName" id="lblStratName" /></p>
+                            <p><label data-i18n-key="edit.options.strat.description" class="fortext" for="lblStratDesc">Description&nbsp;:</label> <textarea name="lblStratDesc" id="lblStratDesc"></textarea></p>
+                        </fieldset>
+                        <fieldset>
+                            <legend data-i18n-key="menu.share.title">Import/Export</legend>
+                            <p><textarea id="txtImportExport"></textarea></p>
+                            <p><button id="btnImport" type="submit" data-i18n-key="menu.share.button.import">Importer</button></p>
+                        </fieldset>
                     </div></li>
                 <li id="menuAbout"><a href="about" title="A propos" data-i18n-key="menu.about"><span>A propos</span></a><div></div></li>
             </ul>
