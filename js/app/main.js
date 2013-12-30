@@ -12,8 +12,12 @@ var gGames = null,
     myDraggedElementHeight = 0,
     gCountElems = {},
     gCountTexts = 0,
+    gCountLines = 0,
     gCurrentElement = null,
-    gIsImporting = false;
+    gIsImporting = false,
+    gIsDrawingLine = false,
+    gCurrentLine = null,
+    gCurrentLineConf = null;
 
 // Constants
 var gDECAL_GRID = 20,
@@ -47,11 +51,24 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             myContextMenuElement = $("#contextMenuElement"),
             myContextMenuText = $("#contextMenuText"),
             myContextMenuShape = $("#contextMenuShape"),
+            myContextMenuLine = $("#contextMenuLine"),
             myShapeHandlers = $("#shapeHandlers"),
             myShapeOptions = $("#shapeOptions"),
             myShapeOptionsHandler = $("#shapeoptionshandler"),
+            myLineOptions = $("#lineOptions"),
+            myLineHandler = $("#shapeoptionshandler"),
             preventClosingContextMenu = false,
             timeoutIdContextMenu = 0;
+
+        // Click on main but not on canvas
+        $("main").on("click", function(e) {
+            gIsDrawingLine = false;
+            if (gCurrentLine != null) {
+                $(gCurrentLine).removeClass("drawing");
+                gCurrentLine = null;
+                gCurrentLineConf = null;
+            }
+        });
 
         /**
          * Inityialization of the SVG Canvas
@@ -96,7 +113,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
 
         /**
          * Gets the position of a shape
-         * 
+         *
          * @return { x, y }
          */
         function getShapePos(pShape) {
@@ -325,6 +342,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             myShape.on("mouseleave", function(e) {
                 if (!preventClosingContextMenu) {
                     myContextMenuShape.hide();
+                    myShapeOptionsHandler.hide();
                 }
             });
             // Update serialization
@@ -336,10 +354,73 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             }
         };
 
+        /**
+         * Adds a line to the map
+         *
+         * @param pConfLine
+         *     The line to add
+         * @param pIndex
+         *     The index of the line in the configuration (used during import)
+         */
+        function addLine(pConfLine, pIndex) {
+            var myCanvas = myCanvasContainer.svg().svg("get"),
+                g = myCanvasContainer.find("#linesOverlay").svg(),
+                myElemId = "line_" + gCountLines++,
+                myLine = null,
+                myLineHandlers = null;
+            if (gIsDrawingLine) {
+                if (pConfLine.points.length > 1) {
+                    // We're adding a segment to the line
+                    myElemId = "line_" + --gCountLines;
+                    gCurrentConf.lines.pop();
+                }
+                var myLineProps = {
+                    "id": myElemId,
+                    "class": "drawing"
+                }
+                for (var myLinePropName in pConfLine.style) {
+                    myLineProps[myLinePropName] = pConfLine.style[myLinePropName];
+                }
+                myLine = myCanvas.polyline(g, pConfLine.points, myLineProps);
+                gCurrentLine = myLine;
+            }
+            // Update serialization
+            myLine = $(myLine);
+            var myHandlersHtml = "";
+            for (var myPointIndex in pConfLine.points) {
+                myHandlersHtml += "<div class=\"handler point" + myPointIndex + "\" style=\"left:" + (pConfLine.points[myPointIndex][0] + myCanvasContainer[0].offsetLeft - 8) + "px;top:" + (pConfLine.points[myPointIndex][1] + myCanvasContainer[0].offsetTop - 8) + "px\"></div>";
+            }
+            myLine.on("mouseenter", function(e) {
+                myLineHandlers = $("#lineHandlers").empty().html(myHandlersHtml).show().find(".handler");
+                myLineHandlers.on("mouseenter", function(e) {
+                    myContextMenuLine.css("top", $(this).css("top")).css("left", $(this).css("left"))
+                        .attr("rel", myLine.attr("id"));
+                    myContextMenuLine.show();
+                    // Keep menu open for 200ms
+                    preventClosingContextMenu = true;
+                    timeoutIdContextMenu = window.setTimeout(function() {
+                        preventClosingContextMenu = false;
+                    }, 200);
+                });
+            });
+            myLine.on("mouseleave", function(e) {
+                if (!preventClosingContextMenu) {
+                    myContextMenuLine.hide();
+                    $("#lineHandlers").hide();
+                }
+            });
+            if (!gIsImporting) {
+                gCurrentConf.lines.push(pConfLine);
+                myLine.data("index",  gCurrentConf.lines.length - 1);
+            } else {
+                myLine.data("index", pIndex);
+            }
+        };
+
         // Initialize the SVG and the events handlers
         initSvg();
-        myShapeOptionsHandler.find().on("mouseleave", function() {
-            $(this).hide();
+        myShapeOptionsHandler.children("div").on("mouseleave", function() {
+            myShapeOptionsHandler.hide();
         });
         // Handle resize of shapes
         myContextMenuShape.find(".resize").on("click", function(e) {
@@ -364,6 +445,13 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 myLink.addClass("selected");
                 if (myLink.attr("rel")) {
                     myLink.next().find("[rel=" + myLink.attr("rel") + "]").addClass("selected");
+                }
+            } else if (gIsDrawingLine) {
+                gIsDrawingLine = false;
+                if (gCurrentLine != null) {
+                    $(gCurrentLine).removeClass("drawing");
+                    gCurrentLine = null;
+                    gCurrentLineConf = null;
                 }
             }
         });
@@ -411,6 +499,31 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 myFontSize = 16;
             }
             myText.css("font-size", (myFontSize + 2) + "px");
+        });
+        myContextMenuLine.find(".options").on("click", function(e) {
+            e.stopImmediatePropagation();
+            e.preventDefault();
+            var myLine = $("#" + myContextMenuLine.attr("rel"));
+            // Handle init of line form with line properties
+            // Show dialog
+            myLineOptions.dialog({
+                "resizable": false,
+                "modal": true,
+                "buttons": [
+                    {
+                        "text": gI18n.buttons.ok,
+                        "click": function() {
+                            $(this).dialog("close");
+                        }
+                    },
+                    {
+                        "text": gI18n.buttons.cancel,
+                        "click": function() {
+                            $(this).dialog("close");
+                        }
+                    }
+                ]
+            });
         });
         myContextMenuShape.find(".options").on("click", function(e) {
             e.stopImmediatePropagation();
@@ -539,7 +652,9 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             e.stopImmediatePropagation();
             e.preventDefault();
             var myContextMenu = $(this).closest(".contextMenu");
-            if (myDraggedElement === null) {
+            if (myContextMenu.is("#contextMenuLine")) {
+                // It's a line point, we must only move the point
+            } else if (myDraggedElement === null) {
                 myDraggedElement = $("#" + myContextMenu.attr("rel"));
                 myDraggedElementWidth = myDraggedElement.attr("width");
                 myDraggedElementHeight = myDraggedElement.attr("height");
@@ -594,7 +709,16 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                                     }
                                 });
                             } else if (myContextMenu.is("#contextMenuLine")) {
-                                // TODO
+                                var myTmpElement = $("#" + myContextMenu.attr("rel")),
+                                    myElementIndex = myTmpElement.data("index");
+                                myTmpElement.remove();
+                                // Remove object from global configuration
+                                gCurrentConf.lines.splice(myElementIndex, 1);
+                                $("#linesOverlay *:not([rel])").each(function(i, el) {
+                                    if ($(el).data("index") > myElementIndex) {
+                                        $(el).data("index", $(el).data("index") - 1);
+                                    }
+                                });
                             }
                             myContextMenu.hide();
                             $(this).dialog("close");
@@ -798,6 +922,22 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                         });
                         break;
                     case "line":
+                        if (!gIsDrawingLine) {
+                            gIsDrawingLine = true;
+                            gCurrentLineConf = {
+                                "points": [
+                                    [ e.pageX - myCanvasContainer[0].offsetLeft, e.pageY - myCanvasContainer[0].offsetTop ]
+                                ],
+                                "style": {
+                                    "stroke-width": $("#thicknessSelectorLine").val()
+                                }
+                            };
+                            addLine(gCurrentLineConf);
+                        } else {
+                            gCurrentLineConf.points.push([ e.pageX - myCanvasContainer[0].offsetLeft, e.pageY - myCanvasContainer[0].offsetTop ]);
+                            $(gCurrentLine).remove();
+                            addLine(gCurrentLineConf);
+                        }
                         break;
                     case "shape":
                         var myShapeConf = {
@@ -1002,7 +1142,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                             myMaps += "<option value=\"" + myMapToken + "\">" + gI18n.games[myGameToken].maps[myMapToken] + "</option>";
                         }
                         $("#selMap").html(myMaps);
-                        $("#selMap").html($("option", $("#selMap")).sort(function(a, b) { 
+                        $("#selMap").html($("option", $("#selMap")).sort(function(a, b) {
                             return $(a).text().localeCompare($(b).text());
                         }));
                         for (myMapToken in gMaps) {
@@ -1065,7 +1205,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                         myMapModes += "<option value=\"" + myMode + "\">" + gI18n.games[myGameToken].modes[myMode] + "</option>";
                     }
                     $("#selMode").html(myMapModes);
-                    $("#selMode").html($("option", $("#selMode")).sort(function(a, b) { 
+                    $("#selMode").html($("option", $("#selMode")).sort(function(a, b) {
                         return $(a).text().localeCompare($(b).text());
                     }));
                     for (myMode in myMapObj.modes) {
@@ -1120,6 +1260,11 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                         for (i = 0; i<gCurrentConf.shapes.length; i++) {
                             addShape(gCurrentConf.shapes[i], i);
                         }
+                        gIsDrawingLine = true;
+                        for (i = 0; i<gCurrentConf.lines.length; i++) {
+                            addLine(gCurrentConf.lines[i], i);
+                        }
+                        gIsDrawingLine = false;
                         gIsImporting = false;
                     }
                     $("#chkBases").change();

@@ -55,14 +55,14 @@
                             <legend>&Eacute;l&eacute;ments</legend>
                         </fieldset>
                     </div></li>
-                <li id="menuEditLines"><a href="./edit" title="&Eacute;diter les lignes" data-i18n-key="menu.edit.lines"><span>Lignes</span></a><div>
+                <li id="menuEditLines"><a href="edit/add/line" title="&Eacute;diter les lignes" data-i18n-key="menu.edit.lines"><span>Lignes</span></a><div>
                         <fieldset id="lines">
                             <legend>Lignes</legend>
                             <p><label>Epaisseur&nbsp;: <select id="thicknessSelectorLine">
-                                    <option value="1px">1 pixel</option>
-                                    <option value="2px">2 pixels</option>
-                                    <option value="3px">3 pixels</option>
-                                    <option value="5px">5 pixels</option>
+                                    <option value="1">1 pixel</option>
+                                    <option value="2">2 pixels</option>
+                                    <option value="3">3 pixels</option>
+                                    <option value="5">5 pixels</option>
                                 </select></label></p>
                             <p><label>Type&nbsp;: <select id="typeSelectorLine">
                                     <option value="solid">Pleine</option>
@@ -140,6 +140,8 @@
     </div>
     <div id="contextMenuLine" class="contextMenu">
         <ul>
+            <li><a href="/edit/line/move" class="move" title="D&eacute;placer le point"><span>D&eacute;placer</span></a></li>
+            <li><a href="/edit/line/options" class="options" title="Options de la ligne"><span>Options</span></a></li>
             <li><a href="/edit/line/delete" class="delete" title="Supprimer la ligne"><span>Supprimer</span></a></li>
         </ul>
     </div>
@@ -187,13 +189,28 @@
                 </select></label></p>
         </fieldset>
     </div>
+    <div id="lineOptions" title="Options de la ligne">
+        <p><label>Couleur&nbsp;: <input id="lineColor" class="colorselector" type="text" value="000000" /></label></p>
+        <p><label>Epaisseur&nbsp;: <select id="lineThickness">
+                                    <option value="1">1 pixel</option>
+                                    <option value="2">2 pixels</option>
+                                    <option value="3">3 pixels</option>
+                                    <option value="5">5 pixels</option>
+                                </select></label></p>
+        <p><label>Type&nbsp;: <select id="lineType">
+                <option value="solid">Pleine</option>
+                <option value="dotted">Pointill&eacute;</option>
+                <option value="dashed">Tirets</option>
+            </select></label></p>
+    </div>
     <div id="textEdit" title="Modifier le texte">
         <p><label>Texte&nbsp;: <input type="text" id="textValue" value="" /></label></p>
         <p><label>Couleur&nbsp;: <input id="textColor" class="colorselector" type="text" value="000000" /></label></p>
     </div>
     <div id="shapeHandlers">
-        <div class="shape options" id="shapeoptionshandler"></div>
+        <div class="shape options handler" id="shapeoptionshandler"></div>
     </div>
+    <div id="lineHandlers"></div>
 </form>
 </body>
 </html>
