@@ -83,6 +83,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 }
                 gCurrentLine = null;
                 gCurrentLineConf = null;
+                myDraggedPointIndex = -1;
                 gIsDrawingLine = false;
             }
         });
@@ -768,6 +769,8 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 // It's a line point, we must only move the point
                 myDraggedPointIndex = myContextMenu.data("point-index");
                 gCurrentLine = $("#" + myContextMenu.attr("rel")).addClass("drawing");
+                gCurrentLineConf = gCurrentElement;
+                gIsDrawingLine = true;
             } else if (myDraggedElement === null) {
                 myDraggedElement = $("#" + myContextMenu.attr("rel"));
                 myDraggedElementWidth = myDraggedElement.attr("width");
@@ -996,6 +999,13 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 myRotatedElement.removeClass("rotating");
                 myRotatedElement = null;
                 return;
+            } else if (myDraggedPointIndex !== -1) {
+                myDraggedPointIndex = -1;
+                $(gCurrentLine).removeClass("drawing");
+                gCurrentLine = null;
+                gCurrentLineConf = null;
+                gIsDrawingLine = false;
+                return;
             }
             var selectedItem = $("#menuEditElements div .selected");
             if (selectedItem.length === 0) {
@@ -1195,13 +1205,20 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 angleToApply = angleToApply * 360 / Math.PI;
                 myRotatedElement.attr("transform", "translate(" + elPosX + " " + elPosY + ") rotate(" + angleToApply + ")");
             } else if (gCurrentLine !== null && gCurrentLineConf !== null) {
-                // Move a point of the line
-                if (gCurrentLineConf.points.length > 1) {
-                    gCurrentLineConf.points.pop();
+                if (myDraggedPointIndex === -1) {
+                    // We are drawing a line
+                    if (gCurrentLineConf.points.length > 1) {
+                        gCurrentLineConf.points.pop();
+                    }
+                    gCurrentLineConf.points.push([ e.pageX - myCanvasContainer[0].offsetLeft, e.pageY - myCanvasContainer[0].offsetTop ]);
+                    $(gCurrentLine).remove();
+                    addLine(gCurrentLineConf);
+                } else {
+                    // We are moving a point of the line
+                    gCurrentLineConf.points[myDraggedPointIndex] = [ e.pageX - myCanvasContainer[0].offsetLeft, e.pageY - myCanvasContainer[0].offsetTop ];
+                    $(gCurrentLine).remove();
+                    addLine(gCurrentLineConf);
                 }
-                gCurrentLineConf.points.push([ e.pageX - myCanvasContainer[0].offsetLeft, e.pageY - myCanvasContainer[0].offsetTop ]);
-                $(gCurrentLine).remove();
-                addLine(gCurrentLineConf);
             }
         });
         $(".colorselector, #colorSelectorLine").ColorPicker({
