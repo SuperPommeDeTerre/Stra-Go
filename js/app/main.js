@@ -10,6 +10,7 @@ var gGames = null,
     myDraggedElement = null,
     myDraggedElementWidth = 0,
     myDraggedElementHeight = 0,
+    myDraggedPointIndex = -1,
     gCountElems = {},
     gCountTexts = 0,
     gCountLines = 0,
@@ -64,37 +65,53 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
 
         // Click on main but not on canvas
         $("main").on("click", function(e) {
-            gIsDrawingLine = false;
-            if (gCurrentLine != null) {
-                $(gCurrentLine).removeClass("drawing");
+            if (gCurrentLine !== null) {
+                // Remove the last point
+                gCurrentLineConf.points.pop();
+                // Add the line only if there is more than 1 point
+                if (gCurrentLineConf.points.length > 1) {
+                    $(gCurrentLine).remove();
+                    addLine(gCurrentLineConf);
+                    $(gCurrentLine).removeClass("drawing");
+                } else {
+                    // If there is only one point, then remove the line from the configuration
+                    var myTmpElement = $(gCurrentLine),
+                        myElementIndex = myTmpElement.data("index");
+                    myTmpElement.remove();
+                    // Remove object from global configuration
+                    gCurrentConf.lines.splice(myElementIndex, 1);
+                }
                 gCurrentLine = null;
                 gCurrentLineConf = null;
+                gIsDrawingLine = false;
             }
         });
 
         /**
-         * Inityialization of the SVG Canvas
+         * Initialization of the SVG Canvas
          * Here lies the definitions of the patterns.
          */
         function initSvg() {
             var myCanvas = myCanvasContainer.svg().svg("get"),
                 myDefs = myCanvas.defs(),
-                myPattern = myCanvas.pattern(myDefs, "patternZebra", 0, 0, 20, 20, {"patternUnits": "userSpaceOnUse"}),
+                myPattern = myCanvas.pattern(myDefs, "patternZebra", 0, 0, 20, 20, { "patternUnits": "userSpaceOnUse" }),
                 myMarker = null;
             // Diagonal stroke pattern
             myCanvas.polygon(myPattern, [[0, 0], [0, 5], [5, 0]], {});
             myCanvas.polygon(myPattern, [[20, 20], [15, 20], [20, 15]], {});
             myCanvas.polygon(myPattern, [[15, 0], [20, 0], [20, 5], [5, 20], [0, 20], [0, 15]], {});
             // Chess pattern
-            myPattern = myCanvas.pattern(myDefs, "patternChess", 0, 0, 20, 20, {"patternUnits": "userSpaceOnUse"});
+            myPattern = myCanvas.pattern(myDefs, "patternChess", 0, 0, 20, 20, { "patternUnits": "userSpaceOnUse" });
             myCanvas.polygon(myPattern, [[0, 0], [0, 10], [10, 10], [10, 0]], {});
             myCanvas.polygon(myPattern, [[10, 10], [10, 20], [20, 20], [20, 10]], {});
             // Triangle pattern
-            myPattern = myCanvas.pattern(myDefs, "patternTriangle", 0, 0, 10, 10, {"patternUnits": "userSpaceOnUse"});
+            myPattern = myCanvas.pattern(myDefs, "patternTriangle", 0, 0, 10, 10, { "patternUnits": "userSpaceOnUse" });
             myCanvas.polygon(myPattern, [[5, 0], [10, 10], [0, 10]], {});
             // Triangle marker
-            myMarker = myCanvas.marker(myDefs, "markerTriangle", 0.1, 2, 2, 4);
-            myCanvas.path(myMarker, "M0,0 V4 L2,2 Z", {});
+            myMarker = myCanvas.marker(myDefs, "markerTriangleStart", 1.9, 2, 2, 4);
+            myCanvas.path(myMarker, "M2,0 V4 L0,2 Z", {"fill": "red"});
+            myMarker = myCanvas.marker(myDefs, "markerTriangleEnd", 0.1, 2, 2, 4);
+            myCanvas.path(myMarker, "M0,0 V4 L2,2 Z", {"fill": "red"});
         };
 
         /**
@@ -274,6 +291,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     myShape = myCanvas.ellipse(g, pConfShape.position.x, pConfShape.position.y, pConfShape.rx, pConfShape.ry, { "id": myElemId });
                     break;
                 case "polygon":
+                    // TODO
                     myShape = myCanvas.rect(g, pConfShape.position.x, pConfShape.position.y, 50, 50, $("#cornerRadiusSize").val() * 1, $("#cornerRadiusSize").val() * 1, { "id": myElemId });
                     break;
                 case "rect":
@@ -289,6 +307,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             }
             switch (pConfShape.type) {
                 case "polygon":
+                    // TODO
                     break;
                 case "ellipse":
                     myShape.on("mouseenter", function(e) {
@@ -382,37 +401,49 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     myElemId = "line_" + --gCountLines;
                     gCurrentConf.lines.pop();
                 }
-                var myLineProps = {
-                    "id": myElemId,
-                    "class": "drawing",
-                    "marker-end": "url(#markerTriangle)"
-                }
-                for (var myLinePropName in pConfLine.style) {
-                    myLineProps[myLinePropName] = pConfLine.style[myLinePropName];
+                var myLineProps = {};
+                for (var myLinePropName in pConfLine.props) {
+                    switch (myLinePropName) {
+                        case "marker-start":
+                        case "marker-end":
+                            myLineProps[myLinePropName] = "url(#" + pConfLine.props[myLinePropName] + ")";
+                            break;
+                        default:
+                            myLineProps[myLinePropName] = pConfLine.props[myLinePropName];
+                            break;
+                    }
                 }
                 myLine = myCanvas.polyline(g, pConfLine.points, myLineProps);
+                for (var myLinePropName in pConfLine.style) {
+                    $(myLine).css(myLinePropName, pConfLine.style[myLinePropName]);
+                }
+                $(myLine).addClass("drawing");
+                $(myLine).attr("id", myElemId);
                 gCurrentLine = myLine;
             }
             // Update serialization
             myLine = $(myLine);
             var myHandlersHtml = "";
             for (var myPointIndex in pConfLine.points) {
-                myHandlersHtml += "<div class=\"handler point" + myPointIndex + "\" style=\"left:" + (pConfLine.points[myPointIndex][0] + myCanvasContainer[0].offsetLeft - 8) + "px;top:" + (pConfLine.points[myPointIndex][1] + myCanvasContainer[0].offsetTop - 8) + "px\"></div>";
+                myHandlersHtml += "<div class=\"handler point" + myPointIndex + "\" rel=\"" + myPointIndex + "\" style=\"left:" + (pConfLine.points[myPointIndex][0] + myCanvasContainer[0].offsetLeft - 8) + "px;top:" + (pConfLine.points[myPointIndex][1] + myCanvasContainer[0].offsetTop - 8) + "px\"></div>";
             }
             myLine.on("mouseenter", function(e) {
-                myLineHandlers = $("#lineHandlers").empty().html(myHandlersHtml).show().find(".handler");
-                myLineHandlers.on("mouseenter", function(e) {
-                    myContextMenuLine.css("top", $(this).css("top")).css("left", $(this).css("left"))
-                        .attr("rel", myLine.attr("id"));
-                    myContextMenuLine.show();
-                    // Keep menu open for 200ms
-                    preventClosingContextMenu = true;
-                    timeoutIdContextMenu = window.setTimeout(function() {
-                        preventClosingContextMenu = false;
-                    }, 200);
-                });
-            });
-            myLine.on("mouseleave", function(e) {
+                if (!gIsDrawingLine) {
+                    myLineHandlers = $("#lineHandlers").empty().html(myHandlersHtml).show().find(".handler");
+                    myLineHandlers.on("mouseenter", function(e) {
+                        myContextMenuLine.css("top", $(this).css("top")).css("left", $(this).css("left"))
+                            .attr("rel", myLine.attr("id"));
+                        myContextMenuLine.data("point-index", $(this).attr("rel") * 1);
+                        myContextMenuLine.show();
+                        // Keep menu open for 200ms
+                        preventClosingContextMenu = true;
+                        timeoutIdContextMenu = window.setTimeout(function() {
+                            preventClosingContextMenu = false;
+                        }, 200);
+                    });
+                    gCurrentElement = pConfLine;
+                }
+            }).on("mouseleave", function(e) {
                 if (!preventClosingContextMenu) {
                     myContextMenuLine.hide();
                     $("#lineHandlers").hide();
@@ -424,6 +455,27 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             } else {
                 myLine.data("index", pIndex);
             }
+        };
+
+        /**
+         * Compute a stroke-dasharray property for a line/border.
+         *
+         * @param pStrokeType
+         *     Stroke type to use
+         * @param pStrokeWidth
+         *     Stroke width in use
+         * @return The stroke-dasharray matching the parameters
+         */
+        function getStrokeDashArray(pStrokeType, pStrokeWidth) {
+            switch (pStrokeType) {
+                case "dashed":
+                    return (pStrokeWidth * 3) + "," + (pStrokeWidth * 3);
+                    break;
+                case "dotted":
+                    return pStrokeWidth + "," + pStrokeWidth;
+                    break;
+            }
+            return "";
         };
 
         // Initialize the SVG and the events handlers
@@ -514,6 +566,38 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             e.preventDefault();
             var myLine = $("#" + myContextMenuLine.attr("rel"));
             // Handle init of line form with line properties
+            if (gCurrentElement.style["stroke"]) {
+                $("#lineColor").val(gCurrentElement.style["stroke"].substr(gCurrentElement.style["stroke"].lastIndexOf("#") + 1));
+            } else {
+                $("#lineColor").val("00FF00");
+            }
+            if (gCurrentElement.style["stroke-width"]) {
+                $("#lineThickness").val(gCurrentElement.style["stroke-width"].substring(0, gCurrentElement.style["stroke-width"].indexOf("px")));
+            } else {
+                $("#lineThickness").val("1");
+            }
+            if (gCurrentElement.style["stroke-dasharray"]) {
+                $("#lineType").val(gCurrentElement.style["stroke-dasharray"].split(/,/g)[0] * 1 > $("#colorSelectorShapeContour").val() * 1?"dashed":"dotted");
+            } else {
+                $("#lineType").val("solid");
+            }
+            if (gCurrentElement.style["stroke-opacity"]) {
+                $("#lineOpacity").val(gCurrentElement.style["stroke-opacity"]);
+            } else {
+                $("#lineOpacity").val("1");
+            }
+            if (gCurrentElement.props["marker-start"]) {
+                $("#lineMarkerStartType").val(gCurrentElement.props["marker-start"]);
+            } else {
+                $("#lineMarkerStartType").val("none");
+            }
+            if (gCurrentElement.props["marker-end"]) {
+                $("#lineMarkerEndType").val(gCurrentElement.props["marker-end"]);
+            } else {
+                $("#lineMarkerEndType").val("none");
+            }
+            // TODO: Handle markers color (need clone of markers)
+
             // Show dialog
             myLineOptions.dialog({
                 "resizable": false,
@@ -523,6 +607,35 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     {
                         "text": gI18n.buttons.ok,
                         "click": function() {
+                            var myStrokeWidth = $("#lineThickness").val(),
+                                myStrokeColor = $("#lineColor").val(),
+                                myStrokeOpacity = $("#lineOpacity").val(),
+                                myStrokeType = $("#lineType").val(),
+                                myMarkerStartType = $("#lineMarkerStartType").val(),
+                                myMarkerEndType = $("#lineMarkerEndType").val();
+                            gCurrentElement.style["stroke-width"] = myStrokeWidth + "px";
+                            gCurrentElement.style["stroke"] = "#" + myStrokeColor;
+                            gCurrentElement.style["stroke-opacity"] = myStrokeOpacity;
+                            gCurrentElement.style["stroke-dasharray"] = getStrokeDashArray(myStrokeType, myStrokeWidth);
+                            myLine.css("stroke-width", gCurrentElement.style["stroke-width"]);
+                            myLine.css("stroke", gCurrentElement.style["stroke"]);
+                            myLine.css("stroke-dasharray", gCurrentElement.style["stroke-dasharray"]);
+                            myLine.css("stroke-opacity", gCurrentElement.style["stroke-opacity"]);
+                            // Handle properties
+                            if (myMarkerStartType === "none") {
+                                delete gCurrentElement.props["marker-start"];
+                                myLine.removeAttr("marker-start");
+                            } else {
+                                gCurrentElement.props["marker-start"] = myMarkerStartType;
+                                myLine.attr("marker-start", "url(#" + myMarkerStartType + ")");
+                            }
+                            if (myMarkerEndType === "none") {
+                                delete gCurrentElement.props["marker-end"];
+                                myLine.removeAttr("marker-end");
+                            } else {
+                                gCurrentElement.props["marker-end"] = myMarkerEndType;
+                                myLine.attr("marker-end", "url(#" + myMarkerEndType + ")");
+                            }
                             $(this).dialog("close");
                         }
                     },
@@ -593,7 +706,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                                 myFillColor = $("#colorSelectorShapeFill").val(),
                                 myFillOpacity = $("#shapeFillOpacity").val(),
                                 myStrokeWidth = $("#shapeContourThickness").val(),
-                                myStrokeColor = $("#colorSelectorShapeContour").val();
+                                myStrokeColor = $("#colorSelectorShapeContour").val(),
                                 myStrokeRadius = $("#shapeContourRadius").val(),
                                 myStrokeType = $("#shapeContourType").val();
                             gCurrentElement.style["fill-opacity"] = myFillOpacity;
@@ -611,18 +724,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                                 myShape.attr("rx", gCurrentElement.rx);
                                 myShape.attr("ry", gCurrentElement.ry);
                             }
-                            switch (myStrokeType) {
-                                case "dashed":
-                                    gCurrentElement.style["stroke-dasharray"] = (myStrokeWidth * 3) + "," + (myStrokeWidth * 3);
-                                    break;
-                                case "dotted":
-                                    gCurrentElement.style["stroke-dasharray"] = myStrokeWidth + "," + myStrokeWidth;
-                                    break;
-                                case "solid":
-                                default:
-                                    gCurrentElement.style["stroke-dasharray"] = "";
-                                    break;
-                            }
+                            gCurrentElement.style["stroke-dasharray"] = getStrokeDashArray(myStrokeType, myStrokeWidth);
                             myShape.css("fill", gCurrentElement.style["fill"]);
                             myShape.css("fill-opacity", gCurrentElement.style["fill-opacity"]);
                             myShape.css("stroke-width", gCurrentElement.style["stroke-width"]);
@@ -664,6 +766,8 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             var myContextMenu = $(this).closest(".contextMenu");
             if (myContextMenu.is("#contextMenuLine")) {
                 // It's a line point, we must only move the point
+                myDraggedPointIndex = myContextMenu.data("point-index");
+                gCurrentLine = $("#" + myContextMenu.attr("rel")).addClass("drawing");
             } else if (myDraggedElement === null) {
                 myDraggedElement = $("#" + myContextMenu.attr("rel"));
                 myDraggedElementWidth = myDraggedElement.attr("width");
@@ -724,11 +828,6 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                                 myTmpElement.remove();
                                 // Remove object from global configuration
                                 gCurrentConf.lines.splice(myElementIndex, 1);
-                                $("#linesOverlay *:not([rel])").each(function(i, el) {
-                                    if ($(el).data("index") > myElementIndex) {
-                                        $(el).data("index", $(el).data("index") - 1);
-                                    }
-                                });
                             }
                             myContextMenu.hide();
                             $(this).dialog("close");
@@ -939,8 +1038,9 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                                     [ e.pageX - myCanvasContainer[0].offsetLeft, e.pageY - myCanvasContainer[0].offsetTop ]
                                 ],
                                 "style": {
-                                    "stroke-width": $("#thicknessSelectorLine").val()
-                                }
+                                    "stroke-width": $("#thicknessSelectorLine").val() + "px"
+                                },
+                                "props": {}
                             };
                             addLine(gCurrentLineConf);
                         } else {
@@ -1070,10 +1170,9 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                     gCurrentElement.rx = myResizedElement.attr("rx") * 1;
                     gCurrentElement.ry = myResizedElement.attr("ry") * 1;
                 } else if (myResizedElement.is("polygon")) {
-                    // TODO: Handle resize og polygons
+                    // TODO: Handle resize of polygons
                 }
             } else if (myRotatedElement !== null) {
-                // TODO: Handle rotation
                 var elPosX = 0,
                     elPosY = 0,
                     angleToApply = 0,
@@ -1095,6 +1194,14 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 }
                 angleToApply = angleToApply * 360 / Math.PI;
                 myRotatedElement.attr("transform", "translate(" + elPosX + " " + elPosY + ") rotate(" + angleToApply + ")");
+            } else if (gCurrentLine !== null && gCurrentLineConf !== null) {
+                // Move a point of the line
+                if (gCurrentLineConf.points.length > 1) {
+                    gCurrentLineConf.points.pop();
+                }
+                gCurrentLineConf.points.push([ e.pageX - myCanvasContainer[0].offsetLeft, e.pageY - myCanvasContainer[0].offsetTop ]);
+                $(gCurrentLine).remove();
+                addLine(gCurrentLineConf);
             }
         });
         $(".colorselector, #colorSelectorLine").ColorPicker({
@@ -1274,6 +1381,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                         for (i = 0; i<gCurrentConf.lines.length; i++) {
                             addLine(gCurrentConf.lines[i], i);
                         }
+                        $("#linesOverlay .drawing").removeClass("drawing");
                         gIsDrawingLine = false;
                         gIsImporting = false;
                     }
