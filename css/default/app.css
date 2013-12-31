@@ -110,7 +110,7 @@ details > summary{transition:color 1s;color:black}
 details[open] > summary{color:red}
 main{text-align:center;padding:.25em}
 #mapDesc{color:#999;display:block;font-size:.8em}
-#selLangContainer{position:absolute;right:0;top:0}
+#selLangContainer{position:absolute;right:0;top:0;display:none}
 #selLangContainer label{display:none}
 #mapContainer{margin:auto}
 #mapContainer text{text-align:center}
