@@ -48,7 +48,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
         // Handle HTML5 drag&drop
         $.event.props.push("dataTransfer");
         */
-        $("#menuAbout > div").html("<p>" + $("header > h1").html() + "</p>");
+        $("#menuAbout > div").prepend("<p>" + $("header > h1").html() + "</p>");
         var myCanvasContainer = $("#mapContainer"),
             myContextMenus = $(".contextMenu"),
             myContextMenuElement = $("#contextMenuElement"),
@@ -1048,7 +1048,8 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                                     [ e.pageX - myCanvasContainer[0].offsetLeft, e.pageY - myCanvasContainer[0].offsetTop ]
                                 ],
                                 "style": {
-                                    "stroke-width": $("#thicknessSelectorLine").val() + "px"
+                                    "stroke-width": $("#thicknessSelectorLine").val() + "px",
+                                    "stroke-dasharray": getStrokeDashArray($("#typeSelectorLine").val(), $("#thicknessSelectorLine").val())
                                 },
                                 "props": {}
                             };
