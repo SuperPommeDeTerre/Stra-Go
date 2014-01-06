@@ -95,9 +95,10 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
         function initSvg() {
             var myCanvas = myCanvasContainer.svg().svg("get"),
                 myDefs = myCanvas.defs(),
-                myPattern = myCanvas.pattern(myDefs, "patternZebra", 0, 0, 20, 20, { "patternUnits": "userSpaceOnUse" }),
+                myPattern = null,
                 myMarker = null;
             // Diagonal stroke pattern
+            myPattern = myCanvas.pattern(myDefs, "patternZebra", 0, 0, 20, 20, { "patternUnits": "userSpaceOnUse" });
             myCanvas.polygon(myPattern, [[0, 0], [0, 5], [5, 0]], {});
             myCanvas.polygon(myPattern, [[20, 20], [15, 20], [20, 15]], {});
             myCanvas.polygon(myPattern, [[15, 0], [20, 0], [20, 5], [5, 20], [0, 20], [0, 15]], {});
@@ -113,6 +114,11 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             myCanvas.path(myMarker, "M2,0 V4 L0,2 Z", {"fill": "red"});
             myMarker = myCanvas.marker(myDefs, "markerTriangleEnd", 0.1, 2, 2, 4);
             myCanvas.path(myMarker, "M0,0 V4 L2,2 Z", {"fill": "red"});
+            // Line marker
+            myMarker = myCanvas.marker(myDefs, "markerLineStart", 1.9, 2, 1, 4);
+            myCanvas.path(myMarker, "M2,0 V4 Z", {"fill": "red","stroke": "red","stroke-width": "5px"});
+            myMarker = myCanvas.marker(myDefs, "markerLineEnd", 0.1, 2, 1, 4);
+            myCanvas.path(myMarker, "M0,0 V4 Z", {"fill": "red","stroke": "red","stroke-width": "5px"});
         };
 
         /**
