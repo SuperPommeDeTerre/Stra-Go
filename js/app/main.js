@@ -90,13 +90,16 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
 
         /**
          * Initialization of the SVG Canvas
-         * Here lies the definitions of the patterns.
+         * Here lies the definitions of the patterns, markers, etc.
          */
         function initSvg() {
             var myCanvas = myCanvasContainer.svg().svg("get"),
                 myDefs = myCanvas.defs(),
                 myPattern = null,
                 myMarker = null;
+            // ***************************************************************
+            // Patterns
+            // ***************************************************************
             // Diagonal stroke pattern
             myPattern = myCanvas.pattern(myDefs, "patternZebra", 0, 0, 20, 20, { "patternUnits": "userSpaceOnUse" });
             myCanvas.polygon(myPattern, [[0, 0], [0, 5], [5, 0]], {});
@@ -108,7 +111,11 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             myCanvas.polygon(myPattern, [[10, 10], [10, 20], [20, 20], [20, 10]], {});
             // Triangle pattern
             myPattern = myCanvas.pattern(myDefs, "patternTriangle", 0, 0, 10, 10, { "patternUnits": "userSpaceOnUse" });
+
             myCanvas.polygon(myPattern, [[5, 0], [10, 10], [0, 10]], {});
+            // ***************************************************************
+            // Markers
+            // ***************************************************************
             // Triangle marker
             myMarker = myCanvas.marker(myDefs, "markerTriangleStart", 1.9, 2, 2, 4);
             myCanvas.path(myMarker, "M2,0 V4 L0,2 Z", {"fill": "red"});
