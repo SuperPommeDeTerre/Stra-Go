@@ -953,6 +953,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
         });
         myContextMenuElement.find(".textPosition").on("click", function(e) {
             var myLink = $(this);
+            e.preventDefault();
             if (!myLink.hasClass("selected")) {
                 var myImage = $("#" + myContextMenuElement.attr("rel")),
                     myText = $("#" + myImage.attr("rel")),

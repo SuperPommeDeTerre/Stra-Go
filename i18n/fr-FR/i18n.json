@@ -47,8 +47,9 @@
         "wot": {
             "modes": {
                 "standard": "Bataille standard",
-                "encounter": "Bataille impromptue",
-                "assault": "Assaut"
+                "encounter": "Bataille de rencontre",
+                "assault": "Assaut",
+                "confrontation": "Confrontation"
             },
             "elements": {
                 "HT": "Char lourd",
@@ -72,6 +73,7 @@
                 "HiddenVillage": "Village caché",
                 "Highway": "Autoroute",
                 "Himmelsdorf": "Himmelsdorf",
+                "HimmelsdorfWinter": "Himmelsdorf en hiver",
                 "Karelia": "Karelia",
                 "Komarin": "Komarin",
                 "Lakeville": "Lakeville",
@@ -87,6 +89,7 @@
                 "Province": "Province",
                 "Redshire": "Redshire",
                 "Ruinberg": "Ruinberg",
+                "RuinbergOnFire": "Ruinberg en feu",
                 "SacredValley": "Vallée sacrée",
                 "SandRiver": "Rivère de sable",
                 "SereneCoast": "Côte sereine",
@@ -97,7 +100,8 @@
                 "Swamp": "Marécage",
                 "Tundra": "Tundra",
                 "Westfield": "Westfield",
-                "Widepark": "Grand parc"
+                "Widepark": "Grand parc",
+                "WindStorm": "Tempête"
             }
         }
     }

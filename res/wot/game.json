@@ -114,20 +114,6 @@
                 }
             }
         },
-        "AsiaGreatWall": {
-            "file": "Asia%20Great%20Wall.jpg",
-            "size": { "x": 1000, "y": 1000 },
-            "modes": {
-                "standard": {
-                    "team1": [
-                        { "type": "base", "x": 700, "y": 130 }
-                    ],
-                    "team2": [
-                        { "type": "base", "x": 150, "y": 840 }
-                    ]
-                }
-            }
-        },
         "Cliff": {
             "file": "Cliff.jpg",
             "size": { "x": 1000, "y": 1000 },
@@ -288,6 +274,31 @@
         },
         "Himmelsdorf": {
             "file": "Himmelsdorf.jpg",
+            "size": { "x": 700, "y": 700 },
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 295, "y": 650 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 360, "y": 70 }
+                    ]
+                },
+                "encounter": {
+                    "team0": [
+                        { "type": "base", "x": 100, "y": 350 }
+                    ],
+                    "team1": [
+                        { "type": "drop", "x": 650, "y": 50 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 650, "y": 660 }
+                    ]
+                }
+            }
+        },
+        "HimmelsdorfWinter": {
+            "file": "HimmelsdorfWinter.jpg",
             "size": { "x": 700, "y": 700 },
             "modes": {
                 "standard": {
@@ -516,20 +527,6 @@
                 }
             }
         },
-        "Port": {
-            "file": "Port.jpg",
-            "size": { "x": 830, "y": 830 },
-            "modes": {
-                "standard": {
-                    "team1": [
-                        { "type": "base", "x": 205, "y": 720 }
-                    ],
-                    "team2": [
-                        { "type": "base", "x": 720, "y": 120 }
-                    ]
-                }
-            }
-        },
         "Prokhorovka": {
             "file": "Prokhorovka.jpg",
             "size": { "x": 1000, "y": 1000 },
@@ -598,6 +595,31 @@
         },
         "Ruinberg": {
             "file": "Ruinberg.jpg",
+            "size": { "x": 800, "y": 800 },
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 340, "y": 85 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 320, "y": 690 }
+                    ]
+                },
+                "encounter": {
+                    "team0": [
+                        { "type": "base", "x": 60, "y": 440 }
+                    ],
+                    "team1": [
+                        { "type": "drop", "x": 460, "y": 70 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 670, "y": 730 }
+                    ]
+                }
+            }
+        },
+        "RuinbergOnFire": {
+            "file": "RuinbergOnFire.jpg",
             "size": { "x": 800, "y": 800 },
             "modes": {
                 "standard": {
@@ -807,7 +829,16 @@
         "Tundra": {
             "file": "Tundra.jpg",
             "size": { "x": 800, "y": 800 },
-            "modes": [ "standard" ]
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 330, "y": 260 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 485, "y": 565 }
+                    ]
+                }
+            }
         },
         "Westfield": {
             "file": "Westfield.jpg",
@@ -841,6 +872,20 @@
                     ],
                     "team2": [
                         { "type": "base", "x": 230, "y": 490 }
+                    ]
+                }
+            }
+        },
+        "WindStorm": {
+            "file": "WindStorm.jpg",
+            "size": { "x": 1000, "y": 1000 },
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 900, "y": 275 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 160, "y": 635 }
                     ]
                 }
             }
