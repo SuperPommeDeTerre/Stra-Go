@@ -527,6 +527,20 @@
                 }
             }
         },
+        "Port": {
+            "file": "Port.jpg",
+            "size": { "x": 830, "y": 830 },
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 205, "y": 720 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 720, "y": 120 }
+                    ]
+                }
+            }
+        },
         "Prokhorovka": {
             "file": "Prokhorovka.jpg",
             "size": { "x": 1000, "y": 1000 },
