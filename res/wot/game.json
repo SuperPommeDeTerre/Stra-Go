@@ -785,6 +785,20 @@
                 }
             }
         },
+        "Stalingrad": {
+            "file": "Stalingrad.jpg",
+            "size": { "x": 900, "y": 900 },
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 375, "y": 130 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 375, "y": 815 }
+                    ]
+                }
+            }
+        },
         "SouthCoast": {
             "file": "South%20Coast.jpg",
             "size": { "x": 1000, "y": 1000 },
