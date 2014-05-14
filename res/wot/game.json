@@ -344,6 +344,20 @@
                 }
             }
         },
+        "Kharkov": {
+            "file": "Kharkov.png",
+            "size": { "x": 1000, "y": 1000 },
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 250, "y": 820 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 805, "y": 250 }
+                    ]
+                }
+            }
+        },
         "Komarin": {
             "file": "Komarin.jpg",
             "size": { "x": 800, "y": 800 },
