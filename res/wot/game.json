@@ -198,10 +198,10 @@
             "modes": {
                 "standard": {
                     "team1": [
-                        { "type": "base", "x": 350, "y": 500 }
+                        { "type": "base", "x": 380, "y": 100 }
                     ],
                     "team2": [
-                        { "type": "base", "x": 660, "y": 500 }
+                        { "type": "base", "x": 640, "y": 860 }
                     ]
                 },
                 "assault": {
@@ -340,6 +340,20 @@
                     ],
                     "team2": [
                         { "type": "drop", "x": 730, "y": 810 }
+                    ]
+                }
+            }
+        },
+        "Kharkov": {
+            "file": "Kharkov.png",
+            "size": { "x": 1000, "y": 1000 },
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 250, "y": 820 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 805, "y": 250 }
                     ]
                 }
             }
@@ -505,10 +519,10 @@
             "modes": {
                 "standard": {
                     "team1": [
-                        { "type": "base", "x": 125, "y": 720 }
+                        { "type": "base", "x": 110, "y": 740 }
                     ],
                     "team2": [
-                        { "type": "base", "x": 720, "y": 120 }
+                        { "type": "base", "x": 680, "y": 90 }
                     ]
                 }
             }
@@ -519,10 +533,10 @@
             "modes": {
                 "standard": {
                     "team1": [
-                        { "type": "base", "x": 450, "y": 300 }
+                        { "type": "base", "x": 180, "y": 200 }
                     ],
                     "team2": [
-                        { "type": "base", "x": 890, "y": 590 }
+                        { "type": "base", "x": 800, "y": 800 }
                     ]
                 }
             }
@@ -588,21 +602,21 @@
             "modes": {
                 "standard": {
                     "team1": [
-                        { "type": "base", "x": 290, "y": 130 }
+                        { "type": "base", "x": 480, "y": 880 }
                     ],
                     "team2": [
-                        { "type": "base", "x": 865, "y": 770 }
+                        { "type": "base", "x": 500, "y": 100 }
                     ]
                 },
                 "encounter": {
                     "team0": [
-                        { "type": "base", "x": 775, "y": 710 }
+                        { "type": "base", "x": 300, "y": 410 }
                     ],
                     "team1": [
-                        { "type": "drop", "x": 80, "y": 700 }
+                        { "type": "drop", "x": 670, "y": 830 }
                     ],
                     "team2": [
-                        { "type": "drop", "x": 595, "y": 170 }
+                        { "type": "drop", "x": 670, "y": 70 }
                     ]
                 }
             }
@@ -737,12 +751,10 @@
             "modes": {
                 "standard": {
                     "team1": [
-                        { "type": "base", "x": 320, "y": 810 },
-                        { "type": "drop", "x": 805, "y": 805 }
+                        { "type": "base", "x": 500, "y": 150 }
                     ],
                     "team2": [
-                        { "type": "base", "x": 710, "y": 145 },
-                        { "type": "drop", "x": 230, "y": 175 }
+                        { "type": "base", "x": 500, "y": 820 }
                     ]
                 }
             }
@@ -781,6 +793,20 @@
                     "team2": [
                         { "type": "drop", "x": 290, "y": 190 },
                         { "type": "drop", "x": 290, "y": 810 }
+                    ]
+                }
+            }
+        },
+        "Stalingrad": {
+            "file": "Stalingrad.jpg",
+            "size": { "x": 900, "y": 900 },
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 375, "y": 130 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 375, "y": 815 }
                     ]
                 }
             }
