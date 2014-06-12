@@ -345,15 +345,15 @@
             }
         },
         "Kharkov": {
-            "file": "Kharkov.png",
-            "size": { "x": 1000, "y": 1000 },
+            "file": "Kharkov.jpg",
+            "size": { "x": 800, "y": 800 },
             "modes": {
                 "standard": {
                     "team1": [
-                        { "type": "base", "x": 250, "y": 820 }
+                        { "type": "base", "x": 200, "y": 650 }
                     ],
                     "team2": [
-                        { "type": "base", "x": 805, "y": 250 }
+                        { "type": "base", "x": 645, "y": 200 }
                     ]
                 }
             }
