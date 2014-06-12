@@ -297,6 +297,13 @@
                 }
             }
         },
+        "HimmelsdorfFootball": {
+            "file": "HimmelsdorfFootball.jpg",
+            "size": { "x": 1000, "y": 1000 },
+            "modes": {
+                "standard": {}
+            }
+        },
         "HimmelsdorfWinter": {
             "file": "HimmelsdorfWinter.jpg",
             "size": { "x": 700, "y": 700 },
