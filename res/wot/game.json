@@ -310,7 +310,7 @@
         },
         "HimmelsdorfFootball": {
             "file": "HimmelsdorfFootball.jpg",
-            "size": { "x": 1000, "y": 1000 },
+            "size": { "x": 330, "y": 330 },
             "modes": {
                 "standard": {}
             }
@@ -913,6 +913,13 @@
                         { "type": "base", "x": 485, "y": 565 }
                     ]
                 }
+            }
+        },
+        "TrainingGround": {
+            "file": "Training%20Ground.jpg",
+            "size": { "x": 500, "y": 500 },
+            "modes": {
+                "standard": {}
             }
         },
         "Westfield": {
