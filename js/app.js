@@ -15,4 +15,4 @@ require.config({
 });
 
 // Load the main app module to start the app
-require(["jquery-svg", "colorpicker", "jquery-svgdom", "jquery-svggraph", "jquery-svgplot", "jquery-svgfilter", "app/main"]);
+require(["jquery", "jquery-svg", "colorpicker", "jquery-svgdom", "jquery-svggraph", "jquery-svgplot", "jquery-svgfilter", "app/main"]);

@@ -213,6 +213,17 @@
                         { "type": "drop", "x": 540, "y": 880 },
                         { "type": "drop", "x": 410, "y": 880 }
                     ]
+                },
+                "encounter": {
+                    "team0": [
+                        { "type": "base", "x": 480, "y": 500 }
+                    ],
+                    "team1": [
+                        { "type": "drop", "x": 450, "y": 120 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 560, "y": 880 }
+                    ]
                 }
             }
         },
@@ -297,6 +308,13 @@
                 }
             }
         },
+        "HimmelsdorfFootball": {
+            "file": "HimmelsdorfFootball.jpg",
+            "size": { "x": 330, "y": 330 },
+            "modes": {
+                "standard": {}
+            }
+        },
         "HimmelsdorfWinter": {
             "file": "HimmelsdorfWinter.jpg",
             "size": { "x": 700, "y": 700 },
@@ -345,15 +363,15 @@
             }
         },
         "Kharkov": {
-            "file": "Kharkov.png",
-            "size": { "x": 1000, "y": 1000 },
+            "file": "Kharkov.jpg",
+            "size": { "x": 800, "y": 800 },
             "modes": {
                 "standard": {
                     "team1": [
-                        { "type": "base", "x": 250, "y": 820 }
+                        { "type": "base", "x": 200, "y": 650 }
                     ],
                     "team2": [
-                        { "type": "base", "x": 805, "y": 250 }
+                        { "type": "base", "x": 645, "y": 200 }
                     ]
                 }
             }
@@ -466,10 +484,12 @@
                         { "type": "base", "x": 650, "y": 290 }
                     ],
                     "team1": [
-                        { "type": "drop", "x": 570, "y": 720 }
+                        { "type": "drop", "x": 540, "y": 620 },
+                        { "type": "drop", "x": 80, "y": 650 }
                     ],
                     "team2": [
-                        { "type": "drop", "x": 180, "y": 90 }
+                        { "type": "drop", "x": 405, "y": 125 },
+                        { "type": "drop", "x": 140, "y": 80 }
                     ]
                 }
             }
@@ -484,6 +504,19 @@
                     ],
                     "team2": [
                         { "type": "base", "x": 850, "y": 900 }
+                    ]
+                },
+                "encounter": {
+                    "team0": [
+                        { "type": "base", "x": 510, "y": 430 }
+                    ],
+                    "team1": [
+                        { "type": "drop", "x": 900, "y": 800 },
+                        { "type": "drop", "x": 200, "y": 100 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 200, "y": 860 },
+                        { "type": "drop", "x": 80, "y": 710 }
                     ]
                 }
             }
@@ -723,10 +756,12 @@
                 },
                 "assault": {
                     "team1": [
-                        { "type": "base", "x": 600, "y": 205 }
+                        { "type": "base", "x": 610, "y": 820 },
+                        { "type": "drop", "x": 500, "y": 900 },
+                        { "type": "drop", "x": 100, "y": 900 }
                     ],
                     "team2": [
-                        { "type": "drop", "x": 70, "y": 800 }
+                        { "type": "drop", "x": 400, "y": 75 }
                     ]
                 }
             }
@@ -878,6 +913,13 @@
                         { "type": "base", "x": 485, "y": 565 }
                     ]
                 }
+            }
+        },
+        "TrainingGround": {
+            "file": "Training%20Ground.jpg",
+            "size": { "x": 500, "y": 500 },
+            "modes": {
+                "standard": {}
             }
         },
         "Westfield": {
