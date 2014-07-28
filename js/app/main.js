@@ -21,7 +21,7 @@ var gGames = null,
     gCurrentLineConf = null;
 
 // Constants
-var gWG_APP_ID= "65d48624959befe37494ffa27e085450",
+var gWG_APP_ID= "demo",
     gWG_API_URL = "http://api.worldoftanks.eu/wot/",
     gDECAL_GRID = 20,
     gCHAR_CODE_A = "A".charCodeAt(0),
