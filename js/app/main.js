@@ -530,9 +530,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
                 }
             }
         });
-        $("#menuEditElements > a").on("click", function(e) {
-            e.stopImmediatePropagation();
-            e.preventDefault();
+        $("#menuEditElements a").on("click", function(e) {
             var myLink = $(this),
                 mySelectedElement = myLink.next().find(".selected").removeClass("selected");
             myLink.removeClass("selected " + mySelectedElement.attr("rel")).removeAttr("rel");
@@ -540,12 +538,7 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
         $("#menuShare").on("mouseenter", function(e) {
             $("#txtImportExport").val(btoa(unescape(encodeURIComponent(JSON.stringify(gCurrentConf)))));
         });
-        $("#menuEditTexts > a").on("click", function(e) {
-            e.preventDefault();
-        });
         $("#menuEditShapes").find(".shape").click(function(e) {
-            e.stopImmediatePropagation();
-            e.preventDefault();
             $("#menuEditShapes > a").attr("class", "");
             if (!$(this).hasClass("selected")) {
                 $("#menu .selected").removeClass("selected");
@@ -576,8 +569,6 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             myText.css("font-size", (myFontSize + 2) + "px");
         });
         myContextMenuLine.find(".options").on("click", function(e) {
-            e.stopImmediatePropagation();
-            e.preventDefault();
             var myLine = $("#" + myContextMenuLine.attr("rel"));
             // Handle init of line form with line properties
             if (gCurrentElement.style["stroke"]) {
@@ -663,8 +654,6 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             });
         });
         myContextMenuShape.find(".options").on("click", function(e) {
-            e.stopImmediatePropagation();
-            e.preventDefault();
             var myShape = $("#" + myContextMenuShape.attr("rel"));
             myShapeOptions.find("p").show().filter(function(index) {
                 return !$(this).hasClass(myShape.prop("nodeName").toLowerCase());
@@ -774,9 +763,11 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             preventClosingContextMenu = false;
             myContextMenus.hide();
         });
-        myContextMenus.find(".move").on("click", function(e) {
-            e.stopImmediatePropagation();
+        myContextMenus.find("a").on("click", function(e) {
+            e.stopPropagation();
             e.preventDefault();
+        });
+        myContextMenus.find(".move").on("click", function(e) {
             var myContextMenu = $(this).closest(".contextMenu");
             if (myContextMenu.is("#contextMenuLine")) {
                 // It's a line point, we must only move the point
@@ -794,8 +785,6 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             }
         });
         myContextMenus.find(".delete").on("click", function(e) {
-            e.stopImmediatePropagation();
-            e.preventDefault();
             var myContextMenu = $(this).closest(".contextMenu");
             $("#dialog-confirm").dialog({
                 "resizable": false,
@@ -859,8 +848,6 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             });
         });
         myContextMenuText.find(".modifytext").on("click", function(e) {
-            e.stopImmediatePropagation();
-            e.preventDefault();
             // Handle text modify
             var myText = $("#" + myContextMenuText.attr("rel"));
             $("#textValue").val(myText.text());
@@ -905,8 +892,6 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
             });
         });
         myContextMenuElement.find(".modifytext").on("click", function(e) {
-            e.stopImmediatePropagation();
-            e.preventDefault();
             // Handle text modify
             var myImage = $("#" + myContextMenuElement.attr("rel")),
                 myText = $("#" + myImage.attr("rel")),
@@ -953,7 +938,6 @@ define(["jquery", "jquery-ui", "jquery-svg"], function($) {
         });
         myContextMenuElement.find(".textPosition").on("click", function(e) {
             var myLink = $(this);
-            e.preventDefault();
             if (!myLink.hasClass("selected")) {
                 var myImage = $("#" + myContextMenuElement.attr("rel")),
                     myText = $("#" + myImage.attr("rel")),
