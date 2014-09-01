@@ -615,6 +615,33 @@
                 }
             }
         },
+        "ProkhorovkaDefense": {
+            "file": "Fiery%20Salient.jpg",
+            "size": { "x": 1000, "y": 1000 },
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 370, "y": 50 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 550, "y": 950 }
+                    ]
+                },
+                "encounter": {
+                    "team0": [
+                        { "type": "base", "x": 670, "y": 485 }
+                    ],
+                    "team1": [
+                        { "type": "drop", "x": 510, "y": 910 },
+                        { "type": "drop", "x": 260, "y": 930 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 460, "y": 100 },
+                        { "type": "drop", "x": 275, "y": 80 }
+                    ]
+                }
+            }
+        },
         "Province": {
             "file": "Province.jpg",
             "size": { "x": 600, "y": 600 },
