@@ -588,6 +588,13 @@
                 }
             }
         },
+        "PortChaffeeRace": {
+            "file": "PortChaffeeRace.jpg",
+            "size": { "x": 830, "y": 830 },
+            "modes": {
+                "standard": {}
+            }
+        },
         "Prokhorovka": {
             "file": "Prokhorovka.jpg",
             "size": { "x": 1000, "y": 1000 },
