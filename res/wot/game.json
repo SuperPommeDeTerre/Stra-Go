@@ -523,14 +523,14 @@
         },
         "Murovanka": {
             "file": "Murovanka.jpg",
-            "size": { "x": 800, "y": 800 },
+            "size": { "x": 1000, "y": 1000 },
             "modes": {
                 "standard": {
                     "team1": [
-                        { "type": "base", "x": 600, "y": 110 }
+                        { "type": "base", "x": 450, "y": 100 }
                     ],
                     "team2": [
-                        { "type": "base", "x": 205, "y": 700 }
+                        { "type": "base", "x": 450, "y": 900 }
                     ]
                 },
                 "encounter": {
@@ -586,6 +586,13 @@
                         { "type": "base", "x": 720, "y": 120 }
                     ]
                 }
+            }
+        },
+        "PortChaffeeRace": {
+            "file": "PortChaffeeRace.jpg",
+            "size": { "x": 830, "y": 830 },
+            "modes": {
+                "standard": {}
             }
         },
         "Prokhorovka": {
