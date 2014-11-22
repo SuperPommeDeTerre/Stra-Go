@@ -868,14 +868,14 @@
         },
         "Stalingrad": {
             "file": "Stalingrad.jpg",
-            "size": { "x": 900, "y": 900 },
+            "size": { "x": 950, "y": 950 },
             "modes": {
                 "standard": {
                     "team1": [
-                        { "type": "base", "x": 375, "y": 130 }
+                        { "type": "base", "x": 400, "y": 150 }
                     ],
                     "team2": [
-                        { "type": "base", "x": 375, "y": 815 }
+                        { "type": "base", "x": 400, "y": 840 }
                     ]
                 }
             }
