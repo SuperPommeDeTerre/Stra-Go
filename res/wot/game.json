@@ -431,6 +431,22 @@
                 }
             }
         },
+        "LostCity": {
+            "file": "LostCity.jpg",
+            "size": { "x": 1000, "y": 1000 },
+            "modes": {
+                "assault": {
+                    "team1": [
+                        { "type": "base", "x": 350, "y": 130 },
+                        { "type": "base", "x": 500, "y": 500 },
+                        { "type": "drop", "x": 100, "y": 350 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 900, "y": 650 }
+                    ]
+                }
+            }
+        },
         "Malinovka": {
             "file": "Malinovka.jpg",
             "size": { "x": 1000, "y": 1000 },
@@ -713,8 +729,58 @@
                 }
             }
         },
+        "RuinbergWinter": {
+            "file": "RuinbergWinter.jpg",
+            "size": { "x": 800, "y": 800 },
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 340, "y": 85 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 320, "y": 690 }
+                    ]
+                },
+                "encounter": {
+                    "team0": [
+                        { "type": "base", "x": 60, "y": 440 }
+                    ],
+                    "team1": [
+                        { "type": "drop", "x": 460, "y": 70 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 670, "y": 730 }
+                    ]
+                }
+            }
+        },
         "RuinbergOnFire": {
             "file": "RuinbergOnFire.jpg",
+            "size": { "x": 800, "y": 800 },
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 340, "y": 85 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 320, "y": 690 }
+                    ]
+                },
+                "encounter": {
+                    "team0": [
+                        { "type": "base", "x": 60, "y": 440 }
+                    ],
+                    "team1": [
+                        { "type": "drop", "x": 460, "y": 70 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 670, "y": 730 }
+                    ]
+                }
+            }
+        },
+        "RuinbergWinter": {
+            "file": "RuinbergWinter.jpg",
             "size": { "x": 800, "y": 800 },
             "modes": {
                 "standard": {
@@ -931,6 +997,23 @@
                     "team2": [
                         { "type": "base", "x": 880, "y": 75 },
                         { "type": "drop", "x": 835, "y": 425 }
+                    ]
+                }
+            }
+        },
+        "Mittengrad": {
+            "file": "Mittengrad.jpg",
+            "size": { "x": 400, "y": 400 },
+            "modes": {
+                "encounter": {
+                    "team0": [
+                        { "type": "base", "x": 80, "y": 200 }
+                    ],
+                    "team1": [
+                        { "type": "drop", "x": 140, "y": 70 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 140, "y": 330 }
                     ]
                 }
             }
