@@ -433,16 +433,16 @@
         },
         "LostCity": {
             "file": "LostCity.jpg",
-            "size": { "x": 1000, "y": 1000 },
+            "size": { "x": 800, "y": 800 },
             "modes": {
                 "assault": {
                     "team1": [
-                        { "type": "base", "x": 350, "y": 130 },
-                        { "type": "base", "x": 500, "y": 500 },
-                        { "type": "drop", "x": 100, "y": 350 }
+                        { "type": "base", "x": 280, "y": 105 },
+                        { "type": "base", "x": 400, "y": 400 },
+                        { "type": "drop", "x": 80, "y": 280 }
                     ],
                     "team2": [
-                        { "type": "drop", "x": 900, "y": 650 }
+                        { "type": "drop", "x": 720, "y": 520 }
                     ]
                 }
             }
@@ -510,7 +510,23 @@
                 }
             }
         },
-        "MountainPass": {
+         "Mittengrad": {
+            "file": "Mittengrad.jpg",
+            "size": { "x": 600, "y": 600 },
+            "modes": {
+                "encounter": {
+                    "team1": [
+                        { "type": "drop", "x": 210, "y": 105 },
+                        { "type": "base", "x": 210, "y": 210 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 210, "y": 495 },
+                        { "type": "base", "x": 210, "y": 390 }
+                    ]
+                }
+            }
+        },
+       "MountainPass": {
             "file": "Mountain%20Pass.jpg",
             "size": { "x": 1000, "y": 1000 },
             "modes": {
@@ -997,23 +1013,6 @@
                     "team2": [
                         { "type": "base", "x": 880, "y": 75 },
                         { "type": "drop", "x": 835, "y": 425 }
-                    ]
-                }
-            }
-        },
-        "Mittengrad": {
-            "file": "Mittengrad.jpg",
-            "size": { "x": 400, "y": 400 },
-            "modes": {
-                "encounter": {
-                    "team0": [
-                        { "type": "base", "x": 80, "y": 200 }
-                    ],
-                    "team1": [
-                        { "type": "drop", "x": 140, "y": 70 }
-                    ],
-                    "team2": [
-                        { "type": "drop", "x": 140, "y": 330 }
                     ]
                 }
             }
