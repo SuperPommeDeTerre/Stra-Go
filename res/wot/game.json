@@ -592,6 +592,20 @@
                 }
             }
         },
+        "Overlord": {
+            "file": "Overlords.jpg",
+            "size": { "x": 1000, "y": 1000 },
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 110, "y": 740 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 680, "y": 90 }
+                    ]
+                }
+            }
+        },
         "PearlRiver": {
             "file": "Pearl%20River.jpg",
             "size": { "x": 1000, "y": 1000 },
